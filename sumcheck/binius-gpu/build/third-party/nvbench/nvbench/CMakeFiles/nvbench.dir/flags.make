@@ -13,7 +13,7 @@ CXX_DEFINES = -Dnvbench_EXPORTS
 
 CXX_INCLUDES = -I/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/nvbench -I/home/intern-04/binius-spire/sumcheck/binius-gpu/build/third-party/nvbench -I/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/fmt-src/include -I/home/intern-04/binius-spire/sumcheck/binius-gpu/build/third-party/nvbench/nvbench/detail -isystem /usr/local/cuda-12.6/targets/x86_64-linux/include -isystem /usr/local/cuda-12.6/extras/CUPTI/include -isystem /home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/nlohmann_json-src/include
 
-CXX_FLAGS = -O3 -DNDEBUG -fPIC -Wall -Wextra -Wconversion -Woverloaded-virtual -Wcast-qual -Wpointer-arith -Wunused-parameter -Wvla -Wno-gnu-line-marker
+CXX_FLAGS =  -g -O3 -DNDEBUG -fPIC -Wall -Wextra -Wconversion -Woverloaded-virtual -Wcast-qual -Wpointer-arith -Wunused-parameter -Wvla -Wno-gnu-line-marker
 
 # Custom options: third-party/nvbench/nvbench/CMakeFiles/nvbench.dir/json_printer.cu.o_OPTIONS = -Xcudafe=--diag_suppress=186;-Xcudafe=--diag_suppress=940
 

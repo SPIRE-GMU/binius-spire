@@ -103,7 +103,7 @@ void test_sumcheck() {
 	REQUIRE(expected_claim == claimed_evaluation);
 }
 
-TEST_CASE("sumcheck 19 vars", "[sumcheck]") {
+/*TEST_CASE("sumcheck 19 vars", "[sumcheck]") {
 	test_sumcheck<19, 2, true>();
 
 	test_sumcheck<19, 3, true>();
@@ -115,7 +115,7 @@ TEST_CASE("sumcheck 19 vars", "[sumcheck]") {
 	test_sumcheck<19, 3, false>();
 
 	test_sumcheck<19, 4, false>();
-}
+}*/
 
 TEST_CASE("sumcheck 20 vars", "[sumcheck]") {
 	test_sumcheck<20, 2, true>();

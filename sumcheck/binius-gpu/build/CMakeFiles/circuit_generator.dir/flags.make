@@ -6,5 +6,5 @@ CXX_DEFINES = -DSTRIP_ASSERTIONS -DSTRIP_CUDA_CHECK
 
 CXX_INCLUDES = -I/home/intern-04/binius-spire/sumcheck/binius-gpu/./src
 
-CXX_FLAGS = -O3 -DNDEBUG
+CXX_FLAGS =  -g -O3 -DNDEBUG
 

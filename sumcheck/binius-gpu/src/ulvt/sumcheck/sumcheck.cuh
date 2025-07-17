@@ -264,7 +264,7 @@ public:
 			check(cudaDeviceSynchronize());*/
 
 			if(round < 4) {
-				LINE;
+				//LINE;
 				calculate_interpolation_points(
 					cpu_original_multilinear_evaluations,
 					cpu_random_challenges,
@@ -273,10 +273,10 @@ public:
 					round,
 					NUM_VARS
 				);
-				LINE;
+				//LINE;
 			}
 			
-			LINE;
+			//LINE;
 			if(!USE_FINE_KERNEL) {
 				compute_compositions<INTERPOLATION_POINTS, COMPOSITION_SIZE, EVALS_PER_MULTILINEAR>
 					<<<BLOCKS, THREADS_PER_BLOCK>>>(
@@ -297,7 +297,7 @@ public:
 					streams
 				);
 			}
-			LINE;
+			//LINE;
 			check(cudaDeviceSynchronize());
 
 			/*uint32_t cpu_correct_multilinear_products[BITS_WIDTH];
@@ -332,7 +332,7 @@ public:
 
 			//cudaDeviceSynchronize();
 
-			LINE;
+			//LINE;
 
 			cudaMemcpy(
 				multilinear_products, gpu_multilinear_products, BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToHost
@@ -345,7 +345,7 @@ public:
 				cudaMemcpyDeviceToHost
 			);
 
-			LINE;
+			//LINE;
 
 			cudaDeviceSynchronize();
 
@@ -358,11 +358,15 @@ public:
 
 			compute_sum(sum, multilinear_products, 32);
 
+
 			for (int interpolation_point = 0; interpolation_point < INTERPOLATION_POINTS; ++interpolation_point) {
 				uint32_t *point = points + interpolation_point * INTS_PER_VALUE;
 
 				compute_sum(point, folded_products_sums + BITS_WIDTH * interpolation_point, 32);
 			}
+			
+			if(round < 4) 
+				printf("points[0] = %u, new points[0] = %u\n", points[0], cpu_interpolation_points[0]);
 		}
 	};
 
@@ -380,7 +384,7 @@ public:
 		BitsliceUtils<BITS_WIDTH>::repeat_value_bitsliced(coefficient, challenge);
 
 		// Load the folded columns
-		LINE;
+		//LINE;
 		if (num_eval_points_per_multilinear <= 32) {
 			fold_list_halves(
 				cpu_multilinear_evaluations,
@@ -402,7 +406,7 @@ public:
 				COMPOSITION_SIZE
 			);
 		}
-		LINE;
+		//LINE;
 
 		uint32_t new_num_evals_per_multilinear = num_eval_points_per_multilinear / 2;
 

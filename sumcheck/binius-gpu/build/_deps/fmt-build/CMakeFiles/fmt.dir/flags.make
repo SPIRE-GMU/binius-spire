@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/fmt-src/include
 
-CXX_FLAGS = -O3 -DNDEBUG -std=gnu++17 -fPIC
+CXX_FLAGS =  -g -O3 -DNDEBUG -std=gnu++17 -fPIC
 
