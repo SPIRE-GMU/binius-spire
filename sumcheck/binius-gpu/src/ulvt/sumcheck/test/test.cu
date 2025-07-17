@@ -20,7 +20,9 @@ void test_sumcheck() {
 	std::vector<uint32_t> multilinear_evals(num_ints_in_evals);
 
 	for (size_t i = 0; i < num_ints_in_evals; ++i) {
-		multilinear_evals[i] = std::rand();
+		//multilinear_evals[i] = std::rand();
+		if(i % 4 != 0) multilinear_evals[i] = 0;
+		else multilinear_evals[i] = std::rand() & 1;
 	}
 
 	Sumcheck<NUM_VARS, COMPOSITION_SIZE, DATA_IS_TRANSPOSED> s(multilinear_evals, false);

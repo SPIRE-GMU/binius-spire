@@ -177,10 +177,6 @@ __global__ void compute_compositions( // evaluates Si(Xi) at multiple points and
 		//printf("compute_compositions_fine num_batch_rows=%d coef[0] = %u\n", num_batch_rows, coefficients[0]);
 	//}
 
-	if(tid == 0) {
-		printf("regular multilinear_evaluations[0] = %u\n", multilinear_evaluations[0]);
-	}
-
 	for (uint32_t row_idx = tid; row_idx < num_batch_rows; row_idx += gridDim.x * blockDim.x) {
 		uint32_t this_multilinear_product[BITS_WIDTH];
 
