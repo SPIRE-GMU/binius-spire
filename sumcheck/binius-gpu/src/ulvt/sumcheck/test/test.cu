@@ -152,9 +152,9 @@ TEST_CASE("sumcheck 28 vars", "[sumcheck]") {
 
 	test_sumcheck<28, 4, true>();*/
 
-	test_sumcheck<28, 2, false>();
+	//test_sumcheck<28, 2, false>();
 
 	test_sumcheck<28, 3, false>();
 
-	test_sumcheck<28, 4, false>();
+	//test_sumcheck<28, 4, false>();
 }

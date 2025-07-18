@@ -31,6 +31,7 @@ private:
 	uint32_t *cpu_multilinear_evaluations, *gpu_multilinear_evaluations;
 
 	uint32_t *cpu_original_multilinear_evaluations;
+	uint32_t *gpu_original_multilinear_evaluations;
 
 	uint32_t *gpu_coefficients;
 
@@ -97,6 +98,7 @@ public:
 		//cpu_original_multilinear_evaluations = new uint32_t[COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32];
 		cpu_original_multilinear_evaluations = new uint32_t[COMPOSITION_SIZE*EVALS_PER_MULTILINEAR/32];
 		cudaMalloc(&gpu_multilinear_evaluations, sizeof(uint32_t) * TOTAL_INTS);
+		cudaMalloc(&gpu_original_multilinear_evaluations, COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32 * sizeof(uint32_t));
 			
 		cpu_interpolation_points = new uint32_t[(COMPOSITION_SIZE+1) * INTS_PER_VALUE];
 
@@ -121,6 +123,7 @@ public:
 				cpu_original_multilinear_evaluations[idx / 32] ^= evals[i] << (idx % 32);
 			}
 		}
+		cudaMemcpy(gpu_original_multilinear_evaluations, cpu_original_multilinear_evaluations, COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32 * sizeof(uint32_t), cudaMemcpyHostToDevice);
 
 		for(int i = 0; i < 8; i++) {
 			//printf("%d %d\n", evals[i*4], (cpu_original_multilinear_evaluations[0] >> i) & 1);
@@ -277,8 +280,9 @@ public:
 
 			if(USE_BOTH_ALGORITHMS && ((round < 5 && COMPOSITION_SIZE == 2) || (round < 4 && COMPOSITION_SIZE == 3) || (round < 3 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
 				//LINE;
+				printf("round %d algorithm 2\n", round);
 				calculate_interpolation_points(
-					cpu_original_multilinear_evaluations,
+					gpu_original_multilinear_evaluations,
 					cpu_random_challenges,
 					cpu_interpolation_points,
 					cpu_claimed_sum,
@@ -291,6 +295,7 @@ public:
 				memcpy(points, cpu_interpolation_points, INTS_PER_VALUE * INTERPOLATION_POINTS * sizeof(uint32_t));
 				//LINE;
 			} else {
+				printf("round %d algorithm 1\n", round);
 				compute_compositions<INTERPOLATION_POINTS, COMPOSITION_SIZE, EVALS_PER_MULTILINEAR>
 					<<<BLOCKS, THREADS_PER_BLOCK>>>(
 						gpu_multilinear_evaluations,

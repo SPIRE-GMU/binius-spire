@@ -3,6 +3,14 @@
 
 #include "../utils/constants.hpp"
 
+__global__ void calculate_multilinear_product_sums_kernel( // can possibly tile becuase a lot of data reuse
+	const uint32_t* multilinear_evaluations,
+	uint32_t* destination,
+	const uint32_t d,
+	const uint32_t round_idx,
+	const uint32_t n
+);
+
 __host__ __device__ void calculate_interpolation_points(
 	const uint32_t* multilinear_evaluations,
 	const uint32_t* random_challenges,

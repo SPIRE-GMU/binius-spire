@@ -327,7 +327,7 @@ TEST_CASE("test_unbitsliced_mul") {
 void test_calculate_multilinear_product_sums_kernel() {
     const uint32_t d = 3;
     const uint32_t round_idx = 3;
-    const uint32_t n = 20;
+    const uint32_t n = 28;
     uint32_t num_terms = (1 << (d*round_idx + d));
 
     uint32_t* multilinear_evaluations;
@@ -357,9 +357,10 @@ void test_calculate_multilinear_product_sums_kernel() {
     );
 
     //calculate_multilinear_product_sums_kernel<<<1024, 512>>>(
-    calculate_multilinear_product_sums_kernel<d><<<1024, 512>>>(
+    calculate_multilinear_product_sums_kernel<<<1024, 512>>>(
         multilinear_evaluations_d,
         destination_d,
+        d,
         round_idx,
         n
     );

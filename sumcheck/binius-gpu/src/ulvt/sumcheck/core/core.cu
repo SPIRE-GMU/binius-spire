@@ -7,7 +7,60 @@
 #include "../utils/constants.hpp"
 #include "core.cuh"
 
+
+#ifndef CUDA_CHECK
+#define CUDA_CHECK
+#define check(ans) { gpuAssert((ans), __FILE__, __LINE__); }
+inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
+{
+   if (code != cudaSuccess) 
+   {
+      fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
+      if (abort) exit(code);
+   }
+}
+#endif
+
+
+
 #define LINE printf("%s: at line %d\n", __FILE__, __LINE__)
+
+__global__ void calculate_multilinear_product_sums_kernel( // can possibly tile becuase a lot of data reuse
+	const uint32_t* multilinear_evaluations,
+	uint32_t* destination,
+	const uint32_t d,
+	const uint32_t round_idx,
+	const uint32_t n
+) { // each thread computes 1 batch
+	uint32_t idx = threadIdx.x + blockIdx.x * blockDim.x;
+	uint32_t stride = blockDim.x * gridDim.x;
+
+	uint32_t num_terms = (1U << (d*round_idx + d));  // n=28, d=4, round_idx=4
+	uint32_t num_batches_in_product = (1U << (n - round_idx - 1)) / 32;
+	uint32_t start_pos_in_table[MAX_COMPOSITION_SIZE];
+	
+	for(uint64_t k = idx; k < (uint64_t) num_terms * num_batches_in_product; k += stride){
+		uint32_t i = k / num_batches_in_product;
+		uint32_t x_idx = k % num_batches_in_product;
+
+		uint32_t product_sum_batch = 0;
+		memset(start_pos_in_table, 0, d*sizeof(uint32_t));
+		for(int j = 0; j < d*round_idx + d; j++) {
+			int p_idx = j / (round_idx + 1);
+			int x_idx = j % (round_idx + 1);
+			start_pos_in_table[p_idx] += ((i & (1 << j)) != 0) << (n - 1 - x_idx);
+		}
+		uint32_t product = 0xFFFFFFFF;
+		for(int p_idx = 0; p_idx < d; p_idx++) {
+			product = product & multilinear_evaluations[p_idx * (1 << n) / 32 + start_pos_in_table[p_idx] / 32 + x_idx];
+		}
+		uint32_t destination_batch_idx = i / 32;
+		uint32_t destination_batch_bit_idx = i % 32;
+		atomicXor(destination + destination_batch_idx, (__builtin_popcount(product) & 1) << destination_batch_bit_idx);
+	}
+}
+
+
 
 __host__ __device__ void calculate_es(
 	const uint32_t e[BITS_WIDTH], 
@@ -143,8 +196,8 @@ __host__ __device__ void calculate_multilinear_product_sums(
 	}
 }
 
-__host__ __device__ void calculate_interpolation_points(
-	const uint32_t* multilinear_evaluations,
+__host__ void calculate_interpolation_points(
+	const uint32_t* multilinear_evaluations_d, // should be on gpu
 	const uint32_t* random_challenges,
 	uint32_t* destination,
 	uint32_t* claimed_sum,
@@ -153,17 +206,24 @@ __host__ __device__ void calculate_interpolation_points(
 	const uint32_t n
 ) {
 	uint32_t num_terms = (1 << (d*round_idx + d));
+	uint32_t* multilinear_product_sums_d;
 	uint32_t* multilinear_product_sums = (uint32_t*) malloc((num_terms + 31) / 32 * sizeof(uint32_t));// [num_terms / 32];
 	uint32_t* random_challenge_products = (uint32_t*) malloc((num_terms + 31) / 32 * BITS_WIDTH * sizeof(uint32_t)); //[num_terms / 32 * BITS_WIDTH];
 	uint32_t* terms = (uint32_t*) malloc((num_terms + 31) / 32 * BITS_WIDTH * sizeof(uint32_t));
 	uint32_t* interpolation_point_products = (uint32_t*) malloc((num_terms + 31) / 32 * INTERPOLATION_BITS_WIDTH * sizeof(uint32_t));
 
+	cudaMalloc(&multilinear_product_sums_d, (num_terms + 31) / 32 * sizeof(uint32_t));
+	cudaMemset(multilinear_product_sums_d, 0, (num_terms + 31) / 32 * sizeof(uint32_t));
 	memset(terms, 0, (num_terms + 31) / 32 * BITS_WIDTH * sizeof(uint32_t));	
 	memset(multilinear_product_sums, 0, (num_terms + 31) / 32 * sizeof(uint32_t));
 	memset(claimed_sum, 0, INTS_PER_VALUE * sizeof(uint32_t));
 
-	calculate_multilinear_product_sums(multilinear_evaluations, multilinear_product_sums, d, round_idx, n);
+	//calculate_multilinear_product_sums(multilinear_evaluations, multilinear_product_sums, d, round_idx, n);
+	calculate_multilinear_product_sums_kernel<<<1024, 512>>>(multilinear_evaluations_d, multilinear_product_sums_d, d, round_idx, n);
+	check(cudaDeviceSynchronize());
 	calculate_random_challenge_products(random_challenges, random_challenge_products, d, round_idx);	
+
+	cudaMemcpy(multilinear_product_sums, multilinear_product_sums_d, (num_terms + 31) / 32 * sizeof(uint32_t), cudaMemcpyDeviceToHost);
 
 	//LINE;
 	for(int interpolation_point = 0; interpolation_point < d+1; interpolation_point++) {
