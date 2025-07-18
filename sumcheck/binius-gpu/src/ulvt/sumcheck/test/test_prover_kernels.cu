@@ -323,3 +323,57 @@ TEST_CASE("test_unbitsliced_mul") {
     printf("b = 0x%x%x%x%x\n", b[0], b[1], b[2], b[3]);
     printf("res = 0x%x%x%x%x\n", res[0], res[1], res[2], res[3]);
 }
+
+void test_calculate_multilinear_product_sums_kernel() {
+    const uint32_t d = 3;
+    const uint32_t round_idx = 3;
+    const uint32_t n = 20;
+    uint32_t num_terms = (1 << (d*round_idx + d));
+
+    uint32_t* multilinear_evaluations;
+    uint32_t* destination;
+    uint32_t* destination_kernel;
+    uint32_t* multilinear_evaluations_d;
+    uint32_t* destination_d;
+
+    multilinear_evaluations = (uint32_t*) malloc(d * (1 << n) / 32 * sizeof(uint32_t));
+    destination = (uint32_t*) malloc((num_terms + 31) / 32 * sizeof(uint32_t));
+    destination_kernel = (uint32_t*) malloc((num_terms + 31) / 32 * sizeof(uint32_t));
+    cudaMalloc(&multilinear_evaluations_d, d * (1 << n) / 32 * sizeof(uint32_t));
+    cudaMalloc(&destination_d, (num_terms + 31) / 32 * sizeof(uint32_t));
+    memset(destination, 0, (num_terms + 31) / 32 * sizeof(uint32_t));
+    for(int i = 0; i < d * (1 << n) / 32; i++) {
+        multilinear_evaluations[i] = std::rand();
+    }
+    cudaMemcpy(multilinear_evaluations_d, multilinear_evaluations, d * (1 << n) / 32 * sizeof(uint32_t), cudaMemcpyHostToDevice);
+    cudaMemcpy(destination_d, destination, (num_terms + 31) / 32 * sizeof(uint32_t), cudaMemcpyHostToDevice);
+
+    calculate_multilinear_product_sums(
+        multilinear_evaluations,
+        destination,
+        d,
+        round_idx,
+        n
+    );
+
+    //calculate_multilinear_product_sums_kernel<<<1024, 512>>>(
+    calculate_multilinear_product_sums_kernel<d><<<1024, 512>>>(
+        multilinear_evaluations_d,
+        destination_d,
+        round_idx,
+        n
+    );
+    check(cudaDeviceSynchronize());
+    
+    check(cudaMemcpy(destination_kernel, destination_d, (num_terms + 31) / 32 * sizeof(uint32_t), cudaMemcpyDeviceToHost));
+
+    for(int i = 0; i < (num_terms + 31) / 32; i++) {
+        REQUIRE(destination_kernel[i] == destination[i]);
+    }
+}
+
+TEST_CASE("test_calculate_multilinear_product_sums_kernel") {
+    for(int i = 0; i < 1; i++) {
+        test_calculate_multilinear_product_sums_kernel();
+    }
+}

@@ -9,6 +9,7 @@
 
 #define LINE printf("%s: at line %d\n", __FILE__, __LINE__)
 #define USE_FINE_KERNEL false 
+#define USE_BOTH_ALGORITHMS true 
 
 template <uint32_t NUM_VARS, uint32_t COMPOSITION_SIZE, bool DATA_IS_TRANSPOSED>
 class Sumcheck {
@@ -274,7 +275,7 @@ public:
 				);
 			check(cudaDeviceSynchronize());*/
 
-			if((round < 4 && COMPOSITION_SIZE == 2) || (round < 3 && COMPOSITION_SIZE == 3) || (round < 2 && COMPOSITION_SIZE == 4)) {
+			if(USE_BOTH_ALGORITHMS && ((round < 5 && COMPOSITION_SIZE == 2) || (round < 4 && COMPOSITION_SIZE == 3) || (round < 3 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
 				//LINE;
 				calculate_interpolation_points(
 					cpu_original_multilinear_evaluations,

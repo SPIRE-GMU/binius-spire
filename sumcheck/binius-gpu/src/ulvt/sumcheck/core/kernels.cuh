@@ -19,6 +19,41 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
 }
 #endif
 
+template<uint32_t d>
+__global__ void calculate_multilinear_product_sums_kernel( // can possibly tile becuase a lot of data reuse
+	const uint32_t* multilinear_evaluations,
+	uint32_t* destination,
+	const uint32_t round_idx,
+	const uint32_t n
+) { // each thread computes 1 batch
+	uint32_t idx = threadIdx.x + blockIdx.x * blockDim.x;
+	uint32_t stride = blockDim.x * gridDim.x;
+
+	uint32_t num_terms = (1 << (d*round_idx + d));
+	uint32_t num_batches_in_product = (1 << (n - round_idx - 1)) / 32;
+	uint32_t start_pos_in_table[d];
+	
+	for(int i = 0; i < num_terms; i++) {
+		uint32_t product_sum_batch = 0;
+		memset(start_pos_in_table, 0, d*sizeof(uint32_t));
+		for(int j = 0; j < d*round_idx + d; j++) {
+			int p_idx = j / (round_idx + 1);
+			int x_idx = j % (round_idx + 1);
+			start_pos_in_table[p_idx] += ((i & (1 << j)) != 0) << (n - 1 - x_idx);
+		}
+		for(int x_idx = idx; x_idx < num_batches_in_product; x_idx += stride) {
+			uint32_t product = 0xFFFFFFFF;
+			for(int p_idx = 0; p_idx < d; p_idx++) {
+				product = product & multilinear_evaluations[p_idx * (1 << n) / 32 + start_pos_in_table[p_idx] / 32 + x_idx];
+			}
+			uint32_t destination_batch_idx = i / 32;
+			uint32_t destination_batch_bit_idx = i % 32;
+			atomicXor(destination + destination_batch_idx, (__builtin_popcount(product) & 1) << destination_batch_bit_idx);
+		}
+	}
+}
+
+
 __global__ void multiply_hybrid_kernel(const uint32_t* field_element_a, const uint32_t* field_element_b, uint32_t* destination, uint32_t num_bits) {
     multiply_thread(field_element_a, field_element_b, destination, num_bits, threadIdx.x, blockIdx.x);
 }
