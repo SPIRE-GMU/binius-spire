@@ -93,17 +93,17 @@ public:
 
 	Sumcheck(const std::vector<uint32_t> &evals_span, const bool benchmarking) {
 		const uint32_t *evals = evals_span.data();
+		if (benchmarking) {
+			start_before_memcpy = std::chrono::high_resolution_clock::now();
+		}
+		
 		cpu_multilinear_evaluations = new uint32_t[BITS_WIDTH * COMPOSITION_SIZE];
 		//cpu_original_multilinear_evaluations = new uint32_t[COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32];
 		cpu_original_multilinear_evaluations = new uint32_t[COMPOSITION_SIZE*EVALS_PER_MULTILINEAR/32];
 		cudaMalloc(&gpu_multilinear_evaluations, sizeof(uint32_t) * TOTAL_INTS);
 			
 		cpu_interpolation_points = new uint32_t[(COMPOSITION_SIZE+1) * INTS_PER_VALUE];
-
-		if (benchmarking) {
-			start_before_memcpy = std::chrono::high_resolution_clock::now();
-		}
-		
+	
 		cudaMemcpy(gpu_multilinear_evaluations, evals, sizeof(uint32_t) * TOTAL_INTS, cudaMemcpyHostToDevice);
 
 		if(DATA_IS_TRANSPOSED) {
@@ -115,9 +115,10 @@ public:
 				}
 			}
 		} else {
-			memset(cpu_original_multilinear_evaluations, 0,  COMPOSITION_SIZE*EVALS_PER_MULTILINEAR/32*sizeof(uint32_t));
-			for(int i = 0; i < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR * INTS_PER_VALUE; i += INTS_PER_VALUE) {
-				int idx = i / INTS_PER_VALUE;
+			memset(cpu_original_multilinear_evaluations, 0, COMPOSITION_SIZE*EVALS_PER_MULTILINEAR/32*sizeof(uint32_t));
+			for(uint32_t i = 0; i < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR * INTS_PER_VALUE; i += INTS_PER_VALUE) {
+				//printf("i %d\n", i);
+				uint32_t idx = i / INTS_PER_VALUE;
 				cpu_original_multilinear_evaluations[idx / 32] ^= evals[i] << (idx % 32);
 			}
 		}
@@ -287,10 +288,10 @@ public:
 					NUM_VARS
 				);
 
-				memcpy(sum, cpu_claimed_sum, INTS_PER_VALUE * sizeof(uint32_t));
-				memcpy(points, cpu_interpolation_points, INTS_PER_VALUE * INTERPOLATION_POINTS * sizeof(uint32_t));
+				//memcpy(sum, cpu_claimed_sum, INTS_PER_VALUE * sizeof(uint32_t));
+				//memcpy(points, cpu_interpolation_points, INTS_PER_VALUE * INTERPOLATION_POINTS * sizeof(uint32_t));
 				//LINE;
-			} else {
+			}// else {
 				compute_compositions<INTERPOLATION_POINTS, COMPOSITION_SIZE, EVALS_PER_MULTILINEAR>
 					<<<BLOCKS, THREADS_PER_BLOCK>>>(
 						gpu_multilinear_evaluations,
@@ -324,16 +325,16 @@ public:
 
 					compute_sum(point, folded_products_sums + BITS_WIDTH * interpolation_point, 32);
 				}
-			}
+			//}
 			
 			
 			
-			/*if(round < 4) {
+			if(USE_BOTH_ALGORITHMS && ((round < 5 && COMPOSITION_SIZE == 2) || (round < 4 && COMPOSITION_SIZE == 3) || (round < 3 && COMPOSITION_SIZE == 4))) {
 				for(int i = 0; i <= COMPOSITION_SIZE; i++) {
 					printf("points[%d] = %u %u %u %u, new points[%d] = %u %u %u %u\n", i, points[4*i], points[4*i+1], points[4*i+2], points[4*i+3], i, cpu_interpolation_points[4*i], cpu_interpolation_points[4*i+1], cpu_interpolation_points[4*i+2], cpu_interpolation_points[4*i+3]);
 				}
 				printf("claimed sum = %u %u %u %u, new claimed sum = %u %u %u %u\n", sum[0], sum[1], sum[2], sum[3], cpu_claimed_sum[0], cpu_claimed_sum[1], cpu_claimed_sum[2], cpu_claimed_sum[3]);
-			}*/
+			}
 		}
 	};
 

@@ -115,22 +115,25 @@ __host__ __device__ void calculate_multilinear_product_sums(
 	const uint32_t round_idx,
 	const uint32_t n
 ) {
-	uint32_t num_terms = (1 << (d*round_idx + d));
-	uint32_t num_batches_in_product = (1 << (n - round_idx - 1)) / 32;
-	for(int i = 0; i < num_terms; i++) {
+	uint32_t num_terms = (1U << (d*round_idx + d));
+	uint32_t num_batches_in_product = (1U << (n - round_idx - 1)) / 32;
+	uint32_t start_pos_in_table[5];
+	for(uint32_t i = 0; i < num_terms; i++) {
 		uint32_t product_sum_batch = 0;
 		//uint32_t start_points[d][round_idx+1];
 		//uint32_t start_pos_in_table[d];
-		uint32_t* start_pos_in_table = (uint32_t*) malloc(d * sizeof(uint32_t));
+		//uint32_t* start_pos_in_table = (uint32_t*) malloc(d * sizeof(uint32_t));
 		memset(start_pos_in_table, 0, d*sizeof(uint32_t));
-		for(int j = 0; j < d*round_idx + d; j++) {
-			int p_idx = j / (round_idx + 1);
-			int x_idx = j % (round_idx + 1);
-			start_pos_in_table[p_idx] += ((i & (1 << j)) != 0) << (n - 1 - x_idx);
+		for(uint32_t j = 0; j < d*round_idx + d; j++) {
+			uint32_t p_idx = j / (round_idx + 1);
+			uint32_t x_idx = j % (round_idx + 1);
+			//start_pos_in_table[p_idx] += ((i & (1 << j)) != 0) << (n - 1 - x_idx);
+			start_pos_in_table[p_idx] += ((i >> j) & 1) << (n - 1 - x_idx);
 		}
-		for(int x_idx = 0; x_idx < num_batches_in_product; x_idx++) {
+		for(uint32_t x_idx = 0; x_idx < num_batches_in_product; x_idx++) {
 			uint32_t product = 0xFFFFFFFF;
-			for(int p_idx = 0; p_idx < d; p_idx++) {
+			for(uint32_t p_idx = 0; p_idx < d; p_idx++) {
+				printf("multilinear evaluations[%u] = %u\n", p_idx * (1 << n) / 32 + start_pos_in_table[p_idx] / 32 + x_idx, multilinear_evaluations[p_idx * (1 << n) / 32 + start_pos_in_table[p_idx] / 32 + x_idx]);
 				product = product & multilinear_evaluations[p_idx * (1 << n) / 32 + start_pos_in_table[p_idx] / 32 + x_idx];
 			}
 			product_sum_batch ^= product;
