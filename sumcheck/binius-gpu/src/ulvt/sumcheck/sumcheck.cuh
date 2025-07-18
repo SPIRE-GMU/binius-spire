@@ -273,7 +273,7 @@ public:
 				);
 			check(cudaDeviceSynchronize());*/
 
-			if(round == 4) {
+			if(round < 4) {
 				//LINE;
 				calculate_interpolation_points(
 					cpu_original_multilinear_evaluations,
@@ -375,10 +375,14 @@ public:
 				compute_sum(point, folded_products_sums + BITS_WIDTH * interpolation_point, 32);
 			}
 			
-			if(round == 4) {
-				printf("points[0] = %u, new points[0] = %u\n", points[0], cpu_interpolation_points[0]);
+			if(round < 4) {
+				for(int i = 0; i <= COMPOSITION_SIZE; i++) {
+					printf("points[%d] = %u, new points[%d] = %u\n", i, points[i], i, cpu_interpolation_points[i]);
+					//REQUIRE()
+				}
+				/*printf("points[0] = %u, new points[0] = %u\n", points[0], cpu_interpolation_points[0]);
 				printf("points[1] = %u, new points[1] = %u\n", points[1], cpu_interpolation_points[1]);
-				printf("points[2] = %u, new points[2] = %u\n", points[2], cpu_interpolation_points[2]);
+				printf("points[2] = %u, new points[2] = %u\n", points[2], cpu_interpolation_points[2]);*/
 			}
 		}
 	};

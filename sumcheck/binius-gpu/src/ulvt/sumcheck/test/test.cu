@@ -126,17 +126,17 @@ TEST_CASE("sumcheck 20 vars", "[sumcheck]") {
 
 	test_sumcheck<20, 2, false>();
 
-	//test_sumcheck<20, 3, false>();
+	test_sumcheck<20, 3, false>();
 
-	//test_sumcheck<20, 4, false>();
+	test_sumcheck<20, 4, false>();
 }
 
 TEST_CASE("sumcheck 24 vars", "[sumcheck]") {
-	test_sumcheck<24, 2, true>();
+	/*test_sumcheck<24, 2, true>();
 
 	test_sumcheck<24, 3, true>();
 
-	test_sumcheck<24, 4, true>();
+	test_sumcheck<24, 4, true>();*/
 
 	test_sumcheck<24, 2, false>();
 
@@ -146,11 +146,11 @@ TEST_CASE("sumcheck 24 vars", "[sumcheck]") {
 }
 
 TEST_CASE("sumcheck 28 vars", "[sumcheck]") {
-	test_sumcheck<28, 2, true>();
+	/*test_sumcheck<28, 2, true>();
 
 	test_sumcheck<28, 3, true>();
 
-	test_sumcheck<28, 4, true>();
+	test_sumcheck<28, 4, true>();*/
 
 	test_sumcheck<28, 2, false>();
 

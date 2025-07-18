@@ -151,7 +151,7 @@ __host__ __device__ void calculate_interpolation_points(
 	const uint32_t round_idx,
 	const uint32_t n
 ) {
-	printf("round %d\n", round_idx);
+	//printf("round %d\n", round_idx);
 	uint32_t num_terms = (1 << (d*round_idx + d));
 	uint32_t* multilinear_product_sums = (uint32_t*) malloc((num_terms + 31) / 32 * sizeof(uint32_t));// [num_terms / 32];
 	uint32_t* random_challenge_products = (uint32_t*) malloc((num_terms + 31) / 32 * BITS_WIDTH * sizeof(uint32_t)); //[num_terms / 32 * BITS_WIDTH];
@@ -184,9 +184,9 @@ __host__ __device__ void calculate_interpolation_points(
 			//printf("terms %u\n", terms[i*BITS_WIDTH]);
 		}
 		
-		if(interpolation_point == 1) {
+		/*if(interpolation_point == 2) {
 			for(int j = 0; j < num_terms; j++) {
-				printf("%d\n", multilinear_product_sums[0] & 1);
+				printf("%d\n", (multilinear_product_sums[j / 32] >> (j % 32)) & 1);
 				for(int i = 0; i < INTERPOLATION_BITS_WIDTH; i++) 
 					printf("%d", (interpolation_point_products[i] >> j) & 1);
 				printf("\n");	
@@ -198,7 +198,7 @@ __host__ __device__ void calculate_interpolation_points(
 				printf("\n");	
 
 			}
-		}
+		}*/
 
 
 		//LINE;
@@ -206,7 +206,7 @@ __host__ __device__ void calculate_interpolation_points(
 		uint32_t res[INTS_PER_VALUE];
 		memset(batch_sum, 0, BITS_WIDTH * sizeof(uint32_t));
 		memset(res, 0, INTS_PER_VALUE * sizeof(uint32_t));
-		for(int term_idx = 0; term_idx < num_terms * BITS_WIDTH / 32; term_idx++) {
+		for(int term_idx = 0; term_idx < (num_terms + 31) / 32 * BITS_WIDTH; term_idx++) {
 			batch_sum[term_idx % BITS_WIDTH] ^= terms[term_idx];
 		}
 		//LINE;
