@@ -94,6 +94,11 @@ public:
 
 	Sumcheck(const std::vector<uint32_t> &evals_span, const bool benchmarking) {
 		const uint32_t *evals = evals_span.data();
+		
+		if (benchmarking) {
+			start_before_memcpy = std::chrono::high_resolution_clock::now();
+		}
+		
 		cpu_multilinear_evaluations = new uint32_t[BITS_WIDTH * COMPOSITION_SIZE];
 		//cpu_original_multilinear_evaluations = new uint32_t[COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32];
 		cpu_original_multilinear_evaluations = new uint32_t[COMPOSITION_SIZE*EVALS_PER_MULTILINEAR/32];
@@ -102,10 +107,7 @@ public:
 			
 		cpu_interpolation_points = new uint32_t[(COMPOSITION_SIZE+1) * INTS_PER_VALUE];
 
-		if (benchmarking) {
-			start_before_memcpy = std::chrono::high_resolution_clock::now();
-		}
-		
+	
 		cudaMemcpy(gpu_multilinear_evaluations, evals, sizeof(uint32_t) * TOTAL_INTS, cudaMemcpyHostToDevice);
 
 		if(DATA_IS_TRANSPOSED) {
@@ -117,17 +119,22 @@ public:
 				}
 			}
 		} else {
+			//printf("HERE\n");
 			memset(cpu_original_multilinear_evaluations, 0,  COMPOSITION_SIZE*EVALS_PER_MULTILINEAR/32*sizeof(uint32_t));
-			for(int i = 0; i < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR * INTS_PER_VALUE; i += INTS_PER_VALUE) {
-				int idx = i / INTS_PER_VALUE;
+			for(uint64_t i = 0; i < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR * INTS_PER_VALUE; i += INTS_PER_VALUE) {
+				//if(COMPOSITION_SIZE == 3) printf("i = %d\n", i);
+				uint64_t idx = i / INTS_PER_VALUE;
 				cpu_original_multilinear_evaluations[idx / 32] ^= evals[i] << (idx % 32);
 			}
+			//uint32_t active_threads = COMPOSITION_SIZE * EVALS_PER_MULTILINEAR;
+			//bitpack_kernel<COMPOSITION_SIZE, EVALS_PER_MULTILINEAR><<<(active_threads + 127) / 128, 128>>>(gpu_multilinear_evaluations, gpu_original_multilinear_evaluations);
 		}
 		cudaMemcpy(gpu_original_multilinear_evaluations, cpu_original_multilinear_evaluations, COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32 * sizeof(uint32_t), cudaMemcpyHostToDevice);
 
-		for(int i = 0; i < 8; i++) {
+		//for(int i = 0; i < 8; i++) {
 			//printf("%d %d\n", evals[i*4], (cpu_original_multilinear_evaluations[0] >> i) & 1);
-		}
+		//}
+		//printf("at line %d\n", __LINE__);
 
 		if (benchmarking) {
 			start_before_transpose = std::chrono::high_resolution_clock::now();
@@ -280,7 +287,7 @@ public:
 
 			if(USE_BOTH_ALGORITHMS && ((round < 5 && COMPOSITION_SIZE == 2) || (round < 4 && COMPOSITION_SIZE == 3) || (round < 3 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
 				//LINE;
-				printf("round %d algorithm 2\n", round);
+				//printf("round %d algorithm 2\n", round);
 				calculate_interpolation_points(
 					gpu_original_multilinear_evaluations,
 					cpu_random_challenges,
@@ -295,7 +302,7 @@ public:
 				memcpy(points, cpu_interpolation_points, INTS_PER_VALUE * INTERPOLATION_POINTS * sizeof(uint32_t));
 				//LINE;
 			} else {
-				printf("round %d algorithm 1\n", round);
+				//printf("round %d algorithm 1\n", round);
 				compute_compositions<INTERPOLATION_POINTS, COMPOSITION_SIZE, EVALS_PER_MULTILINEAR>
 					<<<BLOCKS, THREADS_PER_BLOCK>>>(
 						gpu_multilinear_evaluations,

@@ -82,6 +82,7 @@ void test_sumcheck() {
 	// Check the random evaluation claim by brute force
 
 	// 1. Untranspose all the data if necessary
+	printf("FINISH PROVER MESSAGES, BEGIN FINAL VERIFICATION\n");
 	if (DATA_IS_TRANSPOSED) {
 		uint32_t *gpu_evals;
 
@@ -101,6 +102,8 @@ void test_sumcheck() {
 		evaluate_multilinear_composition(multilinear_evals_bigints, challenges_bigints, NUM_VARS, COMPOSITION_SIZE);
 
 	REQUIRE(expected_claim == claimed_evaluation);
+
+	printf("FINISH VERIFICATION, TEST PASSED\n");
 }
 
 /*TEST_CASE("sumcheck 19 vars", "[sumcheck]") {
@@ -152,9 +155,9 @@ TEST_CASE("sumcheck 28 vars", "[sumcheck]") {
 
 	test_sumcheck<28, 4, true>();*/
 
-	//test_sumcheck<28, 2, false>();
+	test_sumcheck<28, 2, false>();
 
 	test_sumcheck<28, 3, false>();
 
-	//test_sumcheck<28, 4, false>();
+	test_sumcheck<28, 4, false>();
 }

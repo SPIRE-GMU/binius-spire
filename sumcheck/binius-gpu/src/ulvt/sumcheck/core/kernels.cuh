@@ -19,6 +19,17 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
 }
 #endif
 
+template<uint32_t COMPOSITION_SIZE, uint32_t EVALS_PER_MULTILINEAR>
+__global__ void bitpack_kernel(const uint32_t* evals, uint32_t* destination) {
+	uint32_t idx = threadIdx.x + blockIdx.x * blockDim.x;
+	uint32_t unpacked_bit_idx = idx * INTS_PER_VALUE;
+
+	if(unpacked_bit_idx < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR*INTS_PER_VALUE) {
+		if(idx % 32 == 0) destination[idx / 32] = 0;
+		destination[idx / 32] ^= evals[unpacked_bit_idx] << (idx % 32);	
+	}
+}
+
 __global__ void multiply_hybrid_kernel(const uint32_t* field_element_a, const uint32_t* field_element_b, uint32_t* destination, uint32_t num_bits) {
     multiply_thread(field_element_a, field_element_b, destination, num_bits, threadIdx.x, blockIdx.x);
 }
