@@ -136,7 +136,7 @@ void untranspose128(const uint32_t* bitsliced, int num_batches, uint32_t* output
         int bit_in_limb = bit % 32;
 
         for (int batch = 0; batch < num_batches; ++batch) {
-            uint32_t slice = bitsliced[batch * num_batches + bit];
+            uint32_t slice = bitsliced[batch * num_bits + bit];
 
             for (int i = 0; i < 32; ++i) {
                 int index = (batch * integers_per_batch + i) * limbs_per_integer + limb_index;

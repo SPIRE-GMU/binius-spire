@@ -209,8 +209,8 @@ TEST_CASE("test_calculate_multilinear_product_sums_round1") {
 }
 
 void test_calculate_random_challenge_products() {
-    const uint32_t round_idx = 2;
-    const uint32_t d = 2;
+    const uint32_t round_idx = 4;
+    const uint32_t d = 3;
     uint32_t random_challenges[round_idx * INTS_PER_VALUE];
     for(uint32_t i = 0; i < round_idx * INTS_PER_VALUE; i++) {
         random_challenges[i] = std::rand();
@@ -240,16 +240,28 @@ void test_calculate_random_challenge_products() {
             mult128_unbitsliced(r, expected, expected);
         }
         
-        printf("expected = %x %x %x %x ", expected[0], expected[1], expected[2], expected[3]);
-        printf("res = %x %x %x %x\n", res[i*4], res[i*4+1], res[i*4+2], res[i*4+3]);
+        //printf("expected = %x %x %x %x ", expected[0], expected[1], expected[2], expected[3]);
+        //printf("res = %x %x %x %x\n", res[i*4], res[i*4+1], res[i*4+2], res[i*4+3]);
+        REQUIRE(expected[0] == res[i*4]);
+        REQUIRE(expected[1] == res[i*4+1]);
+        REQUIRE(expected[2] == res[i*4+2]);
+        REQUIRE(expected[3] == res[i*4+3]);
     }
 }
 
 TEST_CASE("test_calculate_random_challenge_products") {
-    for(int i = 0; i < 1; i++) {
+    for(int i = 0; i < 10; i++) {
         test_calculate_random_challenge_products();
     }
 }
+
+void test_calculate_interpolation_point_products(uint32_t interpolation_point) {
+    const uint32_t d = 2;
+    const uint32_t round_idx = 2; 
+    uint32_t* destination;
+    
+}
+
 
 TEST_CASE("test_unbitsliced_mul_int128") {
     __uint128_t a = 0;
@@ -271,8 +283,10 @@ TEST_CASE("test_unbitsliced_mul_int128") {
     }
     //printf("a_tmp %llu\n", a_tmp);
     mult128_unbitsliced_no_limb(a, b, res);
+    //mult128_unbitsliced_no_limb(a, res, res);
     res1 = tower_height_7_mul(a, b);
     mult128_unbitsliced(a_arr, b_arr, res2); // tested, works fine
+    //mult128_unbitsliced(a_arr, res2, res2); 
 
     char a_str[33];
     char b_str[33];

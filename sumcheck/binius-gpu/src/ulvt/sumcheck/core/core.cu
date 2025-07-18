@@ -42,15 +42,16 @@ __host__ __device__ void calculate_random_challenge_products(
 		for(int j = 1; j < BITS_WIDTH; j++) {
 			batch_product[j] = 0;
 		}
+		//printf("i %d\n", i);
 		for(int r_idx = 0; r_idx < d*round_idx + d; r_idx++) {
 			if(r_idx % (round_idx + 1) == round_idx) continue; // skip if it's a c index (* interpolation point, not random challenge)
 			uint32_t random_challenge_idx = r_idx % (round_idx + 1);
 			uint32_t batch[BITS_WIDTH];
 			memset(batch, 0, BITS_WIDTH*sizeof(uint32_t));
 
+			//for(int term_idx = i; term_idx < i+32; term_idx++) {
 			for(int term_idx = i; term_idx < i+32; term_idx++) {
 				uint32_t first_bit_xor = (term_idx & (1 << r_idx)) == 0;
-				//printf("term_idx %d, i %d, - %d\n", term_idx, i, term_idx-i);
 				//uint32_t first_bit_xor = 0;
 				batch[0] ^= ((random_challenges[random_challenge_idx * INTS_PER_VALUE] & 1) ^ first_bit_xor) << (term_idx - i);
 				for(int bit_idx = 1; bit_idx < BITS_WIDTH; bit_idx++) {
@@ -60,12 +61,19 @@ __host__ __device__ void calculate_random_challenge_products(
 					batch[bit_idx] ^= ((random_challenges[random_challenge_idx * INTS_PER_VALUE + limb_idx] >> bit_in_limb_idx) & 1) << (term_idx - i);
 					//printf("%d %d\n", (random_challenges[random_challenge_idx * INTS_PER_VALUE + limb_idx] & (1 << bit_in_limb_idx)) != 0, (random_challenges[random_challenge_idx * INTS_PER_VALUE + limb_idx] >> bit_in_limb_idx) & 1);
 				}
+				//if(r_idx == 3) 
+					//printf("term_idx %d, i %d, - %d, batch[0] %u\n", term_idx, i, term_idx-i, batch[93]);
+
 			}
 
 			multiply_unrolled<TOWER_HEIGHT>(batch_product, batch, batch_product);
 		}
 
-		memcpy(destination + BITS_WIDTH * i / 32, batch_product, BITS_WIDTH*sizeof(uint32_t));
+
+		//for(int k = 0; k < 128; k++) 
+			//printf("i = %d, batch_product %u\n", i, batch_product[k]);
+
+		memcpy(destination + BITS_WIDTH * i / 32, batch_product, BITS_WIDTH * sizeof(uint32_t));
 	}
 }
 
@@ -78,8 +86,9 @@ __host__ __device__ void calculate_interpolation_point_products(
 	uint32_t num_terms = (1 << (d*round_idx + d));
 	for(int i = 0; i < num_terms; i += 32) {
 		uint32_t batch_product[INTERPOLATION_BITS_WIDTH];
+		batch_product[0] = 0xFFFFFFFF;
 		for(int j = 0; j < INTERPOLATION_BITS_WIDTH; j++) {
-			batch_product[j] = 0xFFFFFFFF;
+			batch_product[j] = 0;
 		}
 		for(int r_idx = 0; r_idx < d*round_idx + d; r_idx++) {
 			if(r_idx % (round_idx + 1) != round_idx) continue; // only do interpolation points
