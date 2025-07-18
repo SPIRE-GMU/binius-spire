@@ -258,7 +258,8 @@ TEST_CASE("test_calculate_random_challenge_products") {
 void test_calculate_interpolation_point_products(uint32_t interpolation_point) {
     const uint32_t d = 2;
     const uint32_t round_idx = 2; 
-    uint32_t* destination;
+    //uint32_t destination[];
+
     
 }
 

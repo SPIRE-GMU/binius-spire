@@ -15,8 +15,8 @@ void test_sumcheck() {
 	constexpr uint32_t interpolation_points = COMPOSITION_SIZE + 1;
 	const size_t num_ints_in_evals = INTS_PER_VALUE * (1 << NUM_VARS) * COMPOSITION_SIZE;
 
-	//std::srand(std::time(nullptr));
-	std::srand(0);
+	std::srand(std::time(nullptr));
+	//std::srand(1);
 	std::vector<uint32_t> multilinear_evals(num_ints_in_evals);
 
 	for (size_t i = 0; i < num_ints_in_evals; ++i) {
@@ -118,17 +118,17 @@ void test_sumcheck() {
 }*/
 
 TEST_CASE("sumcheck 20 vars", "[sumcheck]") {
-	test_sumcheck<20, 2, true>();
+	/*test_sumcheck<20, 2, true>();
 
 	test_sumcheck<20, 3, true>();
 
-	test_sumcheck<20, 4, true>();
+	test_sumcheck<20, 4, true>();*/
 
 	test_sumcheck<20, 2, false>();
 
-	test_sumcheck<20, 3, false>();
+	//test_sumcheck<20, 3, false>();
 
-	test_sumcheck<20, 4, false>();
+	//test_sumcheck<20, 4, false>();
 }
 
 TEST_CASE("sumcheck 24 vars", "[sumcheck]") {

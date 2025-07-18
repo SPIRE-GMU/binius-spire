@@ -93,7 +93,8 @@ public:
 	Sumcheck(const std::vector<uint32_t> &evals_span, const bool benchmarking) {
 		const uint32_t *evals = evals_span.data();
 		cpu_multilinear_evaluations = new uint32_t[BITS_WIDTH * COMPOSITION_SIZE];
-		cpu_original_multilinear_evaluations = new uint32_t[COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32];
+		//cpu_original_multilinear_evaluations = new uint32_t[COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32];
+		cpu_original_multilinear_evaluations = new uint32_t[COMPOSITION_SIZE*EVALS_PER_MULTILINEAR/32];
 		cudaMalloc(&gpu_multilinear_evaluations, sizeof(uint32_t) * TOTAL_INTS);
 			
 		cpu_interpolation_points = new uint32_t[(COMPOSITION_SIZE+1) * INTS_PER_VALUE];
@@ -103,17 +104,26 @@ public:
 		}
 		
 		cudaMemcpy(gpu_multilinear_evaluations, evals, sizeof(uint32_t) * TOTAL_INTS, cudaMemcpyHostToDevice);
-		for(int i = 0; i < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32; i++) {
-			//int idx = i * 4;
-			cpu_original_multilinear_evaluations[i] = 0;
-			for(int j = 0; j < 32; j++) {
-				cpu_original_multilinear_evaluations[i] ^= ((evals[INTS_PER_VALUE*(32*i + j)] & 1) << j);
+
+		if(DATA_IS_TRANSPOSED) {
+			for(int i = 0; i < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32; i++) {
+				//int idx = i * 4;
+				cpu_original_multilinear_evaluations[i] = 0;
+				for(int j = 0; j < 32; j++) {
+					cpu_original_multilinear_evaluations[i] ^= ((evals[INTS_PER_VALUE*(32*i + j)] & 1) << j);
+				}
+			}
+		} else {
+			memset(cpu_original_multilinear_evaluations, 0,  COMPOSITION_SIZE*EVALS_PER_MULTILINEAR/32*sizeof(uint32_t));
+			for(int i = 0; i < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR * INTS_PER_VALUE; i += INTS_PER_VALUE) {
+				int idx = i / INTS_PER_VALUE;
+				cpu_original_multilinear_evaluations[idx / 32] ^= evals[i] << (idx % 32);
 			}
 		}
 
-		/*for(int i = 0; i < 8; i++) {
-			printf("%d %d\n", evals[i * 4], (cpu_original_multilinear_evaluations[0] & (1 << i)) != 0);
-		}*/
+		for(int i = 0; i < 8; i++) {
+			//printf("%d %d\n", evals[i*4], (cpu_original_multilinear_evaluations[0] >> i) & 1);
+		}
 
 		if (benchmarking) {
 			start_before_transpose = std::chrono::high_resolution_clock::now();
@@ -263,7 +273,7 @@ public:
 				);
 			check(cudaDeviceSynchronize());*/
 
-			if(round < 4) {
+			if(round == 4) {
 				//LINE;
 				calculate_interpolation_points(
 					cpu_original_multilinear_evaluations,
@@ -365,8 +375,11 @@ public:
 				compute_sum(point, folded_products_sums + BITS_WIDTH * interpolation_point, 32);
 			}
 			
-			if(round < 4) 
+			if(round == 4) {
 				printf("points[0] = %u, new points[0] = %u\n", points[0], cpu_interpolation_points[0]);
+				printf("points[1] = %u, new points[1] = %u\n", points[1], cpu_interpolation_points[1]);
+				printf("points[2] = %u, new points[2] = %u\n", points[2], cpu_interpolation_points[2]);
+			}
 		}
 	};
 

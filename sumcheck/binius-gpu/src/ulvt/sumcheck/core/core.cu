@@ -49,29 +49,18 @@ __host__ __device__ void calculate_random_challenge_products(
 			uint32_t batch[BITS_WIDTH];
 			memset(batch, 0, BITS_WIDTH*sizeof(uint32_t));
 
-			//for(int term_idx = i; term_idx < i+32; term_idx++) {
 			for(int term_idx = i; term_idx < i+32; term_idx++) {
 				uint32_t first_bit_xor = (term_idx & (1 << r_idx)) == 0;
-				//uint32_t first_bit_xor = 0;
 				batch[0] ^= ((random_challenges[random_challenge_idx * INTS_PER_VALUE] & 1) ^ first_bit_xor) << (term_idx - i);
 				for(int bit_idx = 1; bit_idx < BITS_WIDTH; bit_idx++) {
 					int limb_idx = bit_idx / 32;
 					int bit_in_limb_idx = bit_idx % 32;
-					//batch[bit_idx] ^= ((random_challenges[random_challenge_idx * INTS_PER_VALUE + limb_idx] & (1 << bit_in_limb_idx)) != 0) << (term_idx - i);
 					batch[bit_idx] ^= ((random_challenges[random_challenge_idx * INTS_PER_VALUE + limb_idx] >> bit_in_limb_idx) & 1) << (term_idx - i);
-					//printf("%d %d\n", (random_challenges[random_challenge_idx * INTS_PER_VALUE + limb_idx] & (1 << bit_in_limb_idx)) != 0, (random_challenges[random_challenge_idx * INTS_PER_VALUE + limb_idx] >> bit_in_limb_idx) & 1);
 				}
-				//if(r_idx == 3) 
-					//printf("term_idx %d, i %d, - %d, batch[0] %u\n", term_idx, i, term_idx-i, batch[93]);
-
 			}
 
 			multiply_unrolled<TOWER_HEIGHT>(batch_product, batch, batch_product);
 		}
-
-
-		//for(int k = 0; k < 128; k++) 
-			//printf("i = %d, batch_product %u\n", i, batch_product[k]);
 
 		memcpy(destination + BITS_WIDTH * i / 32, batch_product, BITS_WIDTH * sizeof(uint32_t));
 	}
@@ -84,10 +73,11 @@ __host__ __device__ void calculate_interpolation_point_products(
 	const uint32_t round_idx	
 ) {
 	uint32_t num_terms = (1 << (d*round_idx + d));
+	//printf("num_terms %d\n", num_terms);
 	for(int i = 0; i < num_terms; i += 32) {
 		uint32_t batch_product[INTERPOLATION_BITS_WIDTH];
 		batch_product[0] = 0xFFFFFFFF;
-		for(int j = 0; j < INTERPOLATION_BITS_WIDTH; j++) {
+		for(int j = 1; j < INTERPOLATION_BITS_WIDTH; j++) {
 			batch_product[j] = 0;
 		}
 		for(int r_idx = 0; r_idx < d*round_idx + d; r_idx++) {
@@ -95,14 +85,22 @@ __host__ __device__ void calculate_interpolation_point_products(
 			uint32_t batch[INTERPOLATION_BITS_WIDTH];
 			memset(batch, 0, INTERPOLATION_BITS_WIDTH * sizeof(uint32_t));
 
-			for(int term_idx = i; term_idx < i+32; term_idx++) {
+			for(int term_idx = i; term_idx < min(i+32, num_terms); term_idx++) {
 				uint32_t first_bit_xor = (term_idx & (1 << r_idx)) == 0;
 				batch[0] ^= ((interpolation_point & 1) ^ first_bit_xor) << (term_idx - i);
+				//printf("term_idx %d\n", term_idx);
+				//printf("%d", (batch[0] >> (term_idx-i)) & 1);
 				for(int bit_idx = 1; bit_idx < INTERPOLATION_BITS_WIDTH; bit_idx++) {
-					batch[bit_idx] ^= ((interpolation_point & (1 << bit_idx)) != 0) << (term_idx - i);
+					//printf("%d", (batch[bit_idx] >> (term_idx-i)) & 1);
+					batch[bit_idx] ^= ((interpolation_point >> bit_idx) & 1) << (term_idx - i);
 				}
+				//printf("\n");
 			}
+
+			//printf("(%d %d %d %d) * (%d %d %d %d)\n", batch_product[0], batch_product[1], batch_product[2], batch_product[3], batch[0], batch[1], batch[2], batch[3]);
 			multiply_unrolled<INTERPOLATION_TOWER_HEIGHT>(batch_product, batch, batch_product);
+
+			//printf("multiply result %d %d %d %d\n", batch_product[0], batch_product[1], batch_product[2], batch_product[3]);
 		}
 
 		//printf("memcpy destination + %d out of %d ints\n", INTERPOLATION_BITS_WIDTH*i / 32, (num_terms + 31) / 32 * INTERPOLATION_BITS_WIDTH);
@@ -159,23 +157,47 @@ __host__ __device__ void calculate_interpolation_points(
 	uint32_t* random_challenge_products = (uint32_t*) malloc((num_terms + 31) / 32 * BITS_WIDTH * sizeof(uint32_t)); //[num_terms / 32 * BITS_WIDTH];
 	uint32_t* terms = (uint32_t*) malloc((num_terms + 31) / 32 * BITS_WIDTH * sizeof(uint32_t));
 	uint32_t* interpolation_point_products = (uint32_t*) malloc((num_terms + 31) / 32 * INTERPOLATION_BITS_WIDTH * sizeof(uint32_t));
-	//printf("interpolation point products size is %d ints\n", (num_terms + 31) / 32 * INTERPOLATION_BITS_WIDTH);
-	//printf("random challenge products size is %d ints\n", (num_terms + 31) / 32 * BITS_WIDTH);
-	
+
+	memset(terms, 0, (num_terms + 31) / 32 * BITS_WIDTH * sizeof(uint32_t));	
+	memset(multilinear_product_sums, 0, (num_terms + 31) / 32 * sizeof(uint32_t));
+	/*for(int i = 0; i < (num_terms + 31) / 32 * BITS_WIDTH; i++) {
+		if(i % BITS_WIDTH == 0) terms[i] = 0xFFFFFFFF;
+		else terms[0] = 0;
+	}*/
+
 	calculate_multilinear_product_sums(multilinear_evaluations, multilinear_product_sums, d, round_idx, n);
 	calculate_random_challenge_products(random_challenges, random_challenge_products, d, round_idx);	
 
-	printf("random_challenge_prodcuts %u\n", random_challenge_products[0]);
+	//printf("random_challenge_prodcuts %u\n", random_challenge_products[0]);
+	//printf("multilinear[0] = %d\n", multilinear_product_sums[0] & 1);
 
 	//LINE;
 	for(int interpolation_point = 0; interpolation_point < d+1; interpolation_point++) {
 		//uint32_t interpolation_point_products[num_terms / 32 * INTERPOLATION_BITS_WIDTH];
 		calculate_interpolation_point_products(interpolation_point, interpolation_point_products, d, round_idx);
 
-		for(int i = 0; i < num_terms / 32; i++) {
+		
+
+		for(int i = 0; i < (num_terms+31) / 32; i++) {
 			calculate_es(random_challenge_products + i*BITS_WIDTH, interpolation_point_products + i*INTERPOLATION_BITS_WIDTH, terms + i*BITS_WIDTH);
 			calculate_eb(terms + i*BITS_WIDTH, multilinear_product_sums[i], terms + i*BITS_WIDTH);
 			//printf("terms %u\n", terms[i*BITS_WIDTH]);
+		}
+		
+		if(interpolation_point == 1) {
+			for(int j = 0; j < num_terms; j++) {
+				printf("%d\n", multilinear_product_sums[0] & 1);
+				for(int i = 0; i < INTERPOLATION_BITS_WIDTH; i++) 
+					printf("%d", (interpolation_point_products[i] >> j) & 1);
+				printf("\n");	
+				for(int i = 0; i < BITS_WIDTH; i++) 
+					printf("%d", (random_challenge_products[i] >> j) & 1);
+				printf("\n");	
+				for(int i = 0; i < BITS_WIDTH; i++) 
+					printf("%d", (terms[i] >> j) & 1);
+				printf("\n");	
+
+			}
 		}
 
 
