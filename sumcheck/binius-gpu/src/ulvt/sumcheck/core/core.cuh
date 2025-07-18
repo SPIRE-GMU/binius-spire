@@ -7,6 +7,7 @@ __host__ __device__ void calculate_interpolation_points(
 	const uint32_t* multilinear_evaluations,
 	const uint32_t* random_challenges,
 	uint32_t* destination,
+	uint32_t* claimed_sum,
 	const uint32_t d,
 	const uint32_t round_idx,
 	const uint32_t n

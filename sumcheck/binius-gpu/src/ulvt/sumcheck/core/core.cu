@@ -147,11 +147,11 @@ __host__ __device__ void calculate_interpolation_points(
 	const uint32_t* multilinear_evaluations,
 	const uint32_t* random_challenges,
 	uint32_t* destination,
+	uint32_t* claimed_sum,
 	const uint32_t d,
 	const uint32_t round_idx,
 	const uint32_t n
 ) {
-	//printf("round %d\n", round_idx);
 	uint32_t num_terms = (1 << (d*round_idx + d));
 	uint32_t* multilinear_product_sums = (uint32_t*) malloc((num_terms + 31) / 32 * sizeof(uint32_t));// [num_terms / 32];
 	uint32_t* random_challenge_products = (uint32_t*) malloc((num_terms + 31) / 32 * BITS_WIDTH * sizeof(uint32_t)); //[num_terms / 32 * BITS_WIDTH];
@@ -160,47 +160,20 @@ __host__ __device__ void calculate_interpolation_points(
 
 	memset(terms, 0, (num_terms + 31) / 32 * BITS_WIDTH * sizeof(uint32_t));	
 	memset(multilinear_product_sums, 0, (num_terms + 31) / 32 * sizeof(uint32_t));
-	/*for(int i = 0; i < (num_terms + 31) / 32 * BITS_WIDTH; i++) {
-		if(i % BITS_WIDTH == 0) terms[i] = 0xFFFFFFFF;
-		else terms[0] = 0;
-	}*/
+	memset(claimed_sum, 0, INTS_PER_VALUE * sizeof(uint32_t));
 
 	calculate_multilinear_product_sums(multilinear_evaluations, multilinear_product_sums, d, round_idx, n);
 	calculate_random_challenge_products(random_challenges, random_challenge_products, d, round_idx);	
 
-	//printf("random_challenge_prodcuts %u\n", random_challenge_products[0]);
-	//printf("multilinear[0] = %d\n", multilinear_product_sums[0] & 1);
-
 	//LINE;
 	for(int interpolation_point = 0; interpolation_point < d+1; interpolation_point++) {
-		//uint32_t interpolation_point_products[num_terms / 32 * INTERPOLATION_BITS_WIDTH];
 		calculate_interpolation_point_products(interpolation_point, interpolation_point_products, d, round_idx);
-
-		
 
 		for(int i = 0; i < (num_terms+31) / 32; i++) {
 			calculate_es(random_challenge_products + i*BITS_WIDTH, interpolation_point_products + i*INTERPOLATION_BITS_WIDTH, terms + i*BITS_WIDTH);
 			calculate_eb(terms + i*BITS_WIDTH, multilinear_product_sums[i], terms + i*BITS_WIDTH);
-			//printf("terms %u\n", terms[i*BITS_WIDTH]);
 		}
 		
-		/*if(interpolation_point == 2) {
-			for(int j = 0; j < num_terms; j++) {
-				printf("%d\n", (multilinear_product_sums[j / 32] >> (j % 32)) & 1);
-				for(int i = 0; i < INTERPOLATION_BITS_WIDTH; i++) 
-					printf("%d", (interpolation_point_products[i] >> j) & 1);
-				printf("\n");	
-				for(int i = 0; i < BITS_WIDTH; i++) 
-					printf("%d", (random_challenge_products[i] >> j) & 1);
-				printf("\n");	
-				for(int i = 0; i < BITS_WIDTH; i++) 
-					printf("%d", (terms[i] >> j) & 1);
-				printf("\n");	
-
-			}
-		}*/
-
-
 		//LINE;
 		uint32_t batch_sum[BITS_WIDTH];
 		uint32_t res[INTS_PER_VALUE];
@@ -217,6 +190,11 @@ __host__ __device__ void calculate_interpolation_points(
 		}
 		memcpy(destination + interpolation_point*INTS_PER_VALUE, res, INTS_PER_VALUE * sizeof(uint32_t));
 		//LINE;
+	}
+
+	for(int i = 0; i < INTS_PER_VALUE; i++) {
+		// claimed = S(0) + S(1)
+		claimed_sum[i] = destination[i] ^ destination[i + INTS_PER_VALUE];
 	}
 	//LINE;
 }
@@ -237,8 +215,6 @@ __host__ __device__ void evaluate_composition_on_batch_row( // after folding, ca
 		
 		// multiply
 		multiply_unrolled<TOWER_HEIGHT>(batch_composition_destination, nth_batch_of_row, batch_composition_destination);
-		//multiply_hybrid_kernel<<<1, 128>>>(batch_composition_destination, nth_batch_of_row, batch_composition_destination, 1 << TOWER_HEIGHT);
-		//cudaDeviceSynchronize();
 	}
 }
 

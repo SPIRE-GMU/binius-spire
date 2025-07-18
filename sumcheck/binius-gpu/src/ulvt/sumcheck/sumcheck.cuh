@@ -251,6 +251,7 @@ public:
 			//uint32_t* correct_gpu_folded_products_sums;
 			
 			//cudaMalloc(&cpu_interpolation_points, (COMPOSITION_SIZE+1) * INTS_PER_VALUE * sizeof(uint32_t));
+			uint32_t cpu_claimed_sum[INTS_PER_VALUE];
 			cudaMalloc(&gpu_multilinear_products, BITS_WIDTH * sizeof(uint32_t));
 			cudaMemset(gpu_multilinear_products, 0, BITS_WIDTH * sizeof(uint32_t));
 			cudaMalloc(&gpu_folded_products_sums, INTERPOLATION_POINTS * BITS_WIDTH * sizeof(uint32_t));
@@ -273,21 +274,22 @@ public:
 				);
 			check(cudaDeviceSynchronize());*/
 
-			if(round < 4) {
+			if((round < 4 && COMPOSITION_SIZE == 2) || (round < 3 && COMPOSITION_SIZE == 3) || (round < 2 && COMPOSITION_SIZE == 4)) {
 				//LINE;
 				calculate_interpolation_points(
 					cpu_original_multilinear_evaluations,
 					cpu_random_challenges,
 					cpu_interpolation_points,
+					cpu_claimed_sum,
 					COMPOSITION_SIZE,
 					round,
 					NUM_VARS
 				);
+
+				memcpy(sum, cpu_claimed_sum, INTS_PER_VALUE * sizeof(uint32_t));
+				memcpy(points, cpu_interpolation_points, INTS_PER_VALUE * INTERPOLATION_POINTS * sizeof(uint32_t));
 				//LINE;
-			}
-			
-			//LINE;
-			if(!USE_FINE_KERNEL) {
+			} else {
 				compute_compositions<INTERPOLATION_POINTS, COMPOSITION_SIZE, EVALS_PER_MULTILINEAR>
 					<<<BLOCKS, THREADS_PER_BLOCK>>>(
 						gpu_multilinear_evaluations,
@@ -297,93 +299,40 @@ public:
 						num_batches_per_multilinear,
 						active_threads,
 						active_threads_folded);
-			} else {
-				compute_compositions_fine<INTERPOLATION_POINTS, COMPOSITION_SIZE, EVALS_PER_MULTILINEAR>(
-					gpu_multilinear_evaluations,
-					gpu_multilinear_products,
+				check(cudaDeviceSynchronize());
+				cudaMemcpy(
+					multilinear_products, gpu_multilinear_products, BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToHost);
+
+				cudaMemcpy(
+					folded_products_sums,
 					gpu_folded_products_sums,
-					gpu_coefficients,
-					num_batches_per_multilinear,
-					streams
-				);
-			}
-			//LINE;
-			check(cudaDeviceSynchronize());
+					INTERPOLATION_POINTS * BITS_WIDTH * sizeof(uint32_t),
+					cudaMemcpyDeviceToHost);
 
-			/*uint32_t cpu_correct_multilinear_products[BITS_WIDTH];
-			uint32_t cpu_correct_folded_products_sums[INTERPOLATION_POINTS * BITS_WIDTH];
-			uint32_t cpu_multilinear_products[BITS_WIDTH];
-			uint32_t cpu_folded_products_sums[INTERPOLATION_POINTS * BITS_WIDTH];
+				cudaMemcpy(
+					multilinear_products, gpu_multilinear_products, BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToHost);
 
-			cudaMemcpy(cpu_correct_multilinear_products, correct_gpu_multilinear_products, BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToHost);
-			cudaMemcpy(cpu_correct_folded_products_sums, correct_gpu_folded_products_sums, INTERPOLATION_POINTS * BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToHost);
-			cudaMemcpy(cpu_multilinear_products, gpu_multilinear_products, BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToHost);
-			cudaMemcpy(cpu_folded_products_sums, gpu_folded_products_sums, INTERPOLATION_POINTS * BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToHost);
+				cudaFree(gpu_multilinear_products);
+				cudaFree(gpu_folded_products_sums);
 
-			printf("correct gpu multilinear product %d, got %d\n", cpu_correct_multilinear_products[10], cpu_multilinear_products[10]);
-			printf("correct gpu interpolation product %d, got %d\n", cpu_correct_folded_products_sums[10], cpu_folded_products_sums[10]);
-			bool good = true;
-			for(int i = 0; i < BITS_WIDTH; i++) {
-				for(int j = 0; j < INTERPOLATION_POINTS; j++) {
-					if(cpu_correct_folded_products_sums[i + BITS_WIDTH*j] != cpu_folded_products_sums[i + BITS_WIDTH*j]) {
-						//if(round == 1) printf("%d folded products sum expected %u, got %u\n", i + BITS_WIDTH*j, cpu_correct_folded_products_sums[i + BITS_WIDTH*j], cpu_folded_products_sums[i + BITS_WIDTH*j]);
-						good = false;
-					}
+				compute_sum(sum, multilinear_products, 32);
+
+				for (int interpolation_point = 0; interpolation_point < INTERPOLATION_POINTS; ++interpolation_point)
+				{
+					uint32_t *point = points + interpolation_point * INTS_PER_VALUE;
+
+					compute_sum(point, folded_products_sums + BITS_WIDTH * interpolation_point, 32);
 				}
-				if(cpu_correct_multilinear_products[i] != cpu_multilinear_products[i]) {
-					if(round == 1) printf("%d, multilnear products expected %u, got %u\n", i, cpu_correct_multilinear_products[i], cpu_multilinear_products[i]);
-					good = false;
-				}
-			}
-			if(good) 
-				printf("GOOD GOOD GOOD\n");
-			else
-				printf("BAD BAD BAD BAD\n");*/
-
-			//cudaDeviceSynchronize();
-
-			//LINE;
-
-			cudaMemcpy(
-				multilinear_products, gpu_multilinear_products, BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToHost
-			);
-
-			cudaMemcpy(
-				folded_products_sums,
-				gpu_folded_products_sums,
-				INTERPOLATION_POINTS * BITS_WIDTH * sizeof(uint32_t),
-				cudaMemcpyDeviceToHost
-			);
-
-			//LINE;
-
-			cudaDeviceSynchronize();
-
-			cudaMemcpy(
-				multilinear_products, gpu_multilinear_products, BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToHost
-			);
-
-			cudaFree(gpu_multilinear_products);
-			cudaFree(gpu_folded_products_sums);
-
-			compute_sum(sum, multilinear_products, 32);
-
-
-			for (int interpolation_point = 0; interpolation_point < INTERPOLATION_POINTS; ++interpolation_point) {
-				uint32_t *point = points + interpolation_point * INTS_PER_VALUE;
-
-				compute_sum(point, folded_products_sums + BITS_WIDTH * interpolation_point, 32);
 			}
 			
-			if(round < 4) {
+			
+			
+			/*if(round < 4) {
 				for(int i = 0; i <= COMPOSITION_SIZE; i++) {
-					printf("points[%d] = %u, new points[%d] = %u\n", i, points[i], i, cpu_interpolation_points[i]);
-					//REQUIRE()
+					printf("points[%d] = %u %u %u %u, new points[%d] = %u %u %u %u\n", i, points[4*i], points[4*i+1], points[4*i+2], points[4*i+3], i, cpu_interpolation_points[4*i], cpu_interpolation_points[4*i+1], cpu_interpolation_points[4*i+2], cpu_interpolation_points[4*i+3]);
 				}
-				/*printf("points[0] = %u, new points[0] = %u\n", points[0], cpu_interpolation_points[0]);
-				printf("points[1] = %u, new points[1] = %u\n", points[1], cpu_interpolation_points[1]);
-				printf("points[2] = %u, new points[2] = %u\n", points[2], cpu_interpolation_points[2]);*/
-			}
+				printf("claimed sum = %u %u %u %u, new claimed sum = %u %u %u %u\n", sum[0], sum[1], sum[2], sum[3], cpu_claimed_sum[0], cpu_claimed_sum[1], cpu_claimed_sum[2], cpu_claimed_sum[3]);
+			}*/
 		}
 	};
 
