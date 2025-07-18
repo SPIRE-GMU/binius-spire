@@ -11,6 +11,7 @@
 #include "../circuit_generator/utils/utils.hpp"
 #include "./profiling/kernels/babybear_repeat.cuh"
 #include "./profiling/kernels/bitsliced_repeat.cuh"
+#include "../basic_tower128.cuh"
 #include "ulvt/finite_fields/baby_bear.cuh"
 #include "ulvt/finite_fields/binary_tower.cuh"
 #include "ulvt/finite_fields/binary_tower_simd.cuh"
@@ -543,4 +544,20 @@ TEST_CASE("mul_binary_tower_128b_bitsliced_inplace", "[mul]") {
 
 		return a;
 	};
+}
+
+TEST_CASE("basic_binary_tower_128b_not_bitsliced", "[mul]") {
+	uint32_t a[4];
+	uint32_t b[4];
+	uint32_t result[4];
+	for (uint32_t i = 0; i < 4; ++i) {
+		a[i] = std::rand();
+		b[i] = std::rand();
+		result[i] = 0;
+	}
+
+	binmul_128(a, b, result);
+	printf("a: %x %x %x %x\n", a[0], a[1], a[2], a[3]);
+	printf("b: %x %x %x %x\n", b[0], b[1], b[2], b[3]);
+	printf("result: %x %x %x %x\n", result[0], result[1], result[2], result[3]);
 }

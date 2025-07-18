@@ -393,6 +393,7 @@ CMakeFiles/finite_field_tests.dir/src/ulvt/finite_fields/tests/tests.cu.o : /hom
     /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/finite_fields/tests/./profiling/kernels/../../../baby_bear.cuh \
     /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/finite_fields/tests/./profiling/kernels/../../../risc0_baby_bear.h \
     /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/finite_fields/tests/./profiling/kernels/bitsliced_repeat.cuh \
+    /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/finite_fields/tests/../basic_tower128.cuh \
     /home/intern-04/binius-spire/sumcheck/binius-gpu/./src/ulvt/finite_fields/binary_tower.cuh \
     /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include/cuda/std/utility \
     /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include/cuda/std/detail/__config \

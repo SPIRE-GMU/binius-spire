@@ -1,3 +1,10 @@
 {
-    "cmake.sourceDirectory": "/home/intern-04/binius-spire/sumcheck/binius-gpu"
+    "cmake.sourceDirectory": "/home/intern-04/binius-spire/sumcheck/binius-gpu",
+    "files.associations": {
+        "chrono": "cpp",
+        "cstdint": "cpp",
+        "iomanip": "cpp",
+        "random": "cpp",
+        "algorithm": "cpp"
+    }
 }

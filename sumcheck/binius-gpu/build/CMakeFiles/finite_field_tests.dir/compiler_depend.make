@@ -1425,6 +1425,7 @@ CMakeFiles/finite_field_tests.dir/src/ulvt/finite_fields/tests/tests.cu.o: /home
   /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/finite_fields/binary_tower_simd.cuh \
   third-party/Catch2/generated-includes/catch2/catch_user_config.hpp \
   /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/utils/bitslicing.cuh \
+  /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/finite_fields/basic_tower128.cuh \
   /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/finite_fields/circuit_generator/unrolled/binary_tower_rolled.cuh \
   /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/finite_fields/circuit_generator/unrolled/binary_tower_unrolled.cuh \
   /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/finite_fields/circuit_generator/utils/utils.hpp \
@@ -2550,6 +2551,8 @@ CMakeFiles/finite_field_tests.dir/src/ulvt/finite_fields/tests/tests.cu.o: /home
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/detail/libcxx/include/stdexcept:
 
 /home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/src/catch2/benchmark/catch_environment.hpp:
+
+/home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/finite_fields/basic_tower128.cuh:
 
 /usr/include/c++/12/pstl/glue_algorithm_defs.h:
 

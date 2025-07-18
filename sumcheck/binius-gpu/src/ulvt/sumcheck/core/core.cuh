@@ -12,6 +12,29 @@ __host__ __device__ void calculate_interpolation_points(
 	const uint32_t n
 );
 
+__host__ __device__ void calculate_multilinear_product_sums(
+	const uint32_t* multilinear_evaluations,
+	uint32_t* destination,
+	const uint32_t d,
+	const uint32_t round_idx,
+	const uint32_t n
+);
+
+
+__host__ __device__ void calculate_random_challenge_products(
+	const uint32_t* random_challenges,
+	uint32_t* destination,
+	const uint32_t d,
+	const uint32_t round_idx
+);
+
+__host__ __device__ void calculate_interpolation_point_products(
+	const uint32_t interpolation_point,
+	uint32_t* destination,
+	const uint32_t d,
+	const uint32_t round_idx	
+);
+
 __host__ __device__ void evaluate_composition_on_batch_row(
 	const uint32_t* first_batch_of_row,
 	uint32_t* batch_composition_destination,

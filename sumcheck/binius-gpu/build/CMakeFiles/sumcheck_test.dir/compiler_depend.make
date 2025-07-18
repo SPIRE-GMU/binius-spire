@@ -766,6 +766,7 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/utils/bigints.cu.o: /home/in
   /usr/local/cuda-12.6/targets/x86_64-linux/include/vector_types.h
 
 CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/utils/tower_7_mul.cu.o: /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/utils/tower_7_mul.cu \
+  /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/finite_fields/circuit_generator/unrolled/binary_tower_unrolled.cuh \
   /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/utils/tower_7_mul.cuh \
   /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/utils/unbitsliced_mul.cuh \
   /usr/include/alloca.h \
@@ -1358,6 +1359,7 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/utils/tower_7_mul.cu.o: /hom
 CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/verifier.cu.o: /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/verifier.cu \
   /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/utils/constants.hpp \
   /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/kernel/verifier_kernel.cuh \
+  /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/finite_fields/circuit_generator/unrolled/binary_tower_unrolled.cuh \
   /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/utils/tower_7_mul.cuh \
   /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/utils/unbitsliced_mul.cuh \
   /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/verifier.cuh \

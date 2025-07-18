@@ -280,8 +280,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-afcaY5"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-afcaY5"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-wMtjgy"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-wMtjgy"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
       CMAKE_CXX_FLAGS: ""
@@ -292,13 +292,13 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-afcaY5'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-wMtjgy'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_cb846/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_cb846.dir/build.make CMakeFiles/cmTC_cb846.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-afcaY5'
-        Building CXX object CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o
-        /usr/bin/c++   -v -o CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o -c /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_00043/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_00043.dir/build.make CMakeFiles/cmTC_00043.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-wMtjgy'
+        Building CXX object CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o
+        /usr/bin/c++   -v -o CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o -c /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp
         Using built-in specs.
         COLLECT_GCC=/usr/bin/c++
         OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa
@@ -308,8 +308,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 12.3.0 (Ubuntu 12.3.0-1ubuntu1~22.04) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_cb846.dir/'
-         /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_cb846.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccrmP26A.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_00043.dir/'
+         /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_00043.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccQJHqQx.s
         GNU C++17 (Ubuntu 12.3.0-1ubuntu1~22.04) version 12.3.0 (x86_64-linux-gnu)
         	compiled by GNU C version 12.3.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
         
@@ -333,14 +333,14 @@ events:
         
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
         Compiler executable checksum: 79e87f2d3d9897c72fb9a3fdf38a9641
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_cb846.dir/'
-         as -v --64 -o CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccrmP26A.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_00043.dir/'
+         as -v --64 -o CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccQJHqQx.s
         GNU assembler version 2.38 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.38
         COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.'
-        Linking CXX executable cmTC_cb846
-        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cb846.dir/link.txt --verbose=1
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.'
+        Linking CXX executable cmTC_00043
+        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_00043.dir/link.txt --verbose=1
         Using built-in specs.
         COLLECT_GCC=/usr/bin/c++
         COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper
@@ -353,14 +353,14 @@ events:
         gcc version 12.3.0 (Ubuntu 12.3.0-1ubuntu1~22.04) 
         COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_cb846' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_cb846.'
-         /usr/lib/gcc/x86_64-linux-gnu/12/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/ccIToDYV.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_cb846 /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_00043' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_00043.'
+         /usr/lib/gcc/x86_64-linux-gnu/12/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/ccWgcLBG.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_00043 /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o
         collect2 version 12.3.0
-        /usr/bin/ld -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/ccIToDYV.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_cb846 /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o
+        /usr/bin/ld -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/ccWgcLBG.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_00043 /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o
         GNU ld (GNU Binutils for Ubuntu) 2.38
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_cb846' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_cb846.'
-        /usr/bin/c++  -v -Wl,-v CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_cb846
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-afcaY5'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_00043' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_00043.'
+        /usr/bin/c++  -v -Wl,-v CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_00043
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-wMtjgy'
         
       exitCode: 0
   -
@@ -401,13 +401,13 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-afcaY5']
+        ignore line: [Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-wMtjgy']
         ignore line: []
-        ignore line: [Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_cb846/fast]
-        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_cb846.dir/build.make CMakeFiles/cmTC_cb846.dir/build]
-        ignore line: [gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-afcaY5']
-        ignore line: [Building CXX object CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o]
-        ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o -c /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_00043/fast]
+        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_00043.dir/build.make CMakeFiles/cmTC_00043.dir/build]
+        ignore line: [gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-wMtjgy']
+        ignore line: [Building CXX object CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o -c /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/c++]
         ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa]
@@ -417,8 +417,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
         ignore line: [gcc version 12.3.0 (Ubuntu 12.3.0-1ubuntu1~22.04) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_cb846.dir/']
-        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_cb846.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccrmP26A.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_00043.dir/']
+        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_00043.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccQJHqQx.s]
         ignore line: [GNU C++17 (Ubuntu 12.3.0-1ubuntu1~22.04) version 12.3.0 (x86_64-linux-gnu)]
         ignore line: [	compiled by GNU C version 12.3.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.24-GMP]
         ignore line: []
@@ -442,14 +442,14 @@ events:
         ignore line: []
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
         ignore line: [Compiler executable checksum: 79e87f2d3d9897c72fb9a3fdf38a9641]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_cb846.dir/']
-        ignore line: [ as -v --64 -o CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccrmP26A.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_00043.dir/']
+        ignore line: [ as -v --64 -o CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccQJHqQx.s]
         ignore line: [GNU assembler version 2.38 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.38]
         ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.']
-        ignore line: [Linking CXX executable cmTC_cb846]
-        ignore line: [/home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cb846.dir/link.txt --verbose=1]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [Linking CXX executable cmTC_00043]
+        ignore line: [/home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_00043.dir/link.txt --verbose=1]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/c++]
         ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper]
@@ -462,13 +462,13 @@ events:
         ignore line: [gcc version 12.3.0 (Ubuntu 12.3.0-1ubuntu1~22.04) ]
         ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_cb846' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_cb846.']
-        link line: [ /usr/lib/gcc/x86_64-linux-gnu/12/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/ccIToDYV.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_cb846 /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_00043' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_00043.']
+        link line: [ /usr/lib/gcc/x86_64-linux-gnu/12/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/ccWgcLBG.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_00043 /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/12/collect2] ==> ignore
           arg [-plugin] ==> ignore
           arg [/usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so] ==> ignore
           arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper] ==> ignore
-          arg [-plugin-opt=-fresolution=/tmp/ccIToDYV.res] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/ccWgcLBG.res] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
           arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -486,7 +486,7 @@ events:
           arg [-znow] ==> ignore
           arg [-zrelro] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_cb846] ==> ignore
+          arg [cmTC_00043] ==> ignore
           arg [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o]
@@ -499,7 +499,7 @@ events:
           arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
           arg [-L/usr/lib/gcc/x86_64-linux-gnu/12/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/12/../../..]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
           arg [-lstdc++] ==> lib [stdc++]
           arg [-lm] ==> lib [m]
           arg [-lgcc_s] ==> lib [gcc_s]
@@ -510,7 +510,7 @@ events:
           arg [/usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o]
         ignore line: [collect2 version 12.3.0]
-        ignore line: [/usr/bin/ld -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/ccIToDYV.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_cb846 /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_cb846.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o]
+        ignore line: [/usr/bin/ld -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/ccWgcLBG.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_00043 /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_00043.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o]
         linker tool for 'CXX': /usr/bin/ld
         collapse obj [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o] ==> [/usr/lib/x86_64-linux-gnu/Scrt1.o]
         collapse obj [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o] ==> [/usr/lib/x86_64-linux-gnu/crti.o]
@@ -548,8 +548,8 @@ events:
     checks:
       - "Detecting CUDA compiler ABI info"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-e2DNDk"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-e2DNDk"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-qoavXi"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-qoavXi"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
       CMAKE_CUDA_FLAGS: ""
@@ -560,13 +560,13 @@ events:
       variable: "CMAKE_CUDA_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-e2DNDk'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-qoavXi'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_97539/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_97539.dir/build.make CMakeFiles/cmTC_97539.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-e2DNDk'
-        Building CUDA object CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o
-        /usr/local/cuda-12.6/bin/nvcc -forward-unknown-to-host-compiler   "--generate-code=arch=compute_52,code=[compute_52,sm_52]"   -Xcompiler=-v -MD -MT CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o -MF CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o.d -x cu -c /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCUDACompilerABI.cu -o CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_97c0d/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_97c0d.dir/build.make CMakeFiles/cmTC_97c0d.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-qoavXi'
+        Building CUDA object CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o
+        /usr/local/cuda-12.6/bin/nvcc -forward-unknown-to-host-compiler   "--generate-code=arch=compute_52,code=[compute_52,sm_52]"   -Xcompiler=-v -MD -MT CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o -MF CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o.d -x cu -c /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCUDACompilerABI.cu -o CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o
         Using built-in specs.
         COLLECT_GCC=gcc
         OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa
@@ -576,8 +576,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 12.3.0 (Ubuntu 12.3.0-1ubuntu1~22.04) 
-        COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000a60a8_00000000-7_CMakeCUDACompilerABI.cpp1.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/'
-         /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -E -quiet -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D __CUDA_ARCH__=520 -D __CUDA_ARCH_LIST__=520 -D __NV_LEGACY_LAUNCH -D CUDA_DOUBLE_MATH_FUNCTIONS -D __CUDACC__ -D __NVCC__ -D __CUDACC_VER_MAJOR__=12 -D __CUDACC_VER_MINOR__=6 -D __CUDACC_VER_BUILD__=68 -D __CUDA_API_VER_MAJOR__=12 -D __CUDA_API_VER_MINOR__=6 -D __NVCC_DIAG_PRAGMA_SUPPORT__=1 -include cuda_runtime.h /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCUDACompilerABI.cu -o /tmp/tmpxft_000a60a8_00000000-7_CMakeCUDACompilerABI.cpp1.ii -m64 -mtune=generic -march=x86-64 -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -dumpdir /tmp/ -dumpbase tmpxft_000a60a8_00000000-7_CMakeCUDACompilerABI.cpp1.cu -dumpbase-ext .cu
+        COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000ca0b6_00000000-7_CMakeCUDACompilerABI.cpp1.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/'
+         /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -E -quiet -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D __CUDA_ARCH__=520 -D __CUDA_ARCH_LIST__=520 -D __NV_LEGACY_LAUNCH -D CUDA_DOUBLE_MATH_FUNCTIONS -D __CUDACC__ -D __NVCC__ -D __CUDACC_VER_MAJOR__=12 -D __CUDACC_VER_MINOR__=6 -D __CUDACC_VER_BUILD__=68 -D __CUDA_API_VER_MAJOR__=12 -D __CUDA_API_VER_MINOR__=6 -D __NVCC_DIAG_PRAGMA_SUPPORT__=1 -include cuda_runtime.h /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCUDACompilerABI.cu -o /tmp/tmpxft_000ca0b6_00000000-7_CMakeCUDACompilerABI.cpp1.ii -m64 -mtune=generic -march=x86-64 -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -dumpdir /tmp/ -dumpbase tmpxft_000ca0b6_00000000-7_CMakeCUDACompilerABI.cpp1.cu -dumpbase-ext .cu
         ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/12"
         ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"
         ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/12/include-fixed"
@@ -595,7 +595,7 @@ events:
         End of search list.
         COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000a60a8_00000000-7_CMakeCUDACompilerABI.cpp1.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/tmpxft_000a60a8_00000000-7_CMakeCUDACompilerABI.cpp1.'
+        COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000ca0b6_00000000-7_CMakeCUDACompilerABI.cpp1.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/tmpxft_000ca0b6_00000000-7_CMakeCUDACompilerABI.cpp1.'
         Using built-in specs.
         COLLECT_GCC=gcc
         OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa
@@ -605,8 +605,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 12.3.0 (Ubuntu 12.3.0-1ubuntu1~22.04) 
-        COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000a60a8_00000000-5_CMakeCUDACompilerABI.cpp4.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/'
-         /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -E -quiet -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D __CUDA_ARCH_LIST__=520 -D __NV_LEGACY_LAUNCH -D __CUDACC__ -D __NVCC__ -D __CUDACC_VER_MAJOR__=12 -D __CUDACC_VER_MINOR__=6 -D __CUDACC_VER_BUILD__=68 -D __CUDA_API_VER_MAJOR__=12 -D __CUDA_API_VER_MINOR__=6 -D __NVCC_DIAG_PRAGMA_SUPPORT__=1 -include cuda_runtime.h /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCUDACompilerABI.cu -o /tmp/tmpxft_000a60a8_00000000-5_CMakeCUDACompilerABI.cpp4.ii -m64 -mtune=generic -march=x86-64 -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -dumpdir /tmp/ -dumpbase tmpxft_000a60a8_00000000-5_CMakeCUDACompilerABI.cpp4.cu -dumpbase-ext .cu
+        COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000ca0b6_00000000-5_CMakeCUDACompilerABI.cpp4.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/'
+         /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -E -quiet -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D __CUDA_ARCH_LIST__=520 -D __NV_LEGACY_LAUNCH -D __CUDACC__ -D __NVCC__ -D __CUDACC_VER_MAJOR__=12 -D __CUDACC_VER_MINOR__=6 -D __CUDACC_VER_BUILD__=68 -D __CUDA_API_VER_MAJOR__=12 -D __CUDA_API_VER_MINOR__=6 -D __NVCC_DIAG_PRAGMA_SUPPORT__=1 -include cuda_runtime.h /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCUDACompilerABI.cu -o /tmp/tmpxft_000ca0b6_00000000-5_CMakeCUDACompilerABI.cpp4.ii -m64 -mtune=generic -march=x86-64 -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -dumpdir /tmp/ -dumpbase tmpxft_000ca0b6_00000000-5_CMakeCUDACompilerABI.cpp4.cu -dumpbase-ext .cu
         ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/12"
         ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"
         ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/12/include-fixed"
@@ -624,7 +624,7 @@ events:
         End of search list.
         COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000a60a8_00000000-5_CMakeCUDACompilerABI.cpp4.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/tmpxft_000a60a8_00000000-5_CMakeCUDACompilerABI.cpp4.'
+        COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000ca0b6_00000000-5_CMakeCUDACompilerABI.cpp4.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/tmpxft_000ca0b6_00000000-5_CMakeCUDACompilerABI.cpp4.'
         Using built-in specs.
         COLLECT_GCC=gcc
         OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa
@@ -634,8 +634,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 12.3.0 (Ubuntu 12.3.0-1ubuntu1~22.04) 
-        COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-c' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-v' '-Wno-psabi' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-m64' '-o' 'CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_97539.dir/'
-         /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -quiet -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D __CUDA_ARCH__=520 -D __CUDA_ARCH_LIST__=520 -D __NV_LEGACY_LAUNCH -D CUDA_DOUBLE_MATH_FUNCTIONS /tmp/tmpxft_000a60a8_00000000-6_CMakeCUDACompilerABI.cudafe1.cpp -quiet -dumpdir CMakeFiles/cmTC_97539.dir/ -dumpbase CMakeCUDACompilerABI.cu.cpp -dumpbase-ext .cpp -m64 -mtune=generic -march=x86-64 -Wno-psabi -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccMq0E8P.s
+        COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-c' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-v' '-Wno-psabi' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-m64' '-o' 'CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_97c0d.dir/'
+         /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -quiet -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D __CUDA_ARCH__=520 -D __CUDA_ARCH_LIST__=520 -D __NV_LEGACY_LAUNCH -D CUDA_DOUBLE_MATH_FUNCTIONS /tmp/tmpxft_000ca0b6_00000000-6_CMakeCUDACompilerABI.cudafe1.cpp -quiet -dumpdir CMakeFiles/cmTC_97c0d.dir/ -dumpbase CMakeCUDACompilerABI.cu.cpp -dumpbase-ext .cpp -m64 -mtune=generic -march=x86-64 -Wno-psabi -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccwzdlJo.s
         GNU C++17 (Ubuntu 12.3.0-1ubuntu1~22.04) version 12.3.0 (x86_64-linux-gnu)
         	compiled by GNU C version 12.3.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
         
@@ -660,14 +660,14 @@ events:
         
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
         Compiler executable checksum: 79e87f2d3d9897c72fb9a3fdf38a9641
-        COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-c' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-v' '-Wno-psabi' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-m64' '-o' 'CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_97539.dir/'
-         as -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include --64 -o CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o /tmp/ccMq0E8P.s
+        COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-c' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-v' '-Wno-psabi' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-m64' '-o' 'CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_97c0d.dir/'
+         as -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include --64 -o CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o /tmp/ccwzdlJo.s
         GNU assembler version 2.38 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.38
         COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-c' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-v' '-Wno-psabi' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-m64' '-o' 'CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.'
-        Linking CUDA executable cmTC_97539
-        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_97539.dir/link.txt --verbose=1
+        COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-c' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-v' '-Wno-psabi' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-m64' '-o' 'CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.'
+        Linking CUDA executable cmTC_97c0d
+        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_97c0d.dir/link.txt --verbose=1
         Using built-in specs.
         COLLECT_GCC=/usr/bin/g++
         COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper
@@ -680,14 +680,14 @@ events:
         gcc version 12.3.0 (Ubuntu 12.3.0-1ubuntu1~22.04) 
         COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_97539' '-L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs' '-L/usr/local/cuda-12.6/targets/x86_64-linux/lib' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_97539.'
-         /usr/lib/gcc/x86_64-linux-gnu/12/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/ccwkiCdW.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_97539 /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs -L/usr/local/cuda-12.6/targets/x86_64-linux/lib -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o -lcudadevrt -lcudart_static -lrt -lpthread -ldl -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_97c0d' '-L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs' '-L/usr/local/cuda-12.6/targets/x86_64-linux/lib' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_97c0d.'
+         /usr/lib/gcc/x86_64-linux-gnu/12/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/cc2tuauK.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_97c0d /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs -L/usr/local/cuda-12.6/targets/x86_64-linux/lib -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o -lcudadevrt -lcudart_static -lrt -lpthread -ldl -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o
         collect2 version 12.3.0
-        /usr/bin/ld -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/ccwkiCdW.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_97539 /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs -L/usr/local/cuda-12.6/targets/x86_64-linux/lib -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o -lcudadevrt -lcudart_static -lrt -lpthread -ldl -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o
+        /usr/bin/ld -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/cc2tuauK.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_97c0d /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs -L/usr/local/cuda-12.6/targets/x86_64-linux/lib -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o -lcudadevrt -lcudart_static -lrt -lpthread -ldl -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o
         GNU ld (GNU Binutils for Ubuntu) 2.38
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_97539' '-L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs' '-L/usr/local/cuda-12.6/targets/x86_64-linux/lib' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_97539.'
-        /usr/bin/g++  -v -Wl,-v CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o -o cmTC_97539  -lcudadevrt -lcudart_static -lrt -lpthread -ldl  -L"/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs" -L"/usr/local/cuda-12.6/targets/x86_64-linux/lib"
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-e2DNDk'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_97c0d' '-L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs' '-L/usr/local/cuda-12.6/targets/x86_64-linux/lib' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_97c0d.'
+        /usr/bin/g++  -v -Wl,-v CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o -o cmTC_97c0d  -lcudadevrt -lcudart_static -lrt -lpthread -ldl  -L"/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs" -L"/usr/local/cuda-12.6/targets/x86_64-linux/lib"
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-qoavXi'
         
       exitCode: 0
   -
@@ -730,13 +730,13 @@ events:
       Parsed CUDA implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-e2DNDk']
+        ignore line: [Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-qoavXi']
         ignore line: []
-        ignore line: [Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_97539/fast]
-        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_97539.dir/build.make CMakeFiles/cmTC_97539.dir/build]
-        ignore line: [gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-e2DNDk']
-        ignore line: [Building CUDA object CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o]
-        ignore line: [/usr/local/cuda-12.6/bin/nvcc -forward-unknown-to-host-compiler   "--generate-code=arch=compute_52 code=[compute_52 sm_52]"   -Xcompiler=-v -MD -MT CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o -MF CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o.d -x cu -c /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCUDACompilerABI.cu -o CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o]
+        ignore line: [Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_97c0d/fast]
+        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_97c0d.dir/build.make CMakeFiles/cmTC_97c0d.dir/build]
+        ignore line: [gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-qoavXi']
+        ignore line: [Building CUDA object CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o]
+        ignore line: [/usr/local/cuda-12.6/bin/nvcc -forward-unknown-to-host-compiler   "--generate-code=arch=compute_52 code=[compute_52 sm_52]"   -Xcompiler=-v -MD -MT CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o -MF CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o.d -x cu -c /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCUDACompilerABI.cu -o CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=gcc]
         ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa]
@@ -746,8 +746,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
         ignore line: [gcc version 12.3.0 (Ubuntu 12.3.0-1ubuntu1~22.04) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000a60a8_00000000-7_CMakeCUDACompilerABI.cpp1.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/']
-        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -E -quiet -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D __CUDA_ARCH__=520 -D __CUDA_ARCH_LIST__=520 -D __NV_LEGACY_LAUNCH -D CUDA_DOUBLE_MATH_FUNCTIONS -D __CUDACC__ -D __NVCC__ -D __CUDACC_VER_MAJOR__=12 -D __CUDACC_VER_MINOR__=6 -D __CUDACC_VER_BUILD__=68 -D __CUDA_API_VER_MAJOR__=12 -D __CUDA_API_VER_MINOR__=6 -D __NVCC_DIAG_PRAGMA_SUPPORT__=1 -include cuda_runtime.h /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCUDACompilerABI.cu -o /tmp/tmpxft_000a60a8_00000000-7_CMakeCUDACompilerABI.cpp1.ii -m64 -mtune=generic -march=x86-64 -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -dumpdir /tmp/ -dumpbase tmpxft_000a60a8_00000000-7_CMakeCUDACompilerABI.cpp1.cu -dumpbase-ext .cu]
+        ignore line: [COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000ca0b6_00000000-7_CMakeCUDACompilerABI.cpp1.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/']
+        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -E -quiet -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D __CUDA_ARCH__=520 -D __CUDA_ARCH_LIST__=520 -D __NV_LEGACY_LAUNCH -D CUDA_DOUBLE_MATH_FUNCTIONS -D __CUDACC__ -D __NVCC__ -D __CUDACC_VER_MAJOR__=12 -D __CUDACC_VER_MINOR__=6 -D __CUDACC_VER_BUILD__=68 -D __CUDA_API_VER_MAJOR__=12 -D __CUDA_API_VER_MINOR__=6 -D __NVCC_DIAG_PRAGMA_SUPPORT__=1 -include cuda_runtime.h /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCUDACompilerABI.cu -o /tmp/tmpxft_000ca0b6_00000000-7_CMakeCUDACompilerABI.cpp1.ii -m64 -mtune=generic -march=x86-64 -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -dumpdir /tmp/ -dumpbase tmpxft_000ca0b6_00000000-7_CMakeCUDACompilerABI.cpp1.cu -dumpbase-ext .cu]
         ignore line: [ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/12"]
         ignore line: [ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"]
         ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/12/include-fixed"]
@@ -765,7 +765,7 @@ events:
         ignore line: [End of search list.]
         ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000a60a8_00000000-7_CMakeCUDACompilerABI.cpp1.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/tmpxft_000a60a8_00000000-7_CMakeCUDACompilerABI.cpp1.']
+        ignore line: [COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000ca0b6_00000000-7_CMakeCUDACompilerABI.cpp1.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/tmpxft_000ca0b6_00000000-7_CMakeCUDACompilerABI.cpp1.']
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=gcc]
         ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa]
@@ -775,8 +775,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
         ignore line: [gcc version 12.3.0 (Ubuntu 12.3.0-1ubuntu1~22.04) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000a60a8_00000000-5_CMakeCUDACompilerABI.cpp4.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/']
-        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -E -quiet -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D __CUDA_ARCH_LIST__=520 -D __NV_LEGACY_LAUNCH -D __CUDACC__ -D __NVCC__ -D __CUDACC_VER_MAJOR__=12 -D __CUDACC_VER_MINOR__=6 -D __CUDACC_VER_BUILD__=68 -D __CUDA_API_VER_MAJOR__=12 -D __CUDA_API_VER_MINOR__=6 -D __NVCC_DIAG_PRAGMA_SUPPORT__=1 -include cuda_runtime.h /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCUDACompilerABI.cu -o /tmp/tmpxft_000a60a8_00000000-5_CMakeCUDACompilerABI.cpp4.ii -m64 -mtune=generic -march=x86-64 -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -dumpdir /tmp/ -dumpbase tmpxft_000a60a8_00000000-5_CMakeCUDACompilerABI.cpp4.cu -dumpbase-ext .cu]
+        ignore line: [COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000ca0b6_00000000-5_CMakeCUDACompilerABI.cpp4.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/']
+        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -E -quiet -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D __CUDA_ARCH_LIST__=520 -D __NV_LEGACY_LAUNCH -D __CUDACC__ -D __NVCC__ -D __CUDACC_VER_MAJOR__=12 -D __CUDACC_VER_MINOR__=6 -D __CUDACC_VER_BUILD__=68 -D __CUDA_API_VER_MAJOR__=12 -D __CUDA_API_VER_MINOR__=6 -D __NVCC_DIAG_PRAGMA_SUPPORT__=1 -include cuda_runtime.h /home/intern-04/cmake-4.0.3-linux-x86_64/share/cmake-4.0/Modules/CMakeCUDACompilerABI.cu -o /tmp/tmpxft_000ca0b6_00000000-5_CMakeCUDACompilerABI.cpp4.ii -m64 -mtune=generic -march=x86-64 -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -dumpdir /tmp/ -dumpbase tmpxft_000ca0b6_00000000-5_CMakeCUDACompilerABI.cpp4.cu -dumpbase-ext .cu]
         ignore line: [ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/12"]
         ignore line: [ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"]
         ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/12/include-fixed"]
@@ -794,7 +794,7 @@ events:
         ignore line: [End of search list.]
         ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000a60a8_00000000-5_CMakeCUDACompilerABI.cpp4.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/tmpxft_000a60a8_00000000-5_CMakeCUDACompilerABI.cpp4.']
+        ignore line: [COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-E' '-D' '__CUDACC__' '-D' '__NVCC__' '-v' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-D' '__CUDACC_VER_MAJOR__=12' '-D' '__CUDACC_VER_MINOR__=6' '-D' '__CUDACC_VER_BUILD__=68' '-D' '__CUDA_API_VER_MAJOR__=12' '-D' '__CUDA_API_VER_MINOR__=6' '-D' '__NVCC_DIAG_PRAGMA_SUPPORT__=1' '-include' 'cuda_runtime.h' '-m64' '-o' '/tmp/tmpxft_000ca0b6_00000000-5_CMakeCUDACompilerABI.cpp4.ii' '-mtune=generic' '-march=x86-64' '-dumpdir' '/tmp/tmpxft_000ca0b6_00000000-5_CMakeCUDACompilerABI.cpp4.']
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=gcc]
         ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa]
@@ -804,8 +804,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
         ignore line: [gcc version 12.3.0 (Ubuntu 12.3.0-1ubuntu1~22.04) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-c' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-v' '-Wno-psabi' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-m64' '-o' 'CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_97539.dir/']
-        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -quiet -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D __CUDA_ARCH__=520 -D __CUDA_ARCH_LIST__=520 -D __NV_LEGACY_LAUNCH -D CUDA_DOUBLE_MATH_FUNCTIONS /tmp/tmpxft_000a60a8_00000000-6_CMakeCUDACompilerABI.cudafe1.cpp -quiet -dumpdir CMakeFiles/cmTC_97539.dir/ -dumpbase CMakeCUDACompilerABI.cu.cpp -dumpbase-ext .cpp -m64 -mtune=generic -march=x86-64 -Wno-psabi -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccMq0E8P.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-c' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-v' '-Wno-psabi' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-m64' '-o' 'CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_97c0d.dir/']
+        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/12/cc1plus -quiet -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D __CUDA_ARCH__=520 -D __CUDA_ARCH_LIST__=520 -D __NV_LEGACY_LAUNCH -D CUDA_DOUBLE_MATH_FUNCTIONS /tmp/tmpxft_000ca0b6_00000000-6_CMakeCUDACompilerABI.cudafe1.cpp -quiet -dumpdir CMakeFiles/cmTC_97c0d.dir/ -dumpbase CMakeCUDACompilerABI.cu.cpp -dumpbase-ext .cpp -m64 -mtune=generic -march=x86-64 -Wno-psabi -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccwzdlJo.s]
         ignore line: [GNU C++17 (Ubuntu 12.3.0-1ubuntu1~22.04) version 12.3.0 (x86_64-linux-gnu)]
         ignore line: [	compiled by GNU C version 12.3.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.24-GMP]
         ignore line: []
@@ -830,14 +830,14 @@ events:
         ignore line: []
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
         ignore line: [Compiler executable checksum: 79e87f2d3d9897c72fb9a3fdf38a9641]
-        ignore line: [COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-c' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-v' '-Wno-psabi' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-m64' '-o' 'CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_97539.dir/']
-        ignore line: [ as -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include --64 -o CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o /tmp/ccMq0E8P.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-c' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-v' '-Wno-psabi' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-m64' '-o' 'CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_97c0d.dir/']
+        ignore line: [ as -v -I /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include --64 -o CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o /tmp/ccwzdlJo.s]
         ignore line: [GNU assembler version 2.38 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.38]
         ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-c' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-v' '-Wno-psabi' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-m64' '-o' 'CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.']
-        ignore line: [Linking CUDA executable cmTC_97539]
-        ignore line: [/home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_97539.dir/link.txt --verbose=1]
+        ignore line: [COLLECT_GCC_OPTIONS='-D' '__CUDA_ARCH__=520' '-D' '__CUDA_ARCH_LIST__=520' '-D' '__NV_LEGACY_LAUNCH' '-c' '-D' 'CUDA_DOUBLE_MATH_FUNCTIONS' '-v' '-Wno-psabi' '-I' '/usr/local/cuda-12.6/bin/../targets/x86_64-linux/include' '-m64' '-o' 'CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.']
+        ignore line: [Linking CUDA executable cmTC_97c0d]
+        ignore line: [/home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_97c0d.dir/link.txt --verbose=1]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/g++]
         ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper]
@@ -850,13 +850,13 @@ events:
         ignore line: [gcc version 12.3.0 (Ubuntu 12.3.0-1ubuntu1~22.04) ]
         ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/12/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/12/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_97539' '-L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs' '-L/usr/local/cuda-12.6/targets/x86_64-linux/lib' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_97539.']
-        link line: [ /usr/lib/gcc/x86_64-linux-gnu/12/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/ccwkiCdW.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_97539 /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs -L/usr/local/cuda-12.6/targets/x86_64-linux/lib -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o -lcudadevrt -lcudart_static -lrt -lpthread -ldl -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_97c0d' '-L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs' '-L/usr/local/cuda-12.6/targets/x86_64-linux/lib' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_97c0d.']
+        link line: [ /usr/lib/gcc/x86_64-linux-gnu/12/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/cc2tuauK.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_97c0d /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs -L/usr/local/cuda-12.6/targets/x86_64-linux/lib -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o -lcudadevrt -lcudart_static -lrt -lpthread -ldl -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/12/collect2] ==> ignore
           arg [-plugin] ==> ignore
           arg [/usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so] ==> ignore
           arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper] ==> ignore
-          arg [-plugin-opt=-fresolution=/tmp/ccwkiCdW.res] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/cc2tuauK.res] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
           arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -874,7 +874,7 @@ events:
           arg [-znow] ==> ignore
           arg [-zrelro] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_97539] ==> ignore
+          arg [cmTC_97c0d] ==> ignore
           arg [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o]
@@ -889,7 +889,7 @@ events:
           arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
           arg [-L/usr/lib/gcc/x86_64-linux-gnu/12/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/12/../../..]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o] ==> ignore
+          arg [CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o] ==> ignore
           arg [-lcudadevrt] ==> lib [cudadevrt]
           arg [-lcudart_static] ==> lib [cudart_static]
           arg [-lrt] ==> lib [rt]
@@ -905,7 +905,7 @@ events:
           arg [/usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o]
         ignore line: [collect2 version 12.3.0]
-        ignore line: [/usr/bin/ld -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/ccwkiCdW.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_97539 /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs -L/usr/local/cuda-12.6/targets/x86_64-linux/lib -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_97539.dir/CMakeCUDACompilerABI.cu.o -lcudadevrt -lcudart_static -lrt -lpthread -ldl -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o]
+        ignore line: [/usr/bin/ld -plugin /usr/lib/gcc/x86_64-linux-gnu/12/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/12/lto-wrapper -plugin-opt=-fresolution=/tmp/cc2tuauK.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_97c0d /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs -L/usr/local/cuda-12.6/targets/x86_64-linux/lib -L/usr/lib/gcc/x86_64-linux-gnu/12 -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/12/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/12/../../.. -v CMakeFiles/cmTC_97c0d.dir/CMakeCUDACompilerABI.cu.o -lcudadevrt -lcudart_static -lrt -lpthread -ldl -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/12/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crtn.o]
         linker tool for 'CUDA': /usr/bin/ld
         collapse obj [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/Scrt1.o] ==> [/usr/lib/x86_64-linux-gnu/Scrt1.o]
         collapse obj [/usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/crti.o] ==> [/usr/lib/x86_64-linux-gnu/crti.o]
@@ -948,11 +948,11 @@ events:
     checks:
       - "Performing Test HAVE_FLAG__ffile_prefix_map__home_intern_04_binius_spire_sumcheck_binius_gpu_third_party_Catch2__"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-0t9ANV"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-0t9ANV"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-eQsKbX"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-eQsKbX"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: " -g"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/extras;/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/CMake"
@@ -960,17 +960,17 @@ events:
       variable: "HAVE_FLAG__ffile_prefix_map__home_intern_04_binius_spire_sumcheck_binius_gpu_third_party_Catch2__"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-0t9ANV'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-eQsKbX'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_763d1/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_763d1.dir/build.make CMakeFiles/cmTC_763d1.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-0t9ANV'
-        Building CXX object CMakeFiles/cmTC_763d1.dir/src.cxx.o
-        /usr/bin/c++ -DHAVE_FLAG__ffile_prefix_map__home_intern_04_binius_spire_sumcheck_binius_gpu_third_party_Catch2__  -ffile-prefix-map=/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/= -o CMakeFiles/cmTC_763d1.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-0t9ANV/src.cxx
-        Linking CXX executable cmTC_763d1
-        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_763d1.dir/link.txt --verbose=1
-        /usr/bin/c++ CMakeFiles/cmTC_763d1.dir/src.cxx.o -o cmTC_763d1
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-0t9ANV'
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_dda89/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_dda89.dir/build.make CMakeFiles/cmTC_dda89.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-eQsKbX'
+        Building CXX object CMakeFiles/cmTC_dda89.dir/src.cxx.o
+        /usr/bin/c++ -DHAVE_FLAG__ffile_prefix_map__home_intern_04_binius_spire_sumcheck_binius_gpu_third_party_Catch2__  -g    -ffile-prefix-map=/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/= -o CMakeFiles/cmTC_dda89.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-eQsKbX/src.cxx
+        Linking CXX executable cmTC_dda89
+        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dda89.dir/link.txt --verbose=1
+        /usr/bin/c++  -g  CMakeFiles/cmTC_dda89.dir/src.cxx.o -o cmTC_dda89
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-eQsKbX'
         
       exitCode: 0
   -
@@ -985,11 +985,11 @@ events:
     checks:
       - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-gvlQdR"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-gvlQdR"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-RnhtpT"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-RnhtpT"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: " -g"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CPM_modules;/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/extras;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/rapids-cmake-src/rapids-cmake"
@@ -998,17 +998,17 @@ events:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-gvlQdR'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-RnhtpT'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_c404d/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_c404d.dir/build.make CMakeFiles/cmTC_c404d.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-gvlQdR'
-        Building CXX object CMakeFiles/cmTC_c404d.dir/src.cxx.o
-        /usr/bin/c++ -DCMAKE_HAVE_LIBC_PTHREAD  -std=gnu++17 -fPIE -o CMakeFiles/cmTC_c404d.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-gvlQdR/src.cxx
-        Linking CXX executable cmTC_c404d
-        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c404d.dir/link.txt --verbose=1
-        /usr/bin/c++ CMakeFiles/cmTC_c404d.dir/src.cxx.o -o cmTC_c404d
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-gvlQdR'
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_35707/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_35707.dir/build.make CMakeFiles/cmTC_35707.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-RnhtpT'
+        Building CXX object CMakeFiles/cmTC_35707.dir/src.cxx.o
+        /usr/bin/c++ -DCMAKE_HAVE_LIBC_PTHREAD  -g  -std=gnu++17 -fPIE -o CMakeFiles/cmTC_35707.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-RnhtpT/src.cxx
+        Linking CXX executable cmTC_35707
+        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_35707.dir/link.txt --verbose=1
+        /usr/bin/c++  -g  CMakeFiles/cmTC_35707.dir/src.cxx.o -o cmTC_35707
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-RnhtpT'
         
       exitCode: 0
   -
@@ -1023,11 +1023,11 @@ events:
     checks:
       - "Performing Test NVBench_CXX_FLAG__Wall"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-ZxSAKr"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-ZxSAKr"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-manTMR"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-manTMR"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: " -g"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CPM_modules;/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/extras;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/rapids-cmake-src/rapids-cmake"
@@ -1036,17 +1036,17 @@ events:
       variable: "NVBench_CXX_FLAG__Wall"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-ZxSAKr'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-manTMR'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_89649/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_89649.dir/build.make CMakeFiles/cmTC_89649.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-ZxSAKr'
-        Building CXX object CMakeFiles/cmTC_89649.dir/src.cxx.o
-        /usr/bin/c++ -DNVBench_CXX_FLAG__Wall  -std=gnu++17 -fPIE   -Wall -o CMakeFiles/cmTC_89649.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-ZxSAKr/src.cxx
-        Linking CXX executable cmTC_89649
-        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_89649.dir/link.txt --verbose=1
-        /usr/bin/c++ CMakeFiles/cmTC_89649.dir/src.cxx.o -o cmTC_89649
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-ZxSAKr'
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_2c5fd/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_2c5fd.dir/build.make CMakeFiles/cmTC_2c5fd.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-manTMR'
+        Building CXX object CMakeFiles/cmTC_2c5fd.dir/src.cxx.o
+        /usr/bin/c++ -DNVBench_CXX_FLAG__Wall  -g  -std=gnu++17 -fPIE   -Wall -o CMakeFiles/cmTC_2c5fd.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-manTMR/src.cxx
+        Linking CXX executable cmTC_2c5fd
+        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2c5fd.dir/link.txt --verbose=1
+        /usr/bin/c++  -g  CMakeFiles/cmTC_2c5fd.dir/src.cxx.o -o cmTC_2c5fd
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-manTMR'
         
       exitCode: 0
   -
@@ -1061,11 +1061,11 @@ events:
     checks:
       - "Performing Test NVBench_CXX_FLAG__Wextra"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-8tjCW9"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-8tjCW9"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-c4jVXG"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-c4jVXG"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: " -g"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CPM_modules;/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/extras;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/rapids-cmake-src/rapids-cmake"
@@ -1074,17 +1074,17 @@ events:
       variable: "NVBench_CXX_FLAG__Wextra"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-8tjCW9'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-c4jVXG'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_c8a11/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_c8a11.dir/build.make CMakeFiles/cmTC_c8a11.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-8tjCW9'
-        Building CXX object CMakeFiles/cmTC_c8a11.dir/src.cxx.o
-        /usr/bin/c++ -DNVBench_CXX_FLAG__Wextra  -std=gnu++17 -fPIE   -Wextra -o CMakeFiles/cmTC_c8a11.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-8tjCW9/src.cxx
-        Linking CXX executable cmTC_c8a11
-        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c8a11.dir/link.txt --verbose=1
-        /usr/bin/c++ CMakeFiles/cmTC_c8a11.dir/src.cxx.o -o cmTC_c8a11
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-8tjCW9'
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_26874/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_26874.dir/build.make CMakeFiles/cmTC_26874.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-c4jVXG'
+        Building CXX object CMakeFiles/cmTC_26874.dir/src.cxx.o
+        /usr/bin/c++ -DNVBench_CXX_FLAG__Wextra  -g  -std=gnu++17 -fPIE   -Wextra -o CMakeFiles/cmTC_26874.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-c4jVXG/src.cxx
+        Linking CXX executable cmTC_26874
+        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_26874.dir/link.txt --verbose=1
+        /usr/bin/c++  -g  CMakeFiles/cmTC_26874.dir/src.cxx.o -o cmTC_26874
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-c4jVXG'
         
       exitCode: 0
   -
@@ -1099,11 +1099,11 @@ events:
     checks:
       - "Performing Test NVBench_CXX_FLAG__Wconversion"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-vpSqRX"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-vpSqRX"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-A19EA1"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-A19EA1"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: " -g"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CPM_modules;/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/extras;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/rapids-cmake-src/rapids-cmake"
@@ -1112,17 +1112,17 @@ events:
       variable: "NVBench_CXX_FLAG__Wconversion"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-vpSqRX'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-A19EA1'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_946eb/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_946eb.dir/build.make CMakeFiles/cmTC_946eb.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-vpSqRX'
-        Building CXX object CMakeFiles/cmTC_946eb.dir/src.cxx.o
-        /usr/bin/c++ -DNVBench_CXX_FLAG__Wconversion  -std=gnu++17 -fPIE   -Wconversion -o CMakeFiles/cmTC_946eb.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-vpSqRX/src.cxx
-        Linking CXX executable cmTC_946eb
-        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_946eb.dir/link.txt --verbose=1
-        /usr/bin/c++ CMakeFiles/cmTC_946eb.dir/src.cxx.o -o cmTC_946eb
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-vpSqRX'
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_c51bb/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_c51bb.dir/build.make CMakeFiles/cmTC_c51bb.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-A19EA1'
+        Building CXX object CMakeFiles/cmTC_c51bb.dir/src.cxx.o
+        /usr/bin/c++ -DNVBench_CXX_FLAG__Wconversion  -g  -std=gnu++17 -fPIE   -Wconversion -o CMakeFiles/cmTC_c51bb.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-A19EA1/src.cxx
+        Linking CXX executable cmTC_c51bb
+        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c51bb.dir/link.txt --verbose=1
+        /usr/bin/c++  -g  CMakeFiles/cmTC_c51bb.dir/src.cxx.o -o cmTC_c51bb
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-A19EA1'
         
       exitCode: 0
   -
@@ -1137,11 +1137,11 @@ events:
     checks:
       - "Performing Test NVBench_CXX_FLAG__Woverloaded_virtual"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-05j6St"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-05j6St"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-dki93w"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-dki93w"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: " -g"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CPM_modules;/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/extras;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/rapids-cmake-src/rapids-cmake"
@@ -1150,17 +1150,17 @@ events:
       variable: "NVBench_CXX_FLAG__Woverloaded_virtual"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-05j6St'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-dki93w'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f31b2/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_f31b2.dir/build.make CMakeFiles/cmTC_f31b2.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-05j6St'
-        Building CXX object CMakeFiles/cmTC_f31b2.dir/src.cxx.o
-        /usr/bin/c++ -DNVBench_CXX_FLAG__Woverloaded_virtual  -std=gnu++17 -fPIE   -Woverloaded-virtual -o CMakeFiles/cmTC_f31b2.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-05j6St/src.cxx
-        Linking CXX executable cmTC_f31b2
-        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f31b2.dir/link.txt --verbose=1
-        /usr/bin/c++ CMakeFiles/cmTC_f31b2.dir/src.cxx.o -o cmTC_f31b2
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-05j6St'
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_dee76/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_dee76.dir/build.make CMakeFiles/cmTC_dee76.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-dki93w'
+        Building CXX object CMakeFiles/cmTC_dee76.dir/src.cxx.o
+        /usr/bin/c++ -DNVBench_CXX_FLAG__Woverloaded_virtual  -g  -std=gnu++17 -fPIE   -Woverloaded-virtual -o CMakeFiles/cmTC_dee76.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-dki93w/src.cxx
+        Linking CXX executable cmTC_dee76
+        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dee76.dir/link.txt --verbose=1
+        /usr/bin/c++  -g  CMakeFiles/cmTC_dee76.dir/src.cxx.o -o cmTC_dee76
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-dki93w'
         
       exitCode: 0
   -
@@ -1175,11 +1175,11 @@ events:
     checks:
       - "Performing Test NVBench_CXX_FLAG__Wcast_qual"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-U9jAJQ"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-U9jAJQ"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-xwnhIS"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-xwnhIS"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: " -g"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CPM_modules;/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/extras;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/rapids-cmake-src/rapids-cmake"
@@ -1188,17 +1188,17 @@ events:
       variable: "NVBench_CXX_FLAG__Wcast_qual"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-U9jAJQ'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-xwnhIS'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_57c37/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_57c37.dir/build.make CMakeFiles/cmTC_57c37.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-U9jAJQ'
-        Building CXX object CMakeFiles/cmTC_57c37.dir/src.cxx.o
-        /usr/bin/c++ -DNVBench_CXX_FLAG__Wcast_qual  -std=gnu++17 -fPIE   -Wcast-qual -o CMakeFiles/cmTC_57c37.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-U9jAJQ/src.cxx
-        Linking CXX executable cmTC_57c37
-        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_57c37.dir/link.txt --verbose=1
-        /usr/bin/c++ CMakeFiles/cmTC_57c37.dir/src.cxx.o -o cmTC_57c37
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-U9jAJQ'
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_87df5/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_87df5.dir/build.make CMakeFiles/cmTC_87df5.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-xwnhIS'
+        Building CXX object CMakeFiles/cmTC_87df5.dir/src.cxx.o
+        /usr/bin/c++ -DNVBench_CXX_FLAG__Wcast_qual  -g  -std=gnu++17 -fPIE   -Wcast-qual -o CMakeFiles/cmTC_87df5.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-xwnhIS/src.cxx
+        Linking CXX executable cmTC_87df5
+        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_87df5.dir/link.txt --verbose=1
+        /usr/bin/c++  -g  CMakeFiles/cmTC_87df5.dir/src.cxx.o -o cmTC_87df5
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-xwnhIS'
         
       exitCode: 0
   -
@@ -1213,11 +1213,11 @@ events:
     checks:
       - "Performing Test NVBench_CXX_FLAG__Wpointer_arith"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-ZMsAiG"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-ZMsAiG"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Kjye4e"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Kjye4e"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: " -g"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CPM_modules;/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/extras;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/rapids-cmake-src/rapids-cmake"
@@ -1226,17 +1226,17 @@ events:
       variable: "NVBench_CXX_FLAG__Wpointer_arith"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-ZMsAiG'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Kjye4e'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_6e72f/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_6e72f.dir/build.make CMakeFiles/cmTC_6e72f.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-ZMsAiG'
-        Building CXX object CMakeFiles/cmTC_6e72f.dir/src.cxx.o
-        /usr/bin/c++ -DNVBench_CXX_FLAG__Wpointer_arith  -std=gnu++17 -fPIE   -Wpointer-arith -o CMakeFiles/cmTC_6e72f.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-ZMsAiG/src.cxx
-        Linking CXX executable cmTC_6e72f
-        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6e72f.dir/link.txt --verbose=1
-        /usr/bin/c++ CMakeFiles/cmTC_6e72f.dir/src.cxx.o -o cmTC_6e72f
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-ZMsAiG'
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_fcfe1/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_fcfe1.dir/build.make CMakeFiles/cmTC_fcfe1.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Kjye4e'
+        Building CXX object CMakeFiles/cmTC_fcfe1.dir/src.cxx.o
+        /usr/bin/c++ -DNVBench_CXX_FLAG__Wpointer_arith  -g  -std=gnu++17 -fPIE   -Wpointer-arith -o CMakeFiles/cmTC_fcfe1.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Kjye4e/src.cxx
+        Linking CXX executable cmTC_fcfe1
+        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fcfe1.dir/link.txt --verbose=1
+        /usr/bin/c++  -g  CMakeFiles/cmTC_fcfe1.dir/src.cxx.o -o cmTC_fcfe1
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Kjye4e'
         
       exitCode: 0
   -
@@ -1251,11 +1251,11 @@ events:
     checks:
       - "Performing Test NVBench_CXX_FLAG__Wunused_local_typedef"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Gfp1TN"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Gfp1TN"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-JRLRUY"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-JRLRUY"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: " -g"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CPM_modules;/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/extras;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/rapids-cmake-src/rapids-cmake"
@@ -1264,17 +1264,17 @@ events:
       variable: "NVBench_CXX_FLAG__Wunused_local_typedef"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Gfp1TN'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-JRLRUY'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_3de24/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_3de24.dir/build.make CMakeFiles/cmTC_3de24.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Gfp1TN'
-        Building CXX object CMakeFiles/cmTC_3de24.dir/src.cxx.o
-        /usr/bin/c++ -DNVBench_CXX_FLAG__Wunused_local_typedef  -std=gnu++17 -fPIE   -Wunused-local-typedef -o CMakeFiles/cmTC_3de24.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Gfp1TN/src.cxx
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_8557c/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_8557c.dir/build.make CMakeFiles/cmTC_8557c.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-JRLRUY'
+        Building CXX object CMakeFiles/cmTC_8557c.dir/src.cxx.o
+        /usr/bin/c++ -DNVBench_CXX_FLAG__Wunused_local_typedef  -g  -std=gnu++17 -fPIE   -Wunused-local-typedef -o CMakeFiles/cmTC_8557c.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-JRLRUY/src.cxx
         c++: error: unrecognized command-line option '-Wunused-local-typedef'; did you mean '-Wunused-local-typedefs'?
-        gmake[1]: *** [CMakeFiles/cmTC_3de24.dir/build.make:81: CMakeFiles/cmTC_3de24.dir/src.cxx.o] Error 1
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Gfp1TN'
-        gmake: *** [Makefile:134: cmTC_3de24/fast] Error 2
+        gmake[1]: *** [CMakeFiles/cmTC_8557c.dir/build.make:81: CMakeFiles/cmTC_8557c.dir/src.cxx.o] Error 1
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-JRLRUY'
+        gmake: *** [Makefile:134: cmTC_8557c/fast] Error 2
         
       exitCode: 2
   -
@@ -1289,11 +1289,11 @@ events:
     checks:
       - "Performing Test NVBench_CXX_FLAG__Wunused_parameter"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-O5ZiSD"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-O5ZiSD"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-vdU99Q"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-vdU99Q"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: " -g"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CPM_modules;/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/extras;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/rapids-cmake-src/rapids-cmake"
@@ -1302,17 +1302,17 @@ events:
       variable: "NVBench_CXX_FLAG__Wunused_parameter"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-O5ZiSD'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-vdU99Q'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_08b84/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_08b84.dir/build.make CMakeFiles/cmTC_08b84.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-O5ZiSD'
-        Building CXX object CMakeFiles/cmTC_08b84.dir/src.cxx.o
-        /usr/bin/c++ -DNVBench_CXX_FLAG__Wunused_parameter  -std=gnu++17 -fPIE   -Wunused-parameter -o CMakeFiles/cmTC_08b84.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-O5ZiSD/src.cxx
-        Linking CXX executable cmTC_08b84
-        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_08b84.dir/link.txt --verbose=1
-        /usr/bin/c++ CMakeFiles/cmTC_08b84.dir/src.cxx.o -o cmTC_08b84
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-O5ZiSD'
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e1b2b/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_e1b2b.dir/build.make CMakeFiles/cmTC_e1b2b.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-vdU99Q'
+        Building CXX object CMakeFiles/cmTC_e1b2b.dir/src.cxx.o
+        /usr/bin/c++ -DNVBench_CXX_FLAG__Wunused_parameter  -g  -std=gnu++17 -fPIE   -Wunused-parameter -o CMakeFiles/cmTC_e1b2b.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-vdU99Q/src.cxx
+        Linking CXX executable cmTC_e1b2b
+        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e1b2b.dir/link.txt --verbose=1
+        /usr/bin/c++  -g  CMakeFiles/cmTC_e1b2b.dir/src.cxx.o -o cmTC_e1b2b
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-vdU99Q'
         
       exitCode: 0
   -
@@ -1327,11 +1327,11 @@ events:
     checks:
       - "Performing Test NVBench_CXX_FLAG__Wvla"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Gz6Ayb"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Gz6Ayb"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-epkZRr"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-epkZRr"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: " -g"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CPM_modules;/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/extras;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/rapids-cmake-src/rapids-cmake"
@@ -1340,17 +1340,17 @@ events:
       variable: "NVBench_CXX_FLAG__Wvla"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Gz6Ayb'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-epkZRr'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_7f6f6/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_7f6f6.dir/build.make CMakeFiles/cmTC_7f6f6.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Gz6Ayb'
-        Building CXX object CMakeFiles/cmTC_7f6f6.dir/src.cxx.o
-        /usr/bin/c++ -DNVBench_CXX_FLAG__Wvla  -std=gnu++17 -fPIE   -Wvla -o CMakeFiles/cmTC_7f6f6.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Gz6Ayb/src.cxx
-        Linking CXX executable cmTC_7f6f6
-        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7f6f6.dir/link.txt --verbose=1
-        /usr/bin/c++ CMakeFiles/cmTC_7f6f6.dir/src.cxx.o -o cmTC_7f6f6
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Gz6Ayb'
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_afc60/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_afc60.dir/build.make CMakeFiles/cmTC_afc60.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-epkZRr'
+        Building CXX object CMakeFiles/cmTC_afc60.dir/src.cxx.o
+        /usr/bin/c++ -DNVBench_CXX_FLAG__Wvla  -g  -std=gnu++17 -fPIE   -Wvla -o CMakeFiles/cmTC_afc60.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-epkZRr/src.cxx
+        Linking CXX executable cmTC_afc60
+        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_afc60.dir/link.txt --verbose=1
+        /usr/bin/c++  -g  CMakeFiles/cmTC_afc60.dir/src.cxx.o -o cmTC_afc60
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-epkZRr'
         
       exitCode: 0
   -
@@ -1365,11 +1365,11 @@ events:
     checks:
       - "Performing Test NVBench_CXX_FLAG__Wgnu"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-EbVIxJ"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-EbVIxJ"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-6GtKlD"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-6GtKlD"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: " -g"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CPM_modules;/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/extras;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/rapids-cmake-src/rapids-cmake"
@@ -1378,17 +1378,17 @@ events:
       variable: "NVBench_CXX_FLAG__Wgnu"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-EbVIxJ'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-6GtKlD'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_86a20/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_86a20.dir/build.make CMakeFiles/cmTC_86a20.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-EbVIxJ'
-        Building CXX object CMakeFiles/cmTC_86a20.dir/src.cxx.o
-        /usr/bin/c++ -DNVBench_CXX_FLAG__Wgnu  -std=gnu++17 -fPIE   -Wgnu -o CMakeFiles/cmTC_86a20.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-EbVIxJ/src.cxx
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_110f5/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_110f5.dir/build.make CMakeFiles/cmTC_110f5.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-6GtKlD'
+        Building CXX object CMakeFiles/cmTC_110f5.dir/src.cxx.o
+        /usr/bin/c++ -DNVBench_CXX_FLAG__Wgnu  -g  -std=gnu++17 -fPIE   -Wgnu -o CMakeFiles/cmTC_110f5.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-6GtKlD/src.cxx
         c++: error: unrecognized command-line option '-Wgnu'
-        gmake[1]: *** [CMakeFiles/cmTC_86a20.dir/build.make:81: CMakeFiles/cmTC_86a20.dir/src.cxx.o] Error 1
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-EbVIxJ'
-        gmake: *** [Makefile:134: cmTC_86a20/fast] Error 2
+        gmake[1]: *** [CMakeFiles/cmTC_110f5.dir/build.make:81: CMakeFiles/cmTC_110f5.dir/src.cxx.o] Error 1
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-6GtKlD'
+        gmake: *** [Makefile:134: cmTC_110f5/fast] Error 2
         
       exitCode: 2
   -
@@ -1403,11 +1403,11 @@ events:
     checks:
       - "Performing Test NVBench_CXX_FLAG__Wno_gnu_line_marker"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-G7jvN0"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-G7jvN0"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-B7nw1r"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-B7nw1r"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: " -g"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CPM_modules;/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/extras;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/rapids-cmake-src/rapids-cmake"
@@ -1416,17 +1416,17 @@ events:
       variable: "NVBench_CXX_FLAG__Wno_gnu_line_marker"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-G7jvN0'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-B7nw1r'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f9ef6/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_f9ef6.dir/build.make CMakeFiles/cmTC_f9ef6.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-G7jvN0'
-        Building CXX object CMakeFiles/cmTC_f9ef6.dir/src.cxx.o
-        /usr/bin/c++ -DNVBench_CXX_FLAG__Wno_gnu_line_marker  -std=gnu++17 -fPIE   -Wno-gnu-line-marker -o CMakeFiles/cmTC_f9ef6.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-G7jvN0/src.cxx
-        Linking CXX executable cmTC_f9ef6
-        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f9ef6.dir/link.txt --verbose=1
-        /usr/bin/c++ CMakeFiles/cmTC_f9ef6.dir/src.cxx.o -o cmTC_f9ef6
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-G7jvN0'
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_de18f/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_de18f.dir/build.make CMakeFiles/cmTC_de18f.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-B7nw1r'
+        Building CXX object CMakeFiles/cmTC_de18f.dir/src.cxx.o
+        /usr/bin/c++ -DNVBench_CXX_FLAG__Wno_gnu_line_marker  -g  -std=gnu++17 -fPIE   -Wno-gnu-line-marker -o CMakeFiles/cmTC_de18f.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-B7nw1r/src.cxx
+        Linking CXX executable cmTC_de18f
+        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_de18f.dir/link.txt --verbose=1
+        /usr/bin/c++  -g  CMakeFiles/cmTC_de18f.dir/src.cxx.o -o cmTC_de18f
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-B7nw1r'
         
       exitCode: 0
   -
@@ -1441,11 +1441,11 @@ events:
     checks:
       - "Performing Test has_std_17_flag"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-bum2SO"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-bum2SO"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Y8nX8p"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Y8nX8p"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: " -g"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CPM_modules;/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/extras;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/rapids-cmake-src/rapids-cmake;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/fmt-src/support/cmake"
@@ -1454,17 +1454,17 @@ events:
       variable: "has_std_17_flag"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-bum2SO'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Y8nX8p'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_c61da/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_c61da.dir/build.make CMakeFiles/cmTC_c61da.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-bum2SO'
-        Building CXX object CMakeFiles/cmTC_c61da.dir/src.cxx.o
-        /usr/bin/c++ -Dhas_std_17_flag  -std=gnu++17 -fPIE   -std=c++17 -o CMakeFiles/cmTC_c61da.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-bum2SO/src.cxx
-        Linking CXX executable cmTC_c61da
-        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c61da.dir/link.txt --verbose=1
-        /usr/bin/c++ CMakeFiles/cmTC_c61da.dir/src.cxx.o -o cmTC_c61da
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-bum2SO'
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_1ba03/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_1ba03.dir/build.make CMakeFiles/cmTC_1ba03.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Y8nX8p'
+        Building CXX object CMakeFiles/cmTC_1ba03.dir/src.cxx.o
+        /usr/bin/c++ -Dhas_std_17_flag  -g  -std=gnu++17 -fPIE   -std=c++17 -o CMakeFiles/cmTC_1ba03.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Y8nX8p/src.cxx
+        Linking CXX executable cmTC_1ba03
+        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1ba03.dir/link.txt --verbose=1
+        /usr/bin/c++  -g  CMakeFiles/cmTC_1ba03.dir/src.cxx.o -o cmTC_1ba03
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-Y8nX8p'
         
       exitCode: 0
   -
@@ -1479,11 +1479,11 @@ events:
     checks:
       - "Performing Test has_std_1z_flag"
     directories:
-      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-7A1egQ"
-      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-7A1egQ"
+      source: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-iSyFcG"
+      binary: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-iSyFcG"
     cmakeVariables:
       CMAKE_CUDA_ARCHITECTURES: "52"
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: " -g"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CPM_modules;/home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/extras;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/rapids-cmake-src/rapids-cmake;/home/intern-04/binius-spire/sumcheck/binius-gpu/build/_deps/fmt-src/support/cmake"
@@ -1492,17 +1492,17 @@ events:
       variable: "has_std_1z_flag"
       cached: true
       stdout: |
-        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-7A1egQ'
+        Change Dir: '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-iSyFcG'
         
-        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_b654c/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_b654c.dir/build.make CMakeFiles/cmTC_b654c.dir/build
-        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-7A1egQ'
-        Building CXX object CMakeFiles/cmTC_b654c.dir/src.cxx.o
-        /usr/bin/c++ -Dhas_std_1z_flag  -std=gnu++17 -fPIE   -std=c++1z -o CMakeFiles/cmTC_b654c.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-7A1egQ/src.cxx
-        Linking CXX executable cmTC_b654c
-        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b654c.dir/link.txt --verbose=1
-        /usr/bin/c++ CMakeFiles/cmTC_b654c.dir/src.cxx.o -o cmTC_b654c
-        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-7A1egQ'
+        Run Build Command(s): /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_d1ff5/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_d1ff5.dir/build.make CMakeFiles/cmTC_d1ff5.dir/build
+        gmake[1]: Entering directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-iSyFcG'
+        Building CXX object CMakeFiles/cmTC_d1ff5.dir/src.cxx.o
+        /usr/bin/c++ -Dhas_std_1z_flag  -g  -std=gnu++17 -fPIE   -std=c++1z -o CMakeFiles/cmTC_d1ff5.dir/src.cxx.o -c /home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-iSyFcG/src.cxx
+        Linking CXX executable cmTC_d1ff5
+        /home/intern-04/cmake-4.0.3-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d1ff5.dir/link.txt --verbose=1
+        /usr/bin/c++  -g  CMakeFiles/cmTC_d1ff5.dir/src.cxx.o -o cmTC_d1ff5
+        gmake[1]: Leaving directory '/home/intern-04/binius-spire/sumcheck/binius-gpu/build/CMakeFiles/CMakeScratch/TryCompile-iSyFcG'
         
       exitCode: 0
 ...

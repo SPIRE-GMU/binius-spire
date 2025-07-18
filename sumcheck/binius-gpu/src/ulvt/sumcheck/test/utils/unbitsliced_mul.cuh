@@ -1,7 +1,9 @@
 #pragma once
 #include <cassert>
 #include <cstdint>
+#include <cstdlib>
 #include <cuda/std/utility>
+#include "../../../finite_fields/circuit_generator/unrolled/binary_tower_unrolled.cuh"
 
 __host__ __device__ constexpr uint64_t BITMASK(int d) { return ((uint64_t)1 << d) - (uint64_t)1; }
 
@@ -12,7 +14,6 @@ __host__ __device__ constexpr uint64_t HEIGHTTOBIT(int d) { return (uint64_t)1 <
 #else
 #define CONST_MOD const
 #endif
-
 template <size_t HEIGHT>
 class FanPaarTowerField;
 
