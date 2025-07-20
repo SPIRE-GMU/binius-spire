@@ -21,12 +21,14 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
 
 template<uint32_t COMPOSITION_SIZE, uint32_t EVALS_PER_MULTILINEAR>
 __global__ void bitpack_kernel(const uint32_t* evals, uint32_t* destination) {
-	uint32_t idx = threadIdx.x + blockIdx.x * blockDim.x;
-	uint32_t unpacked_bit_idx = idx * INTS_PER_VALUE;
+	uint64_t idx = threadIdx.x + blockIdx.x * blockDim.x;
+	uint64_t unpacked_bit_idx = idx * INTS_PER_VALUE;
 
-	if(unpacked_bit_idx < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR*INTS_PER_VALUE) {
+	if(unpacked_bit_idx < (uint64_t) COMPOSITION_SIZE * EVALS_PER_MULTILINEAR*INTS_PER_VALUE) {
 		if(idx % 32 == 0) destination[idx / 32] = 0;
-		destination[idx / 32] ^= evals[unpacked_bit_idx] << (idx % 32);	
+		__syncthreads();
+		//destination[idx / 32] ^= evals[unpacked_bit_idx] << (idx % 32);	
+		atomicOr(destination + idx / 32, evals[unpacked_bit_idx] << (idx % 32));
 	}
 }
 

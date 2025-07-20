@@ -120,16 +120,15 @@ public:
 			}
 		} else {
 			//printf("HERE\n");
-			memset(cpu_original_multilinear_evaluations, 0,  COMPOSITION_SIZE*EVALS_PER_MULTILINEAR/32*sizeof(uint32_t));
+			/*memset(cpu_original_multilinear_evaluations, 0,  COMPOSITION_SIZE*EVALS_PER_MULTILINEAR/32*sizeof(uint32_t));
 			for(uint64_t i = 0; i < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR * INTS_PER_VALUE; i += INTS_PER_VALUE) {
-				//if(COMPOSITION_SIZE == 3) printf("i = %d\n", i);
 				uint64_t idx = i / INTS_PER_VALUE;
 				cpu_original_multilinear_evaluations[idx / 32] ^= evals[i] << (idx % 32);
-			}
-			//uint32_t active_threads = COMPOSITION_SIZE * EVALS_PER_MULTILINEAR;
-			//bitpack_kernel<COMPOSITION_SIZE, EVALS_PER_MULTILINEAR><<<(active_threads + 127) / 128, 128>>>(gpu_multilinear_evaluations, gpu_original_multilinear_evaluations);
+			}*/
+			uint32_t active_threads = COMPOSITION_SIZE * EVALS_PER_MULTILINEAR;
+			bitpack_kernel<COMPOSITION_SIZE, EVALS_PER_MULTILINEAR><<<(active_threads + 31) / 32, 32>>>(gpu_multilinear_evaluations, gpu_original_multilinear_evaluations);
 		}
-		cudaMemcpy(gpu_original_multilinear_evaluations, cpu_original_multilinear_evaluations, COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32 * sizeof(uint32_t), cudaMemcpyHostToDevice);
+		//cudaMemcpy(gpu_original_multilinear_evaluations, cpu_original_multilinear_evaluations, COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32 * sizeof(uint32_t), cudaMemcpyHostToDevice);
 
 		//for(int i = 0; i < 8; i++) {
 			//printf("%d %d\n", evals[i*4], (cpu_original_multilinear_evaluations[0] >> i) & 1);

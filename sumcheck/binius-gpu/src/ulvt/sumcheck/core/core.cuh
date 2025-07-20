@@ -3,6 +3,14 @@
 
 #include "../utils/constants.hpp"
 
+__global__ void calculate_multilinear_product_sums_kernel_tiled( // NUM_BATCHES_IN_PRODUCT % STRIDE = 0 IS REQUIRED
+	const uint32_t* multilinear_evaluations,
+	uint32_t* destination,
+	const uint32_t d,
+	const uint32_t round_idx,
+	const uint32_t n
+);
+
 __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile becuase a lot of data reuse
 	const uint32_t* multilinear_evaluations,
 	uint32_t* destination,

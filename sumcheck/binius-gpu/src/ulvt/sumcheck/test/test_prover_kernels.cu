@@ -357,7 +357,7 @@ void test_calculate_multilinear_product_sums_kernel() {
     );
 
     //calculate_multilinear_product_sums_kernel<<<1024, 512>>>(
-    calculate_multilinear_product_sums_kernel<<<1024, 512>>>(
+    calculate_multilinear_product_sums_kernel_tiled<<<1024, 512>>>(
         multilinear_evaluations_d,
         destination_d,
         d,
