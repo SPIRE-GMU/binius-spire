@@ -9,7 +9,11 @@ Folder /ref includes reference python code of Binius. Source: https://github.com
 
 Having profilied the whole Binius scheme, we find the botlenecks lies in function extend(). To be more specific, that is additive-ntt (inver_addi_ntt) which is most time consuming component. By profiling the code on i9-14900K CPU core, it takes 98.173 second to execute extend() function. 
 
-Hence, this project focuses on accelerating function extend() in the ref code as a first step, before implementing the complete Binius on VCK-190.    
+Hence, this project focuses on accelerating additive_ntt (inverse_additive_ntt) in the ref code as a first step, before implementing the complete Binius on VCK-190.  
+
+The implementation is 4096-point NTT but remember the architecture is scalable for NTT in arbitrary length. 
+
+Golden samples as well as coefficients are printed for convenient debug.
 
 ### Configuration of arbitrary-additive-NTT on VCK:
 
