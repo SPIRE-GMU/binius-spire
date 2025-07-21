@@ -3,9 +3,9 @@
 This is the repository for Binius project, we will share our progress here.
 
 
-### /ref 
+### reference code 
 
-This folder includes reference python code of Binius. 
+Folder /ref includes reference python code of Binius. source: https://github.com/ethereum/research/tree/master/binius
 
 Having profilied the whole Binius scheme, we find the botlenecks lies in function extend(). To be more specific, that is additive-ntt (inver_addi_ntt) which is most time consuming component. By profiling the code on i9-14900K CPU core, it takes 98.173 second to execute extend() function. 
 
