@@ -9,7 +9,7 @@
 
 #define LINE printf("%s: at line %d\n", __FILE__, __LINE__)
 #define USE_FINE_KERNEL false 
-#define USE_BOTH_ALGORITHMS false 
+#define USE_BOTH_ALGORITHMS true 
 
 template <uint32_t NUM_VARS, uint32_t COMPOSITION_SIZE, bool DATA_IS_TRANSPOSED>
 class Sumcheck {
@@ -121,9 +121,11 @@ public:
 				}
 			}
 		} else {
-			uint32_t active_threads = (COMPOSITION_SIZE-1) * EVALS_PER_MULTILINEAR;
-			bitpack_kernel<COMPOSITION_SIZE-1, EVALS_PER_MULTILINEAR><<<(active_threads + 31) / 32, 32>>>(gpu_multilinear_evaluations + EVALS_PER_MULTILINEAR*INTS_PER_VALUE, gpu_original_multilinear_evaluations);
-			cudaMemcpy(gpu_original_multilinear_evaluations_p1, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
+			uint32_t active_threads = (COMPOSITION_SIZE) * EVALS_PER_MULTILINEAR;
+			//bitpack_kernel<COMPOSITION_SIZE-1, EVALS_PER_MULTILINEAR><<<(active_threads + 31) / 32, 32>>>(gpu_multilinear_evaluations + EVALS_PER_MULTILINEAR*INTS_PER_VALUE, gpu_original_multilinear_evaluations);
+			bitpack_kernel<COMPOSITION_SIZE, EVALS_PER_MULTILINEAR><<<(active_threads + 31) / 32, 32>>>(gpu_multilinear_evaluations, gpu_original_multilinear_evaluations);
+			//cudaMemcpy(gpu_original_multilinear_evaluations_p1, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
+			check(cudaDeviceSynchronize());
 		}
 		
 		if (benchmarking) {
@@ -133,9 +135,10 @@ public:
 		if (!DATA_IS_TRANSPOSED) {
 			transpose_kernel<BITS_WIDTH>
 				<<<BLOCKS, THREADS_PER_BLOCK>>>(gpu_multilinear_evaluations, TOTAL_INTS / BITS_WIDTH);
-			transpose_kernel<BITS_WIDTH>
-				<<<BLOCKS, THREADS_PER_BLOCK>>>(gpu_original_multilinear_evaluations_p1, EVALS_PER_MULTILINEAR * INTS_PER_VALUE / BITS_WIDTH);
-			cudaDeviceSynchronize();
+			//transpose_kernel<BITS_WIDTH>
+				//<<<BLOCKS, THREADS_PER_BLOCK>>>(gpu_original_multilinear_evaluations_p1, EVALS_PER_MULTILINEAR * INTS_PER_VALUE / BITS_WIDTH);
+			check(cudaDeviceSynchronize());
+			cudaMemcpy(gpu_original_multilinear_evaluations_p1, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
 		}
 
 		for (int interpolation_point = 0; interpolation_point < INTERPOLATION_POINTS; ++interpolation_point) {
@@ -277,9 +280,9 @@ public:
 				);
 			check(cudaDeviceSynchronize());*/
 
-			if(USE_BOTH_ALGORITHMS && ((round < 0 && COMPOSITION_SIZE == 2) || (round < 1 && COMPOSITION_SIZE == 3) || (round < 1 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
+			if(USE_BOTH_ALGORITHMS && ((round < 2 && COMPOSITION_SIZE == 2) || (round < 1 && COMPOSITION_SIZE == 3) || (round < 1 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
 				//LINE;
-				printf("round %d algorithm 2\n", round);
+				//printf("round %d algorithm 2\n", round);
 				//printf("here\n");
 				calculate_interpolation_points(
 					gpu_original_multilinear_evaluations_p1,
@@ -296,7 +299,7 @@ public:
 				memcpy(points, cpu_interpolation_points, INTS_PER_VALUE * INTERPOLATION_POINTS * sizeof(uint32_t));
 				//LINE;
 			} else {
-				printf("round %d algorithm 1\n", round);
+				//printf("round %d algorithm 1\n", round);
 				compute_compositions<INTERPOLATION_POINTS, COMPOSITION_SIZE, EVALS_PER_MULTILINEAR>
 					<<<BLOCKS, THREADS_PER_BLOCK>>>(
 						gpu_multilinear_evaluations,
