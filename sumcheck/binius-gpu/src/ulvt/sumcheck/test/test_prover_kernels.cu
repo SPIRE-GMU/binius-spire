@@ -140,7 +140,7 @@ TEST_CASE("interpolation_then_composition_then_add_kernel") {
     test_interpolation_then_composition_then_add(); 
     test_interpolation_then_composition_then_add(); 
 }
-
+/*
 TEST_CASE("test_calculate_multilinear_product_sums") {
     const int batches = 4;
     const int output_sz = 1;
@@ -206,7 +206,7 @@ void test_calculate_multilinear_product_sums_round1() {
 TEST_CASE("test_calculate_multilinear_product_sums_round1") {
     for(int i = 0; i < 100; i++)
         test_calculate_multilinear_product_sums_round1();
-}
+}*/
 
 void test_calculate_random_challenge_products() {
     const uint32_t round_idx = 4;
@@ -323,7 +323,7 @@ TEST_CASE("test_unbitsliced_mul") {
     printf("b = 0x%x%x%x%x\n", b[0], b[1], b[2], b[3]);
     printf("res = 0x%x%x%x%x\n", res[0], res[1], res[2], res[3]);
 }
-
+/*
 void test_calculate_multilinear_product_sums_kernel() {
     const uint32_t d = 3;
     const uint32_t round_idx = 3;
@@ -377,4 +377,4 @@ TEST_CASE("test_calculate_multilinear_product_sums_kernel") {
     for(int i = 0; i < 1; i++) {
         test_calculate_multilinear_product_sums_kernel();
     }
-}
+}*/

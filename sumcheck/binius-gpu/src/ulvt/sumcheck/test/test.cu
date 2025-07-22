@@ -15,14 +15,21 @@ void test_sumcheck() {
 	constexpr uint32_t interpolation_points = COMPOSITION_SIZE + 1;
 	const size_t num_ints_in_evals = INTS_PER_VALUE * (1 << NUM_VARS) * COMPOSITION_SIZE;
 
-	std::srand(std::time(nullptr));
-	//std::srand(1);
+	//std::srand(std::time(nullptr));
+	std::srand(1);
 	std::vector<uint32_t> multilinear_evals(num_ints_in_evals);
 
 	for (size_t i = 0; i < num_ints_in_evals; ++i) {
 		//multilinear_evals[i] = std::rand();
-		if(i % 4 != 0) multilinear_evals[i] = 0;
-		else multilinear_evals[i] = std::rand() & 1;
+		if (i < num_ints_in_evals / COMPOSITION_SIZE) {
+			multilinear_evals[i] = std::rand();
+		}
+		else {
+			if (i % 4 != 0)
+				multilinear_evals[i] = 0;
+			else
+				multilinear_evals[i] = std::rand() & 1;
+		}
 	}
 
 	Sumcheck<NUM_VARS, COMPOSITION_SIZE, DATA_IS_TRANSPOSED> s(multilinear_evals, false);

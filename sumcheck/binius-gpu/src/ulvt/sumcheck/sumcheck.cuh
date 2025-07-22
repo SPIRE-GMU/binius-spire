@@ -9,7 +9,7 @@
 
 #define LINE printf("%s: at line %d\n", __FILE__, __LINE__)
 #define USE_FINE_KERNEL false 
-#define USE_BOTH_ALGORITHMS true 
+#define USE_BOTH_ALGORITHMS false 
 
 template <uint32_t NUM_VARS, uint32_t COMPOSITION_SIZE, bool DATA_IS_TRANSPOSED>
 class Sumcheck {
@@ -31,6 +31,7 @@ private:
 	uint32_t *cpu_multilinear_evaluations, *gpu_multilinear_evaluations;
 
 	uint32_t *cpu_original_multilinear_evaluations;
+	uint32_t *gpu_original_multilinear_evaluations_p1;
 	uint32_t *gpu_original_multilinear_evaluations;
 
 	uint32_t *gpu_coefficients;
@@ -104,6 +105,7 @@ public:
 		cpu_original_multilinear_evaluations = new uint32_t[COMPOSITION_SIZE*EVALS_PER_MULTILINEAR/32];
 		cudaMalloc(&gpu_multilinear_evaluations, sizeof(uint32_t) * TOTAL_INTS);
 		cudaMalloc(&gpu_original_multilinear_evaluations, COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32 * sizeof(uint32_t));
+		cudaMalloc(&gpu_original_multilinear_evaluations_p1, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t));
 			
 		cpu_interpolation_points = new uint32_t[(COMPOSITION_SIZE+1) * INTS_PER_VALUE];
 
@@ -119,22 +121,11 @@ public:
 				}
 			}
 		} else {
-			//printf("HERE\n");
-			/*memset(cpu_original_multilinear_evaluations, 0,  COMPOSITION_SIZE*EVALS_PER_MULTILINEAR/32*sizeof(uint32_t));
-			for(uint64_t i = 0; i < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR * INTS_PER_VALUE; i += INTS_PER_VALUE) {
-				uint64_t idx = i / INTS_PER_VALUE;
-				cpu_original_multilinear_evaluations[idx / 32] ^= evals[i] << (idx % 32);
-			}*/
-			uint32_t active_threads = COMPOSITION_SIZE * EVALS_PER_MULTILINEAR;
-			bitpack_kernel<COMPOSITION_SIZE, EVALS_PER_MULTILINEAR><<<(active_threads + 31) / 32, 32>>>(gpu_multilinear_evaluations, gpu_original_multilinear_evaluations);
+			uint32_t active_threads = (COMPOSITION_SIZE-1) * EVALS_PER_MULTILINEAR;
+			bitpack_kernel<COMPOSITION_SIZE-1, EVALS_PER_MULTILINEAR><<<(active_threads + 31) / 32, 32>>>(gpu_multilinear_evaluations + EVALS_PER_MULTILINEAR*INTS_PER_VALUE, gpu_original_multilinear_evaluations);
+			cudaMemcpy(gpu_original_multilinear_evaluations_p1, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
 		}
-		//cudaMemcpy(gpu_original_multilinear_evaluations, cpu_original_multilinear_evaluations, COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32 * sizeof(uint32_t), cudaMemcpyHostToDevice);
-
-		//for(int i = 0; i < 8; i++) {
-			//printf("%d %d\n", evals[i*4], (cpu_original_multilinear_evaluations[0] >> i) & 1);
-		//}
-		//printf("at line %d\n", __LINE__);
-
+		
 		if (benchmarking) {
 			start_before_transpose = std::chrono::high_resolution_clock::now();
 		}
@@ -142,6 +133,8 @@ public:
 		if (!DATA_IS_TRANSPOSED) {
 			transpose_kernel<BITS_WIDTH>
 				<<<BLOCKS, THREADS_PER_BLOCK>>>(gpu_multilinear_evaluations, TOTAL_INTS / BITS_WIDTH);
+			transpose_kernel<BITS_WIDTH>
+				<<<BLOCKS, THREADS_PER_BLOCK>>>(gpu_original_multilinear_evaluations_p1, EVALS_PER_MULTILINEAR * INTS_PER_VALUE / BITS_WIDTH);
 			cudaDeviceSynchronize();
 		}
 
@@ -284,10 +277,12 @@ public:
 				);
 			check(cudaDeviceSynchronize());*/
 
-			if(USE_BOTH_ALGORITHMS && ((round < 5 && COMPOSITION_SIZE == 2) || (round < 4 && COMPOSITION_SIZE == 3) || (round < 3 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
+			if(USE_BOTH_ALGORITHMS && ((round < 0 && COMPOSITION_SIZE == 2) || (round < 1 && COMPOSITION_SIZE == 3) || (round < 1 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
 				//LINE;
-				//printf("round %d algorithm 2\n", round);
+				printf("round %d algorithm 2\n", round);
+				//printf("here\n");
 				calculate_interpolation_points(
+					gpu_original_multilinear_evaluations_p1,
 					gpu_original_multilinear_evaluations,
 					cpu_random_challenges,
 					cpu_interpolation_points,
@@ -301,7 +296,7 @@ public:
 				memcpy(points, cpu_interpolation_points, INTS_PER_VALUE * INTERPOLATION_POINTS * sizeof(uint32_t));
 				//LINE;
 			} else {
-				//printf("round %d algorithm 1\n", round);
+				printf("round %d algorithm 1\n", round);
 				compute_compositions<INTERPOLATION_POINTS, COMPOSITION_SIZE, EVALS_PER_MULTILINEAR>
 					<<<BLOCKS, THREADS_PER_BLOCK>>>(
 						gpu_multilinear_evaluations,
@@ -339,7 +334,7 @@ public:
 			
 			
 			
-			/*if(round < 4) {
+			/*if(USE_BOTH_ALGORITHMS && ((round < 5 && COMPOSITION_SIZE == 2) || (round < 4 && COMPOSITION_SIZE == 3) || (round < 3 && COMPOSITION_SIZE == 4))) {
 				for(int i = 0; i <= COMPOSITION_SIZE; i++) {
 					printf("points[%d] = %u %u %u %u, new points[%d] = %u %u %u %u\n", i, points[4*i], points[4*i+1], points[4*i+2], points[4*i+3], i, cpu_interpolation_points[4*i], cpu_interpolation_points[4*i+1], cpu_interpolation_points[4*i+2], cpu_interpolation_points[4*i+3]);
 				}

@@ -4,7 +4,8 @@
 #include "../utils/constants.hpp"
 
 __global__ void calculate_multilinear_product_sums_kernel_tiled( // NUM_BATCHES_IN_PRODUCT % STRIDE = 0 IS REQUIRED
-	const uint32_t* multilinear_evaluations,
+	const uint32_t* multilinear_evaluations_p1, // eq polynomial in zerocheck (F(2^128))
+	const uint32_t* multilinear_evaluations, // binary 
 	uint32_t* destination,
 	const uint32_t d,
 	const uint32_t round_idx,
@@ -12,7 +13,8 @@ __global__ void calculate_multilinear_product_sums_kernel_tiled( // NUM_BATCHES_
 );
 
 __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile becuase a lot of data reuse
-	const uint32_t* multilinear_evaluations,
+	const uint32_t* multilinear_evaluations_p1, // eq polynomial in zerocheck (F(2^128))
+	const uint32_t* multilinear_evaluations, // binary
 	uint32_t* destination,
 	const uint32_t d,
 	const uint32_t round_idx,
@@ -20,7 +22,8 @@ __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile 
 );
 
 __host__ __device__ void calculate_interpolation_points(
-	const uint32_t* multilinear_evaluations,
+	const uint32_t* multilinear_evaluations_p1, // eq polynomial in zerocheck (F(2^128))
+	const uint32_t* multilinear_evaluations, // binary
 	const uint32_t* random_challenges,
 	uint32_t* destination,
 	uint32_t* claimed_sum,
@@ -30,6 +33,7 @@ __host__ __device__ void calculate_interpolation_points(
 );
 
 __host__ __device__ void calculate_multilinear_product_sums(
+	const uint32_t* multilinear_evaluations_p1, // eq polynomial in zerocheck (F(2^128))
 	const uint32_t* multilinear_evaluations,
 	uint32_t* destination,
 	const uint32_t d,
