@@ -21,7 +21,7 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
 }
 #endif
 
-#define BLOCK_SIZE_MULTILINEAR 256
+#define BLOCK_SIZE_MULTILINEAR 1024
 #define MAX_SMEM_SIZE 32
 #define COARSE_FACTOR BLOCK_SIZE_MULTILINEAR / MAX_SMEM_SIZE
 #define LINE printf("%s: at line %d\n", __FILE__, __LINE__)
@@ -153,6 +153,7 @@ __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile 
 	uint32_t num_batches_in_product = (1U << (n - round_idx - 1)) / 32;
 	uint32_t start_pos_in_table[MAX_COMPOSITION_SIZE];
 	//uint32_t eb_product[BITS_WIDTH];
+	uint32_t eb_sum[INTS_PER_VALUE];
 
 	for(uint64_t k = idx; k < (uint64_t) num_terms * num_batches_in_product; k += stride){
 		uint32_t i = k / num_batches_in_product;
@@ -170,20 +171,26 @@ __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile 
 			product = product & multilinear_evaluations[(p_idx) * (1 << n) / 32 + start_pos_in_table[p_idx] / 32 + x_idx];
 		}
 		
-		const uint32_t* p1_batch;
-		p1_batch = multilinear_evaluations_p1 + ((uint64_t) start_pos_in_table[d-1] / 32 * BITS_WIDTH + x_idx * BITS_WIDTH);
-		
 		for(int l = threadIdx.x; l < MAX_SMEM_SIZE * BITS_WIDTH; l += blockDim.x) {
 			products_s[l] = 0;
 		}
 
 		__syncthreads();
-		calculate_eb_atomic(p1_batch, product, products_s + (threadIdx.x % MAX_SMEM_SIZE) * BITS_WIDTH);
-		//calculate_eb(p1_batch, product, eb_product);
 		
-		/*for(int l = 0; l < BITS_WIDTH; l++) {
-			atomicOr(products_s + threadIdx.x / 32 * BITS_WIDTH + l, (__builtin_popcount(eb_product[l]) & 1) << (threadIdx.x % 32));
-		}*/
+		memset(eb_sum, 0, 4 * sizeof(uint32_t));
+		for(int j = 0; j < 32; j++) {
+			if(product & (1 << j)) {
+				for(int l = 0; l < 4; l++) {
+					eb_sum[l] ^= multilinear_evaluations_p1_unbitsliced[x_idx * BITS_WIDTH + start_pos_in_table[d - 1] * INTS_PER_VALUE + j * INTS_PER_VALUE + l];
+				}
+			}
+		}
+
+		for(int j = 0; j < BITS_WIDTH; j++) {
+			int limb_idx = j / 32;
+			int bit_idx = j % 32;
+			atomicOr(products_s + threadIdx.x / 32 * BITS_WIDTH + j, ((eb_sum[limb_idx] >> bit_idx) & 1) << (threadIdx.x % 32));
+		}
 
 		__syncthreads();
 
