@@ -135,6 +135,7 @@ __global__ void calculate_multilinear_product_sums_kernel_tiled( // NUM_BATCHES_
 }
 
 __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile becuase a lot of data reuse
+	const uint32_t* multilinear_evaluations_p1_unbitsliced,
 	const uint32_t* multilinear_evaluations_p1, // eq polynomial in zerocheck (F(2^128))
 	const uint32_t* multilinear_evaluations,
 	uint32_t* destination,
@@ -151,10 +152,8 @@ __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile 
 	uint32_t num_terms = (1U << (d*round_idx + d));  // n=28, d=4, round_idx=4
 	uint32_t num_batches_in_product = (1U << (n - round_idx - 1)) / 32;
 	uint32_t start_pos_in_table[MAX_COMPOSITION_SIZE];
+	//uint32_t eb_product[BITS_WIDTH];
 
-	//uint32_t p1_batch[128];
-	//uint32_t prev_p1_start_pos = 0xFFFFFFFF;
-	
 	for(uint64_t k = idx; k < (uint64_t) num_terms * num_batches_in_product; k += stride){
 		uint32_t i = k / num_batches_in_product;
 		uint32_t x_idx = k % num_batches_in_product;
@@ -173,42 +172,32 @@ __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile 
 		
 		const uint32_t* p1_batch;
 		p1_batch = multilinear_evaluations_p1 + ((uint64_t) start_pos_in_table[d-1] / 32 * BITS_WIDTH + x_idx * BITS_WIDTH);
-		p1_batch = multilinear_evaluations_p1;
-		// uint32_t p1_start_pos = ((uint64_t) start_pos_in_table[d-1] / 32 * BITS_WIDTH + x_idx * BITS_WIDTH);
-		// if(p1_start_pos != prev_p1_start_pos) {
-		// 	prev_p1_start_pos = p1_start_pos;
-		// 	memcpy(p1_batch, multilinear_evaluations_p1 + p1_start_pos, BITS_WIDTH * sizeof(uint32_t));
-		// }
-
-		//calculate_eb(p1_batch, product, products_s[threadIdx.x]);
-		//printf("tid = %u\n", threadIdx.x);
-		/*if(threadIdx.x < MAX_SMEM_SIZE) {
-			//calculate_eb(p1_batch, product, products_s + threadIdx.x * BITS_WIDTH);
-			products_s[threadIdx.x] = 0;
-		}*/
+		
 		for(int l = threadIdx.x; l < MAX_SMEM_SIZE * BITS_WIDTH; l += blockDim.x) {
 			products_s[l] = 0;
 		}
+
 		__syncthreads();
 		calculate_eb_atomic(p1_batch, product, products_s + (threadIdx.x % MAX_SMEM_SIZE) * BITS_WIDTH);
+		//calculate_eb(p1_batch, product, eb_product);
+		
+		/*for(int l = 0; l < BITS_WIDTH; l++) {
+			atomicOr(products_s + threadIdx.x / 32 * BITS_WIDTH + l, (__builtin_popcount(eb_product[l]) & 1) << (threadIdx.x % 32));
+		}*/
+
 		__syncthreads();
 
 		for(int reduce_stride = MAX_SMEM_SIZE / 2; reduce_stride > 0; reduce_stride /= 2) {
 			if(threadIdx.x < reduce_stride) {
-				//add_ee(products_s[threadIdx.x], products_s[threadIdx.x + reduce_stride], products_s[threadIdx.x]);
 				add_ee(products_s + threadIdx.x * BITS_WIDTH, products_s + (threadIdx.x + reduce_stride) * BITS_WIDTH, products_s + threadIdx.x * BITS_WIDTH);
 			}
 			__syncthreads();
 		}
 
 		if(threadIdx.x == 0) {
-			//uint32_t destination_batch_idx = i / 32;
-			//uint32_t destination_batch_bit_idx = i % 32;
-			//atomicXor(destination + destination_batch_idx, (__builtin_popcount(products_s[0]) & 1) << destination_batch_bit_idx);
 			uint32_t destination_batch_idx = i / 32 * BITS_WIDTH;
 			uint32_t destination_batch_bit_idx = i % 32;
 			for(int j = 0; j < BITS_WIDTH; j++) {
-				//atomicXor(destination + destination_batch_idx + j, (__builtin_popcount(products_s[0][j]) & 1) << destination_batch_bit_idx);
 				atomicXor(destination + destination_batch_idx + j, (__builtin_popcount(products_s[j]) & 1) << destination_batch_bit_idx);
 			}
 		}
@@ -333,6 +322,7 @@ __host__ __device__ void calculate_multilinear_product_sums(
 }
 
 __host__ void calculate_interpolation_points(
+	const uint32_t* multilinear_evaluations_p1_unbitsliced,
 	const uint32_t* multilinear_evaluations_p1, // eq polynomial in zerocheck (F(2^128))
 	const uint32_t* multilinear_evaluations_d, // should be on gpu
 	const uint32_t* random_challenges,
@@ -362,7 +352,7 @@ __host__ void calculate_interpolation_points(
 	uint32_t batches_per_term = (1 << (n - round_idx - 1)) / 32;
 	uint32_t num_blocks = max(batches_per_term / BLOCK_SIZE_MULTILINEAR, 8192);
 	//printf("launch num_blocks = %u\n", num_blocks);
-	calculate_multilinear_product_sums_kernel<<<num_blocks, BLOCK_SIZE_MULTILINEAR>>>(multilinear_evaluations_p1, multilinear_evaluations_d, multilinear_product_sums_d, d, round_idx, n);
+	calculate_multilinear_product_sums_kernel<<<num_blocks, BLOCK_SIZE_MULTILINEAR>>>(multilinear_evaluations_p1_unbitsliced, multilinear_evaluations_p1, multilinear_evaluations_d, multilinear_product_sums_d, d, round_idx, n);
 	// uint32_t num_batches_in_product = (1U << (n - round_idx - 1)) / 32;
 	//calculate_multilinear_product_sums_kernel_tiled<<<num_batches_in_product / 512 * 4, 512>>>(multilinear_evaluations_d, multilinear_product_sums_d, d, round_idx, n);
 	check(cudaDeviceSynchronize());

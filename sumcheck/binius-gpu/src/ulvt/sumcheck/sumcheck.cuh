@@ -32,6 +32,7 @@ private:
 
 	uint32_t *cpu_original_multilinear_evaluations;
 	uint32_t *gpu_original_multilinear_evaluations_p1;
+	uint32_t *gpu_original_multilinear_evaluations_p1_unbitsliced;
 	uint32_t *gpu_original_multilinear_evaluations;
 
 	uint32_t *gpu_coefficients;
@@ -101,15 +102,12 @@ public:
 		}
 		
 		cpu_multilinear_evaluations = new uint32_t[BITS_WIDTH * COMPOSITION_SIZE];
-		//cpu_original_multilinear_evaluations = new uint32_t[COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32];
 		cpu_original_multilinear_evaluations = new uint32_t[COMPOSITION_SIZE*EVALS_PER_MULTILINEAR/32];
 
-		//printf("allocate %u ints = %u B for gpu_multilinear_evaluations\n", TOTAL_INTS, sizeof(uint32_t) * TOTAL_INTS);
-		//printf("%u %u %u\n", INTS_PER_VALUE , COMPOSITION_SIZE , EVALS_PER_MULTILINEAR);
 		check(cudaMalloc(&gpu_multilinear_evaluations, sizeof(uint32_t) * TOTAL_INTS));
-		//cudaMalloc(&gpu_original_multilinear_evaluations, EVALS_PER_MULTILINEAR / 32 * sizeof(uint32_t) * (COMPOSITION_SIZE - 1));
 		check(cudaMalloc(&gpu_original_multilinear_evaluations, EVALS_PER_MULTILINEAR / 32 * sizeof(uint32_t) * (COMPOSITION_SIZE - 1)));
 		check(cudaMalloc(&gpu_original_multilinear_evaluations_p1, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t)));
+		//check(cudaMalloc(&gpu_original_multilinear_evaluations_p1_unbitsliced, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t)));
 			
 		cpu_interpolation_points = new uint32_t[(COMPOSITION_SIZE+1) * INTS_PER_VALUE];
 	
@@ -126,8 +124,6 @@ public:
 		} else {
 			uint32_t active_threads = (COMPOSITION_SIZE - 1) * EVALS_PER_MULTILINEAR;
 			bitpack_kernel<COMPOSITION_SIZE-1, EVALS_PER_MULTILINEAR><<<(active_threads + 31) / 32, 32>>>(gpu_multilinear_evaluations + EVALS_PER_MULTILINEAR*INTS_PER_VALUE, gpu_original_multilinear_evaluations);
-			//bitpack_kernel<COMPOSITION_SIZE - 1, EVALS_PER_MULTILINEAR><<<(active_threads + 31) / 32, 32>>>(gpu_multilinear_evaluations, gpu_original_multilinear_evaluations);
-			//cudaMemcpy(gpu_original_multilinear_evaluations_p1, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
 			check(cudaDeviceSynchronize());
 		}
 		
@@ -136,10 +132,9 @@ public:
 		}
 
 		if (!DATA_IS_TRANSPOSED) {
+			//cudaMemcpy(gpu_original_multilinear_evaluations_p1_unbitsliced, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
 			transpose_kernel<BITS_WIDTH>
 				<<<BLOCKS, THREADS_PER_BLOCK>>>(gpu_multilinear_evaluations, TOTAL_INTS / BITS_WIDTH);
-			//transpose_kernel<BITS_WIDTH>
-				//<<<BLOCKS, THREADS_PER_BLOCK>>>(gpu_original_multilinear_evaluations_p1, EVALS_PER_MULTILINEAR * INTS_PER_VALUE / BITS_WIDTH);
 			check(cudaDeviceSynchronize());
 			cudaMemcpy(gpu_original_multilinear_evaluations_p1, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
 		}
@@ -182,6 +177,7 @@ public:
 		cudaFree(gpu_original_multilinear_evaluations);
 		cudaFree(gpu_multilinear_evaluations);
 		cudaFree(gpu_original_multilinear_evaluations_p1);
+		cudaFree(gpu_original_multilinear_evaluations_p1_unbitsliced);
 		cudaFree(gpu_coefficients);
 		for(int i = 0; i <= INTERPOLATION_POINTS; i++) {
 			cudaStreamDestroy(streams[i]);
@@ -293,6 +289,7 @@ public:
 				//printf("round %d algorithm 2\n", round);
 				//printf("here\n");
 				calculate_interpolation_points(
+					gpu_original_multilinear_evaluations_p1_unbitsliced,
 					gpu_original_multilinear_evaluations_p1,
 					gpu_original_multilinear_evaluations,
 					cpu_random_challenges,

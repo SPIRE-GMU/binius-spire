@@ -13,6 +13,7 @@ __global__ void calculate_multilinear_product_sums_kernel_tiled( // NUM_BATCHES_
 );
 
 __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile becuase a lot of data reuse
+	const uint32_t* multilinear_evaluations_p1_unbitsliced, // eq polynomial in zerocheck (F(2^128))
 	const uint32_t* multilinear_evaluations_p1, // eq polynomial in zerocheck (F(2^128))
 	const uint32_t* multilinear_evaluations, // binary
 	uint32_t* destination,
@@ -22,6 +23,7 @@ __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile 
 );
 
 __host__ __device__ void calculate_interpolation_points(
+	const uint32_t* multilinear_evaluations_p1_unbitsliced, // eq polynomial in zerocheck (F(2^128))
 	const uint32_t* multilinear_evaluations_p1, // eq polynomial in zerocheck (F(2^128))
 	const uint32_t* multilinear_evaluations, // binary
 	const uint32_t* random_challenges,
