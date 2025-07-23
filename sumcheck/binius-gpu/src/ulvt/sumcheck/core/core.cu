@@ -173,7 +173,6 @@ __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile 
 		
 		const uint32_t* p1_batch;
 		p1_batch = multilinear_evaluations_p1 + ((uint64_t) start_pos_in_table[d-1] / 32 * BITS_WIDTH + x_idx * BITS_WIDTH);
-		p1_batch = multilinear_evaluations_p1;
 		// uint32_t p1_start_pos = ((uint64_t) start_pos_in_table[d-1] / 32 * BITS_WIDTH + x_idx * BITS_WIDTH);
 		// if(p1_start_pos != prev_p1_start_pos) {
 		// 	prev_p1_start_pos = p1_start_pos;
