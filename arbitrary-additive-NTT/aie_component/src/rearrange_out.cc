@@ -43,22 +43,35 @@ void rearrange_out
         // writeincr(outputw,res);  
     }
     
-    for(int i=0;i<1024;i++){                    
-        b[i]=readincr(input);
-         
-    }   
+    for(int j=0;j<1024;j+=2)
+        chess_prepare_for_pipelining
+        chess_loop_range(32,){
 
-    for(int j=0;j<1024/2;j+=2){
-        exchange1(&a[j],&b[j]);
-        exchange2(&a[j+1],&b[j+1]); // two instruction arrays
         
-    }
-    for(int j=0;j<1024;j++){
-           writeincr(outputw,a[j]);         
-    }
-    for(int j=0;j<1024;j++){
-           writeincr(outputw,b[j]);         
-    }
+            b[j] = readincr(cb_input); 
+                low_a0 = a[j] & 0xFFFF;
+                low_b0 = b[j] & 0xFFFF;
+                high_b0 = (b[j] >> 16) & 0xFFFF;
+
+                a[j] = (a[j] & 0xFFFF0000) | high_b0;
+                b[j]   = ((uint32_t)low_a0 << 16) | low_b0;
+
+
+
+            b[j+1] = readincr(cb_input);          
+                low_a1 = a[j+1] & 0xFFFF;
+                low_b1 = b[j+1] & 0xFFFF;
+                high_b1 = (b[j+1] >> 16) & 0xFFFF;
+
+                a[j+1] = (a[j+1] & 0xFFFF0000) | high_b1;
+                b[j+1]   = ((uint32_t)low_a1 << 16) | low_b1;
+            writeincr(cb_output,a[j]);
+            writeincr(cb_output,a[j+1]);
+        }
+
+        for(int k=0;k<1024;k++){
+            writeincr(cb_output,b[k]);
+        }
     
 }
 
