@@ -35,7 +35,9 @@ void rearrange_out
 ) {
     uint32_t a[1024],b[1024];
     uint32_t res;
-    
+    uint16_t low_a0,high_a0,low_b0,high_b0;
+    uint16_t low_a1,high_a1,low_b1,high_b1;
+
     for(int i=0;i<1024;i++){
                     
         a[i]=readincr(input);
@@ -48,7 +50,7 @@ void rearrange_out
         chess_loop_range(32,){
 
         
-            b[j] = readincr(cb_input); 
+            b[j] = readincr(input); 
                 low_a0 = a[j] & 0xFFFF;
                 low_b0 = b[j] & 0xFFFF;
                 high_b0 = (b[j] >> 16) & 0xFFFF;
@@ -58,19 +60,19 @@ void rearrange_out
 
 
 
-            b[j+1] = readincr(cb_input);          
+            b[j+1] = readincr(input);          
                 low_a1 = a[j+1] & 0xFFFF;
                 low_b1 = b[j+1] & 0xFFFF;
                 high_b1 = (b[j+1] >> 16) & 0xFFFF;
 
                 a[j+1] = (a[j+1] & 0xFFFF0000) | high_b1;
                 b[j+1]   = ((uint32_t)low_a1 << 16) | low_b1;
-            writeincr(cb_output,a[j]);
-            writeincr(cb_output,a[j+1]);
+            writeincr(outputw,a[j]);
+            writeincr(outputw,a[j+1]);
         }
 
         for(int k=0;k<1024;k++){
-            writeincr(cb_output,b[k]);
+            writeincr(outputw,b[k]);
         }
     
 }
