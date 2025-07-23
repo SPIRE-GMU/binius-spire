@@ -288,7 +288,7 @@ public:
 				);
 			check(cudaDeviceSynchronize());*/
 
-			if(USE_BOTH_ALGORITHMS && ((round < 3 && COMPOSITION_SIZE == 2) || (round < 1 && COMPOSITION_SIZE == 3) || (round < 1 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
+			if(USE_BOTH_ALGORITHMS && ((round < 3 && COMPOSITION_SIZE == 2) || (round < 2 && COMPOSITION_SIZE == 3) || (round < 2 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
 				//LINE;
 				//printf("round %d algorithm 2\n", round);
 				//printf("here\n");
