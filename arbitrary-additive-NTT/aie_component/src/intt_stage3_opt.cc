@@ -7,27 +7,7 @@
 // #include "adf/x86sim/streamApi.h"
 // #include "include.h"
 
-inline void exchange1(uint32_t *a, uint32_t *b){
-        uint16_t low_a,low_b,high_b;
-        
-        low_a = *a & 0xFFFF;
-        low_b = *b & 0xFFFF;
-        high_b = (*b>>16)&0xFFFF;
 
-        *a =   ((*a) & 0xFFFF0000 ) | high_b; 
-        *b = ((uint32_t)low_a<< 16 ) | low_b;           
-};
-
-inline void exchange2(uint32_t *a, uint32_t *b){
-        uint16_t low_a,low_b,high_b;
-        
-        low_a = *a & 0xFFFF;
-        low_b = *b & 0xFFFF;
-        high_b = (*b>>16)&0xFFFF;
-
-        *a =   ((*a) & 0xFFFF0000 ) | high_b; 
-        *b = ((uint32_t)low_a<< 16 ) | low_b;           
-};
 //accept polynomial from PS, rearrange for binius_mul.  reverse high-low when carrying 16uint from 32uint channel
 //for example, I prepare number [1,2,3,4,5,6,7,8] in 16uint, but actually receive [2,1,4,3,6,5,8,7] in 32uint
 void intt_stage3_opt(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output)
@@ -69,8 +49,7 @@ void intt_stage3_opt(       input_stream_uint32 * cb_input,output_stream_uint32 
         writeincr(cb_output,a[0]);
         writeincr(cb_output,a[1]);
        
-//        b[2] = readincr(cb_input);  
-//        b[3] = readincr(cb_input);  
+
         
         b[2] = readincr(cb_input); 
             low_a0 = a[2] & 0xFFFF;
