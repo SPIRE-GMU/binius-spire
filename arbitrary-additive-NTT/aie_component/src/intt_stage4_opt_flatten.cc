@@ -7,27 +7,7 @@
 // #include "adf/x86sim/streamApi.h"
 // #include "include.h"
 
-inline void exchange1(uint32_t *a, uint32_t *b){
-        uint16_t low_a,low_b,high_b;
-        
-        low_a = *a & 0xFFFF;
-        low_b = *b & 0xFFFF;
-        high_b = (*b>>16)&0xFFFF;
 
-        *a =   ((*a) & 0xFFFF0000 ) | high_b; 
-        *b = ((uint32_t)low_a<< 16 ) | low_b;           
-};
-
-inline void exchange2(uint32_t *a, uint32_t *b){
-        uint16_t low_a,low_b,high_b;
-        
-        low_a = *a & 0xFFFF;
-        low_b = *b & 0xFFFF;
-        high_b = (*b>>16)&0xFFFF;
-
-        *a =   ((*a) & 0xFFFF0000 ) | high_b; 
-        *b = ((uint32_t)low_a<< 16 ) | low_b;           
-};
 
 //from now on we use for loop for generalizaton
 void intt_stage4_opt(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output)
