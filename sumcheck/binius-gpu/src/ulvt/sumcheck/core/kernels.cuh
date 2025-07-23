@@ -24,11 +24,18 @@ __global__ void bitpack_kernel(const uint32_t* evals, uint32_t* destination) {
 	uint64_t idx = threadIdx.x + blockIdx.x * blockDim.x;
 	uint64_t unpacked_bit_idx = idx * INTS_PER_VALUE;
 
-	if(unpacked_bit_idx < (uint64_t) COMPOSITION_SIZE * EVALS_PER_MULTILINEAR*INTS_PER_VALUE) {
-		if(idx % 32 == 0) destination[idx / 32] = 0;
-		__syncthreads();
-		//destination[idx / 32] ^= evals[unpacked_bit_idx] << (idx % 32);	
-		atomicOr(destination + idx / 32, evals[unpacked_bit_idx] << (idx % 32));
+	// printf("composition_size %u\n", COMPOSITION_SIZE);
+	//printf("idx %u out of %u\n", idx, COMPOSITION_SIZE * EVALS_PER_MULTILINEAR);
+	//if(unpacked_bit_idx < (uint64_t) COMPOSITION_SIZE * EVALS_PER_MULTILINEAR*INTS_PER_VALUE) {
+	if(idx < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR) {
+		if(idx / 32 < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32) {
+			if(idx % 32 == 0) destination[idx / 32] = 0;
+			//if(idx == 0) destination[0] = 0;
+			__syncthreads();
+			atomicOr(destination + idx / 32, evals[unpacked_bit_idx] << (idx % 32));
+		} else {
+			printf("HERE\n");
+		}
 	}
 }
 
