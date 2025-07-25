@@ -19,7 +19,7 @@ void intt_stage4(       input_stream_uint32 * cb_input,output_stream_uint32 * cb
 void intt_stage4_opt(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
 
 void intt_stage5(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
-void intt_stage5_opt(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
+void intt_stage5_opt(       input_stream_int32 * cb_input,output_stream_int32 * cb_output) ;
 
 
 void intt_stage6(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
