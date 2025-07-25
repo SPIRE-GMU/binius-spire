@@ -13,12 +13,28 @@ void intt_stage0(       input_stream_uint32 * cb_input,output_stream_uint32 * cb
 void intt_stage1(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
 void intt_stage2(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
 void intt_stage3(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
+void intt_stage3_opt(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output);//pipeline instruction to improve throughput
+
 void intt_stage4(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
+void intt_stage4_opt(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
+
 void intt_stage5(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
+void intt_stage5_opt(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
+
+
 void intt_stage6(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
+void intt_stage6_opt(       input_stream_int32 * cb_input,output_stream_int32 * cb_output) ;
+
 void intt_stage7(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
+void intt_stage7_opt(       input_stream_int32 * cb_input,output_stream_int32 * cb_output) ;
+
+
 void intt_stage8(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
+void intt_stage8_opt(       input_stream_int32 * cb_input,output_stream_int32 * cb_output) ; // nothing different between int and uint, have the same binary code.
+
 void intt_stage9(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
+void intt_stage9_opt(       input_stream_int32 * cb_input,output_stream_int32 * cb_output) ;
+
 void intt_stage10(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
 void intt_stage11(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output) ;
 
