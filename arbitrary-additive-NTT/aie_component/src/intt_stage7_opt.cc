@@ -10,7 +10,7 @@
 
 
 //from now on we use for loop for generalizaton
-void intt_stage7_opt(       input_stream_uint32 * cb_input,output_stream_uint32 * cb_output)
+void intt_stage7_opt(       input_stream_int32 * cb_input,output_stream_int32 * cb_output)
 {
     uint32_t a[64],b[64];
     
