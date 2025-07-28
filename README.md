@@ -15,7 +15,14 @@ The implementation is 4096-point NTT but remember the architecture is scalable f
 
 Golden samples as well as coefficients are printed for convenient debug.
 
+### Tools:
+
+OS: Ubuntu 2024.2
+
+Vitis 2025.1 (other version is ok but may differ in details.)
+
 ### Configuration of arbitrary-additive-NTT on VCK:
+
 
 For AIE-component, set stack size to 10240
 
