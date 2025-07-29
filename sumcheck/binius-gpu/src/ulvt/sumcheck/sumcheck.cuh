@@ -6,10 +6,52 @@
 #include "core/core.cuh"
 #include "core/kernels.cuh"
 #include "utils/constants.hpp"
+//#include "../utils/common.cuh"
 
 #define LINE printf("%s: at line %d\n", __FILE__, __LINE__)
 #define USE_FINE_KERNEL false 
 #define USE_BOTH_ALGORITHMS true 
+
+void checkPointerLocation(void* ptr) {
+    cudaPointerAttributes attributes;
+    cudaError_t err = cudaPointerGetAttributes(&attributes, ptr);
+
+    if (err != cudaSuccess) {
+        std::cerr << "Error getting pointer attributes: " << cudaGetErrorString(err) << std::endl;
+        return;
+    }
+
+#if CUDART_VERSION >= 10000
+    switch (attributes.type) {
+        case cudaMemoryTypeHost:
+            std::cout << "Pointer is in host memory (pinned)." << std::endl;
+            break;
+        case cudaMemoryTypeDevice:
+            std::cout << "Pointer is in device memory." << std::endl;
+            break;
+        case cudaMemoryTypeManaged:
+            std::cout << "Pointer is in unified memory." << std::endl;
+            break;
+        default:
+            std::cout << "Pointer type unknown." << std::endl;
+            break;
+    }
+#else
+    // For CUDA versions < 10
+    switch (attributes.memoryType) {
+        case cudaMemoryTypeHost:
+            std::cout << "Pointer is in host memory (pinned)." << std::endl;
+            break;
+        case cudaMemoryTypeDevice:
+            std::cout << "Pointer is in device memory." << std::endl;
+            break;
+        default:
+            std::cout << "Pointer type unknown." << std::endl;
+            break;
+    }
+#endif
+}
+
 
 template <uint32_t NUM_VARS, uint32_t COMPOSITION_SIZE, bool DATA_IS_TRANSPOSED>
 class Sumcheck {
@@ -37,7 +79,10 @@ private:
 
 	uint32_t *gpu_coefficients;
 
+	uint32_t *gpu_multilinear_evaluations_p1;
+
 	uint32_t cpu_random_challenges[(NUM_VARS + 1) * INTS_PER_VALUE];
+	uint32_t cpu_random_challenges_batched[(NUM_VARS + 1) * BITS_WIDTH];
 
 	uint32_t* cpu_interpolation_points;
 
@@ -57,11 +102,17 @@ private:
 		if (batches_in_half_list > 0) {
 			// For lists of size >32 elements, fold in half with folding factor
 			// Assume source lives on the GPU
+
+			printf("fold here %d\n", __LINE__);
+			checkPointerLocation(source);
+			checkPointerLocation(destination);
+
 			uint32_t *gpu_coefficient;
 
 			cudaMalloc(&gpu_coefficient, sizeof(uint32_t) * BITS_WIDTH);
 
 			cudaMemcpy(gpu_coefficient, coefficient, sizeof(uint32_t) * BITS_WIDTH, cudaMemcpyHostToDevice);
+
 
 			fold_large_list_halves<<<BLOCKS, THREADS_PER_BLOCK>>>(
 				source,
@@ -73,7 +124,7 @@ private:
 				num_cols
 			);
 
-			cudaDeviceSynchronize();
+			check(cudaDeviceSynchronize());
 		} else {
 			for (uint32_t col_idx = 0; col_idx < num_cols; ++col_idx) {
 				// For small lists, copy over the later half into top of new batch, multiply by r, and add
@@ -108,6 +159,8 @@ public:
 		check(cudaMalloc(&gpu_original_multilinear_evaluations, EVALS_PER_MULTILINEAR / 32 * sizeof(uint32_t) * (COMPOSITION_SIZE - 1)));
 		//check(cudaMalloc(&gpu_original_multilinear_evaluations_p1, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t)));
 		check(cudaMalloc(&gpu_original_multilinear_evaluations_p1_unbitsliced, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t)));
+		//check(cudaMalloc(&gpu_original_multilinear_evaluations_p1, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t)));
+		check(cudaMalloc(&gpu_multilinear_evaluations_p1, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t)));
 			
 		cpu_interpolation_points = new uint32_t[(COMPOSITION_SIZE+1) * INTS_PER_VALUE];
 	
@@ -136,6 +189,7 @@ public:
 			transpose_kernel<BITS_WIDTH>
 				<<<BLOCKS, THREADS_PER_BLOCK>>>(gpu_multilinear_evaluations, TOTAL_INTS / BITS_WIDTH);
 			check(cudaDeviceSynchronize());
+			cudaMemcpy(gpu_multilinear_evaluations_p1, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
 			//cudaMemcpy(gpu_original_multilinear_evaluations_p1, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
 		}
 
@@ -364,30 +418,67 @@ public:
 
 		BitsliceUtils<BITS_WIDTH>::repeat_value_bitsliced(coefficient, challenge);
 
-		// Load the folded columns
-		//LINE;
-		if (num_eval_points_per_multilinear <= 32) {
+		memcpy(cpu_random_challenges_batched + BITS_WIDTH * round, coefficient, BITS_WIDTH * sizeof(uint32_t));
+
+		if(USE_BOTH_ALGORITHMS && ((round >= 3 && COMPOSITION_SIZE == 2) || (round >= 2 && COMPOSITION_SIZE == 3) || (round >= 2 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
+			if (num_eval_points_per_multilinear <= 32) {
+				fold_list_halves(
+					cpu_multilinear_evaluations,
+					cpu_multilinear_evaluations,
+					coefficient,
+					num_eval_points_per_multilinear,
+					32,
+					32,
+					COMPOSITION_SIZE
+				);
+			} else {
+				fold_list_halves(
+					gpu_multilinear_evaluations,
+					gpu_multilinear_evaluations,
+					coefficient,
+					num_eval_points_per_multilinear,
+					EVALS_PER_MULTILINEAR,
+					EVALS_PER_MULTILINEAR,
+					COMPOSITION_SIZE
+				);
+			}
+		} else if(USE_BOTH_ALGORITHMS && ((round == 2 && COMPOSITION_SIZE == 2) || (round == 1 && COMPOSITION_SIZE == 3) || (round >= 1 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
+			//for(int i = 0; i < BITS_WIDTH; i++) {
+				//printf("%x ", cpu_random_challenges)
+			//}
+
 			fold_list_halves(
-				cpu_multilinear_evaluations,
-				cpu_multilinear_evaluations,
+				gpu_multilinear_evaluations_p1,
+				gpu_multilinear_evaluations_p1,
 				coefficient,
 				num_eval_points_per_multilinear,
-				32,
-				32,
+				EVALS_PER_MULTILINEAR,
+				EVALS_PER_MULTILINEAR,
+				1	
+			);
+
+			fold_multiple(
+				gpu_multilinear_evaluations_p1,
+				gpu_original_multilinear_evaluations,
+				cpu_random_challenges_batched,
+				gpu_multilinear_evaluations,
+				round+1,
+				NUM_VARS,
 				COMPOSITION_SIZE
 			);
 		} else {
+			printf("fold only p1 evaluations\n");
 			fold_list_halves(
-				gpu_multilinear_evaluations,
-				gpu_multilinear_evaluations,
+				gpu_multilinear_evaluations_p1,
+				gpu_multilinear_evaluations_p1,
 				coefficient,
 				num_eval_points_per_multilinear,
 				EVALS_PER_MULTILINEAR,
 				EVALS_PER_MULTILINEAR,
-				COMPOSITION_SIZE
+				1	
 			);
 		}
-		//LINE;
+
 
 		uint32_t new_num_evals_per_multilinear = num_eval_points_per_multilinear / 2;
 

@@ -32,3 +32,4 @@
 #define MAX_STAGES_PER_KERNEL 11
 
 bool check_gpu_capabilities();
+// void checkPointerLocation(void* ptr);

@@ -26,7 +26,12 @@ __global__ void fold_large_list_halves(
 
 			uint32_t* dst_batch = destination + BITS_WIDTH * row_idx + INTS_PER_VALUE * dst_evals_per_column * col_idx;
 
-			fold_batch(lower_batch, upper_batch, dst_batch, coefficient, false);
+			//fold_batch(lower_batch, upper_batch, dst_batch, coefficient, false);
+			fold_batch_1(lower_batch, upper_batch, dst_batch, coefficient, false);
+
+			if((row_idx == 0 || row_idx == 8192) && col_idx == 0) {
+				printf("upper = %u, lower = %u, res = %u\n", upper_batch[0], lower_batch[0], dst_batch[0]);
+			}
 		}
 	}
 }

@@ -665,4 +665,6 @@ CMakeFiles/prover_kernel_test.dir/src/ulvt/sumcheck/test/test_prover_kernels.cu.
     /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include/cuda/std/__concepts/common_with.h \
     /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include/cuda/std/__concepts/different_from.h \
     /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include/cuda/std/initializer_list \
-    /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include/cuda/std/detail/libcxx/include/initializer_list
+    /usr/local/cuda-12.6/bin/../targets/x86_64-linux/include/cuda/std/detail/libcxx/include/initializer_list \
+    /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/../../utils/bitslicing.cuh \
+    /usr/include/c++/12/array

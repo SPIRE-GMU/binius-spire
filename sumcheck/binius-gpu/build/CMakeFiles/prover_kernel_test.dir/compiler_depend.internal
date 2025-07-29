@@ -4,6 +4,7 @@
 CMakeFiles/prover_kernel_test.dir/src/ulvt/sumcheck/test/test_prover_kernels.cu.o
  /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/test_prover_kernels.cu
  /home/intern-04/binius-spire/sumcheck/binius-gpu/build/third-party/Catch2/generated-includes/catch2/catch_user_config.hpp
+ /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/utils/bitslicing.cuh
  /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/finite_fields/circuit_generator/unrolled/binary_tower_rolled.cuh
  /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/finite_fields/circuit_generator/unrolled/binary_tower_unrolled.cuh
  /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/utils/constants.hpp
@@ -55,6 +56,7 @@ CMakeFiles/prover_kernel_test.dir/src/ulvt/sumcheck/test/test_prover_kernels.cu.
  /usr/include/asm-generic/errno-base.h
  /usr/include/asm-generic/errno.h
  /usr/include/assert.h
+ /usr/include/c++/12/array
  /usr/include/c++/12/backward/auto_ptr.h
  /usr/include/c++/12/backward/binders.h
  /usr/include/c++/12/bit

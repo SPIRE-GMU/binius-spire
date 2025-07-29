@@ -2,6 +2,46 @@
 
 #include "common.cuh"
 
+// void checkPointerLocation(void* ptr) {
+//     cudaPointerAttributes attributes;
+//     cudaError_t err = cudaPointerGetAttributes(&attributes, ptr);
+
+//     if (err != cudaSuccess) {
+//         std::cerr << "Error getting pointer attributes: " << cudaGetErrorString(err) << std::endl;
+//         return;
+//     }
+
+// #if CUDART_VERSION >= 10000
+//     switch (attributes.type) {
+//         case cudaMemoryTypeHost:
+//             std::cout << "Pointer is in host memory (pinned)." << std::endl;
+//             break;
+//         case cudaMemoryTypeDevice:
+//             std::cout << "Pointer is in device memory." << std::endl;
+//             break;
+//         case cudaMemoryTypeManaged:
+//             std::cout << "Pointer is in unified memory." << std::endl;
+//             break;
+//         default:
+//             std::cout << "Pointer type unknown." << std::endl;
+//             break;
+//     }
+// #else
+//     // For CUDA versions < 10
+//     switch (attributes.memoryType) {
+//         case cudaMemoryTypeHost:
+//             std::cout << "Pointer is in host memory (pinned)." << std::endl;
+//             break;
+//         case cudaMemoryTypeDevice:
+//             std::cout << "Pointer is in device memory." << std::endl;
+//             break;
+//         default:
+//             std::cout << "Pointer type unknown." << std::endl;
+//             break;
+//     }
+// #endif
+// }
+
 // TODO: In the future we need to move this into enum to return specific errors
 bool check_gpu_capabilities() {
 	int nDevices;
