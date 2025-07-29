@@ -7,6 +7,14 @@
 #include "core.cuh"
 
 
+__global__ void print_debug(uint32_t* source, const uint32_t num_batch_rows) {
+	if(threadIdx.x + blockIdx.x * blockDim.x == 0) {
+		for(int i = 0; i < BITS_WIDTH; i++) {
+				printf("%u %u\n", source[i], source[BITS_WIDTH * num_batch_rows + i]);
+		}
+	}
+}
+
 // folding to move on to the next round
 __global__ void fold_large_list_halves(
 	uint32_t* source,
@@ -26,12 +34,7 @@ __global__ void fold_large_list_halves(
 
 			uint32_t* dst_batch = destination + BITS_WIDTH * row_idx + INTS_PER_VALUE * dst_evals_per_column * col_idx;
 
-			//fold_batch(lower_batch, upper_batch, dst_batch, coefficient, false);
-			fold_batch_1(lower_batch, upper_batch, dst_batch, coefficient, false);
-
-			if((row_idx == 0 || row_idx == 8192) && col_idx == 0) {
-				printf("upper = %u, lower = %u, res = %u\n", upper_batch[0], lower_batch[0], dst_batch[0]);
-			}
+			fold_batch(lower_batch, upper_batch, dst_batch, coefficient, false);
 		}
 	}
 }

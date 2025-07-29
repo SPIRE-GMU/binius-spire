@@ -339,7 +339,7 @@ __host__ __device__ void get_batch(
 	uint32_t j = 0;
 	memset(destination, 0, BITS_WIDTH * sizeof(uint32_t));
 	for(int i = idx; i < (1 << n) / 32; i += stride) {
-		printf("i=%d out of %d, batch=%d\n", i, (1 << n) / 32, multilinear_evaluations_d[i + p_idx * (1 << n) / 32]);
+		//printf("i=%d out of %d, batch=%d\n", i, (1 << n) / 32, multilinear_evaluations_d[i + p_idx * (1 << n) / 32]);
 		calculate_eb_xor(random_challenges_subset_products + j * BITS_WIDTH, multilinear_evaluations_d[i + p_idx * (1 << n) / 32], destination);
 		j++;
 	}

@@ -254,3 +254,6 @@ __global__ void fold_large_list_halves(
 	const uint32_t dst_evals_per_column,
 	const uint32_t num_cols
 );
+
+
+__global__ void print_debug(uint32_t* source, const uint32_t num_batch_rows);
