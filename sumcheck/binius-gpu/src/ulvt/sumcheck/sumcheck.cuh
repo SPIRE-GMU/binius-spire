@@ -82,7 +82,8 @@ private:
 
 	uint32_t *gpu_coefficients;
 
-	uint32_t *gpu_multilinear_evaluations_p1;
+	//uint32_t *gpu_multilinear_evaluations_p1;
+	uint32_t* gpu_random_challenges;
 
 	uint32_t cpu_random_challenges[(NUM_VARS + 1) * INTS_PER_VALUE];
 	uint32_t cpu_random_challenges_batched[(NUM_VARS + 1) * BITS_WIDTH];
@@ -162,7 +163,8 @@ public:
 		check(cudaMalloc(&gpu_original_multilinear_evaluations, EVALS_PER_MULTILINEAR / 32 * sizeof(uint32_t) * (COMPOSITION_SIZE - 1)));
 		check(cudaMalloc(&gpu_original_multilinear_evaluations_p1_unbitsliced, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t)));
 		//check(cudaMalloc(&gpu_original_multilinear_evaluations_p1, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t)));
-		check(cudaMalloc(&gpu_multilinear_evaluations_p1, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t)));
+		//check(cudaMalloc(&gpu_multilinear_evaluations_p1, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t)));
+		check(cudaMalloc(&gpu_random_challenges, (NUM_VARS+1) * BITS_WIDTH * sizeof(uint32_t)));
 			
 		cpu_interpolation_points = new uint32_t[(COMPOSITION_SIZE+1) * INTS_PER_VALUE];
 	
@@ -197,7 +199,7 @@ public:
 			transpose_kernel<BITS_WIDTH>
 				<<<BLOCKS, THREADS_PER_BLOCK>>>(gpu_multilinear_evaluations, TOTAL_INTS / BITS_WIDTH);
 			check(cudaDeviceSynchronize());
-			cudaMemcpy(gpu_multilinear_evaluations_p1, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
+			// cudaMemcpy(gpu_multilinear_evaluations_p1, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
 			//cudaMemcpy(gpu_original_multilinear_evaluations_p1, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
 		}
 
@@ -238,7 +240,7 @@ public:
 		delete[] cpu_original_multilinear_evaluations;
 		cudaFree(gpu_original_multilinear_evaluations);
 		cudaFree(gpu_multilinear_evaluations);
-		cudaFree(gpu_multilinear_evaluations_p1);
+		//cudaFree(gpu_multilinear_evaluations_p1);
 		//cudaFree(gpu_original_multilinear_evaluations_p1);
 		cudaFree(gpu_original_multilinear_evaluations_p1_unbitsliced);
 		cudaFree(gpu_coefficients);
@@ -428,6 +430,7 @@ public:
 		BitsliceUtils<BITS_WIDTH>::repeat_value_bitsliced(coefficient, challenge);
 
 		memcpy(cpu_random_challenges_batched + BITS_WIDTH * round, coefficient, BITS_WIDTH * sizeof(uint32_t));
+		cudaMemcpy(gpu_random_challenges + BITS_WIDTH * round, coefficient, BITS_WIDTH * sizeof(uint32_t), cudaMemcpyHostToDevice);
 
 		if(USE_BOTH_ALGORITHMS && ((round >= 3 && COMPOSITION_SIZE == 2) || (round >= 2 && COMPOSITION_SIZE == 3) || (round >= 2 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
 			if (num_eval_points_per_multilinear <= 32) {
@@ -452,22 +455,23 @@ public:
 				);
 			}
 		} else if(USE_BOTH_ALGORITHMS && ((round == 2 && COMPOSITION_SIZE == 2) || (round == 1 && COMPOSITION_SIZE == 3) || (round == 1 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
-			// cudaMemcpy(gpu_multilinear_evaluations_p1, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
+			cudaMemcpy(gpu_original_multilinear_evaluations_p1_unbitsliced, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
 			
-			// for(int i = 0; i < round; i++) {
+			for(int i = 0; i <= round; i++) {
+				uint32_t num = EVALS_PER_MULTILINEAR >> i;
 				fold_list_halves(
-					gpu_multilinear_evaluations_p1,
-					gpu_multilinear_evaluations_p1,
-					coefficient,
-					num_eval_points_per_multilinear,
+					gpu_original_multilinear_evaluations_p1_unbitsliced,
+					gpu_original_multilinear_evaluations_p1_unbitsliced,
+					cpu_random_challenges_batched + BITS_WIDTH * i,
+					num,
 					EVALS_PER_MULTILINEAR,
 					EVALS_PER_MULTILINEAR,
 					1	
 				);
-			// }
+			}
 
 			fold_multiple(
-				gpu_multilinear_evaluations_p1,
+				gpu_original_multilinear_evaluations_p1_unbitsliced,
 				gpu_original_multilinear_evaluations,
 				cpu_random_challenges_batched,
 				gpu_multilinear_evaluations,
@@ -477,15 +481,15 @@ public:
 			);
 		} else {
 			//printf("fold only p1 evaluations\n");
-			fold_list_halves(
-				gpu_multilinear_evaluations_p1,
-				gpu_multilinear_evaluations_p1,
-				coefficient,
-				num_eval_points_per_multilinear,
-				EVALS_PER_MULTILINEAR,
-				EVALS_PER_MULTILINEAR,
-				1	
-			);
+			// fold_list_halves(
+			// 	gpu_multilinear_evaluations_p1,
+			// 	gpu_multilinear_evaluations_p1,
+			// 	cpu_random_challenges_batched + BITS_WIDTH * round,
+			// 	num_eval_points_per_multilinear,
+			// 	EVALS_PER_MULTILINEAR,
+			// 	EVALS_PER_MULTILINEAR,
+			// 	1	
+			// );
 		}
 
 
