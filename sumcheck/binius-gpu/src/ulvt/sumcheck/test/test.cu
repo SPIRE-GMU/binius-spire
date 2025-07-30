@@ -32,7 +32,7 @@ void print_uint128_hex(__uint128_t value) {
 
 template <uint32_t NUM_VARS, uint32_t COMPOSITION_SIZE, bool DATA_IS_TRANSPOSED>
 void test_sumcheck() {
-	print_uint128_hex((__uint128_t) 1234123412341234);
+	//print_uint128_hex((__uint128_t) 1234123412341234);
 
 	constexpr uint32_t interpolation_points = COMPOSITION_SIZE + 1;
 	const size_t num_ints_in_evals = INTS_PER_VALUE * (1 << NUM_VARS) * COMPOSITION_SIZE;
@@ -143,6 +143,14 @@ void test_sumcheck() {
 	REQUIRE(expected_claim == claimed_evaluation);
 
 	printf("FINISH VERIFICATION, TEST PASSED\n");
+
+
+}
+
+template<uint32_t NUM_VARS, uint32_t COMPOSITION_SIZE, bool DATA_IS_TRANSPOSED>
+void test_sumcheck_then_reset() {
+	test_sumcheck<NUM_VARS, COMPOSITION_SIZE, DATA_IS_TRANSPOSED>();
+	check(cudaDeviceReset());
 }
 
 /*TEST_CASE("sumcheck 19 vars", "[sumcheck]") {
@@ -166,37 +174,19 @@ TEST_CASE("sumcheck 20 vars", "[sumcheck]") {
 
 	test_sumcheck<20, 4, true>();*/
 
-	test_sumcheck<20, 2, false>();
-
-	test_sumcheck<20, 3, false>();
-
-	test_sumcheck<20, 4, false>();
+	test_sumcheck_then_reset<20, 2, false>();
+	test_sumcheck_then_reset<20, 3, false>();
+	test_sumcheck_then_reset<20, 4, false>();
 }
 
 TEST_CASE("sumcheck 24 vars", "[sumcheck]") {
-	/*test_sumcheck<24, 2, true>();
-
-	test_sumcheck<24, 3, true>();
-
-	test_sumcheck<24, 4, true>();*/
-
-	test_sumcheck<24, 2, false>();
-
-	test_sumcheck<24, 3, false>();
-
-	test_sumcheck<24, 4, false>();
+	test_sumcheck_then_reset<24, 2, false>();
+	test_sumcheck_then_reset<24, 3, false>();
+	test_sumcheck_then_reset<24, 4, false>();
 }
 
 TEST_CASE("sumcheck 28 vars", "[sumcheck]") {
-	/*test_sumcheck<28, 2, true>();
-
-	test_sumcheck<28, 3, true>();
-
-	test_sumcheck<28, 4, true>();*/
-
-	test_sumcheck<28, 2, false>();
-
-	test_sumcheck<28, 3, false>();
-
-	test_sumcheck<28, 4, false>();
+	test_sumcheck_then_reset<28, 2, false>();
+	test_sumcheck_then_reset<28, 3, false>();
+	test_sumcheck_then_reset<28, 4, false>();
 }

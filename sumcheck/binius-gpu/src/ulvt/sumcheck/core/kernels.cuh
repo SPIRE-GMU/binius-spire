@@ -59,7 +59,7 @@ __global__ void compute_compositions( // evaluates Si(Xi) at multiple points and
 	memset(folded_products_sums_this_thread, 0, INTERPOLATION_POINTS * BITS_WIDTH * sizeof(uint32_t));
 	memset(multilinear_products_sums_this_thread, 0, BITS_WIDTH * sizeof(uint32_t));
 
-	for (uint32_t row_idx = tid; row_idx < num_batch_rows; row_idx += gridDim.x * blockDim.x) {
+	for (uint64_t row_idx = tid; row_idx < num_batch_rows; row_idx += gridDim.x * blockDim.x) {
 		uint32_t this_multilinear_product[BITS_WIDTH];
 
 		// finding the claimed sum P(000) + P(001) + P(010) + ... + P(110) + P(111)
@@ -145,6 +145,16 @@ __global__ void compute_compositions_using_get_batch( // evaluates Si(Xi) at mul
 	const uint32_t round_idx,
 	const uint32_t n
 ) {
+	// __shared__ uint32_t random_challenges_subset_products_s[(1 << 7) * BITS_WIDTH];
+
+	// for(int i = threadIdx.x; i < (1 << round_idx) * BITS_WIDTH; i += blockIdx.x) {
+	// 	printf("set %u\n", i);
+	// 	random_challenges_subset_products_s[i] = random_challenges_subset_products[i];
+	// }
+
+	// __syncthreads();
+
+
 	const uint32_t tid = threadIdx.x + blockIdx.x * blockDim.x;  // start the batch index off at the tid
 
 	uint32_t folded_products_sums_this_thread[INTERPOLATION_POINTS * BITS_WIDTH];
@@ -156,28 +166,11 @@ __global__ void compute_compositions_using_get_batch( // evaluates Si(Xi) at mul
 	for (uint32_t row_idx = tid; row_idx < num_batch_rows; row_idx += gridDim.x * blockDim.x) {
 		uint32_t this_multilinear_product[BITS_WIDTH];
 
-		// finding the claimed sum P(000) + P(001) + P(010) + ... + P(110) + P(111)
-		/*evaluate_composition_on_batch_row( 
-			multilinear_evaluations + BITS_WIDTH * row_idx, // the row_idx'th batch 
-			this_multilinear_product, // destination for p1p2p3...pd
-			COMPOSITION_SIZE, // =d
-			EVALS_PER_MULTILINEAR // number of elements in multilinear (2^n) to define the striding of composition
-		);*/
 		memcpy(this_multilinear_product, multilinear_evaluations_p1 + BITS_WIDTH * row_idx, BITS_WIDTH * sizeof(uint32_t));
 		for(int i = 1; i < COMPOSITION_SIZE; i++) {
 			uint32_t batch[BITS_WIDTH];
 			memset(batch, 0, BITS_WIDTH*sizeof(uint32_t));
 			get_batch(multilinear_evaluations, random_challenges_subset_products, batch, row_idx, i-1, round_idx, n);
-			// if(row_idx == 0) {
-			// 	printf("random products %u\n", random_challenges_subset_products[0]);
-			// 	printf("batch 0 %x\n", batch[0]);
-			// 	printf("batch 1 %x\n", batch[1]);
-			// 	printf("batch 2 %x\n", batch[2]);
-			// 	printf("batch 3 %x\n", batch[3]);
-			// 	printf("batch 64 %x\n", batch[64]);
-			// 	printf("mle 0 %x\n", multilinear_evaluations[0]);
-			// 	printf("mle 1 %x\n", multilinear_evaluations[(1 << (n - round_idx)) / 32]);
-			// }
 			multiply_unrolled<TOWER_HEIGHT>(this_multilinear_product, batch, this_multilinear_product);
 		}
 
@@ -192,14 +185,8 @@ __global__ void compute_compositions_using_get_batch( // evaluates Si(Xi) at mul
 
 			for (int column_idx = 0; column_idx < COMPOSITION_SIZE; ++column_idx) {
 				uint32_t batches_fitting_into_original_column = EVALS_PER_MULTILINEAR / 32;
-				/*const uint32_t* lower_batch =
-					multilinear_evaluations +
-					BITS_WIDTH * (batches_fitting_into_original_column * column_idx + row_idx);
-				const uint32_t* upper_batch = lower_batch + BITS_WIDTH * num_batch_rows_to_fold;*/
-				if(column_idx == 0) {
-					uint32_t *lower_batch, *upper_batch;
-					lower_batch = (uint32_t*) malloc(BITS_WIDTH * sizeof(uint32_t));
-					upper_batch = (uint32_t*) malloc(BITS_WIDTH * sizeof(uint32_t));
+				if(column_idx < COMPOSITION_SIZE-1) {
+					uint32_t lower_batch[BITS_WIDTH], upper_batch[BITS_WIDTH];
 					get_batch(multilinear_evaluations, random_challenges_subset_products, lower_batch, row_idx, column_idx, round_idx, n);
 					get_batch(multilinear_evaluations, random_challenges_subset_products, upper_batch, row_idx + num_batch_rows_to_fold, column_idx, round_idx, n);
 					for (int interpolation_point = 0; interpolation_point < INTERPOLATION_POINTS; ++interpolation_point)

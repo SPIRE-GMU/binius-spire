@@ -48,8 +48,16 @@ Benchmarks benchmark_one_sample() {
 template <uint32_t NUM_VARS, uint32_t COMPOSITION_SIZE>
 void benchmark(int num_runs) {
 	std::cout << "NUM_VARS: " << NUM_VARS << " COMPOSITION_SIZE: " << COMPOSITION_SIZE << std::endl;
+	
+	
+	size_t free_mem, total_mem;
+	cudaMemGetInfo(&free_mem, &total_mem);
+	printf("before free memory: %llu, total memory: %llu\n", free_mem, total_mem);
 
-	benchmark_one_sample<NUM_VARS, COMPOSITION_SIZE>();
+	//benchmark_one_sample<NUM_VARS, COMPOSITION_SIZE>();
+	
+	cudaMemGetInfo(&free_mem, &total_mem);
+	printf("after free memory: %llu, total memory: %llu\n", free_mem, total_mem);
 
 	double total_memcpy = 0;
 	double total_transpose = 0;
@@ -66,19 +74,21 @@ void benchmark(int num_runs) {
 	std::cout << "Transpose: " << total_transpose / num_runs << std::endl;
 	std::cout << "Raw: " << total_raw / num_runs << std::endl;
 	std::cout << "Total: " << (total_memcpy + total_transpose + total_raw) / num_runs << std::endl;
+	
+	check(cudaDeviceReset());
 }
 
 int main() {
-	benchmark<20, 2>(1);
-	benchmark<20, 3>(1);
-	benchmark<20, 4>(1);
+	// benchmark<20, 2>(1);
+	// benchmark<20, 3>(1);
+	// benchmark<20, 4>(1);
 
-	benchmark<24, 2>(1);
-	benchmark<24, 3>(1);
-	benchmark<24, 4>(1);
+	// benchmark<24, 2>(1);
+	// benchmark<24, 3>(1);
+	// benchmark<24, 4>(1);
 
-	benchmark<28, 2>(1);
-	benchmark<28, 3>(1);
+	// benchmark<28, 2>(1);
+	// benchmark<28, 3>(1);
 	benchmark<28, 4>(1);
 
 	return 0;

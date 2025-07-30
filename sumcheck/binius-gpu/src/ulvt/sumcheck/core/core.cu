@@ -324,6 +324,8 @@ __host__ void calculate_interpolation_points(
 		// claimed = S(0) + S(1)
 		claimed_sum[i] = destination[i] ^ destination[i + INTS_PER_VALUE];
 	}
+
+	check(cudaFree(multilinear_product_sums_d));
 }
 
 __host__ __device__ void get_batch(
@@ -339,10 +341,62 @@ __host__ __device__ void get_batch(
 	uint32_t j = 0;
 	memset(destination, 0, BITS_WIDTH * sizeof(uint32_t));
 	for(int i = idx; i < (1 << n) / 32; i += stride) {
+		//printf("i=%u out of %u, batch=%u\n", i, (1 << n) / 32, multilinear_evaluations_d[i + p_idx * (1 << n) / 32]);
 		calculate_eb_xor(random_challenges_subset_products + j * BITS_WIDTH, multilinear_evaluations_d[i + p_idx * (1 << n) / 32], destination);
+		//printf("destination is now %u\n", destination[0]);
 		j++;
 	}
 }
+
+// __global__ void fold_multiple_kernel( // only binary
+// 	const uint32_t* multilinear_evaluations_d,
+// 	uint32_t* destination,
+// 	uint32_t* random_challenge_subset_products,
+// 	const uint32_t round_idx,
+// 	const uint32_t n,
+// 	const uint32_t d
+// ) {
+// 	uint32_t num_batches = (1 << n) / 32;
+// 	uint32_t out_num_batches = (1 << (n - round_idx)) / 32;
+// 	uint32_t idx = threadIdx.x + blockDim.x * blockIdx.x;
+// 	for(int p_idx = 0; p_idx < d; p_idx++) {
+// 		for(int batch_idx = idx; batch_idx < out_num_batches; batch_idx += blockDim.x * gridDim.x) {
+// 			get_batch(
+// 				multilinear_evaluations_d,
+// 				random_challenge_subset_products,
+// 				destination + p_idx * BITS_WIDTH * num_batches + batch_idx * BITS_WIDTH,
+// 				batch_idx,
+// 				p_idx,
+// 				round_idx,
+// 				n
+// 			);
+// 		}
+// 	}
+
+	// for(int i = idx; i < d * out_num_batches; i += blockDim.x*gridDim.x) {
+		// uint32_t p_idx = i / out_num_batches;
+		// uint32_t batch_idx = i % out_num_batches;
+		//printf("get_batch %d\n", i);
+		// get_batch(multilinear_evaluations_d, random_challenge_subset_products, destination + i * BITS_WIDTH, batch_idx, p_idx, round_idx, n);
+		//get_batch(multilinear_evaluations_d, random_challenge_subset_products, destinatio + n, batch_idx, p_idx, round_idx, n);
+		// if(i == 0) {
+		// 	printf("folded batch\n");
+		// 	for(int j = 0; j < BITS_WIDTH; j++) 
+		// 		printf("%u\n", destination[j]);
+		// }
+	// }
+
+	// if (idx == 0)
+	// {
+	// 	for(int i = 0; i < (1 << round_idx); i++) {
+	// 		for(int j = 0; j < BITS_WIDTH; j++) {
+	// 			printf("%x", random_challenge_subset_products[i*BITS_WIDTH+j] & 1);
+	// 		}
+	// 		printf("\n");
+	// 	}
+	// 	get_batch(multilinear_evaluations_d, random_challenge_subset_products, destination, 0, 0, round_idx, n);
+	// }
+// }
 
 __global__ void fold_multiple_kernel( // only binary
 	const uint32_t* multilinear_evaluations_d,
@@ -352,14 +406,6 @@ __global__ void fold_multiple_kernel( // only binary
 	const uint32_t n,
 	const uint32_t d
 ) {
-	extern __shared__ uint32_t random_challenge_subset_products_s[];//[(1 << round_idx) * BITS_WIDTH];
-
-	for(int i = threadIdx.x; i < (1 << round_idx) * BITS_WIDTH; i += blockDim.x) {
-		random_challenge_subset_products_s[i] = random_challenge_subset_products[i];
-	}
-
-	__syncthreads();
-
 	uint32_t num_batches = (1 << n) / 32;
 	uint32_t out_num_batches = (1 << (n - round_idx)) / 32;
 	uint32_t idx = threadIdx.x + blockDim.x * blockIdx.x;
@@ -367,7 +413,7 @@ __global__ void fold_multiple_kernel( // only binary
 		for(int batch_idx = idx; batch_idx < out_num_batches; batch_idx += blockDim.x * gridDim.x) {
 			get_batch(
 				multilinear_evaluations_d,
-				random_challenge_subset_products_s,
+				random_challenge_subset_products,
 				destination + p_idx * BITS_WIDTH * num_batches + batch_idx * BITS_WIDTH,
 				batch_idx,
 				p_idx,
@@ -421,9 +467,11 @@ __host__ void fold_multiple(
 	
 	//check(cudaMemset(destination, 0, d * padded_batches_per_multilinear * BITS_WIDTH * sizeof(uint32_t)));
 	check(cudaMemcpy(destination, folded_multilinear_evaluations_p1, padded_batches_per_multilinear * BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToDevice));
-	fold_multiple_kernel<<<8192, 256, (1 << round_idx) * BITS_WIDTH * sizeof(uint32_t)>>>(multilinear_evaluations_d, destination + padded_batches_per_multilinear * BITS_WIDTH, random_challenge_subset_products_d, round_idx, n, d-1);
+	fold_multiple_kernel<<<2048, 128>>>(multilinear_evaluations_d, destination + padded_batches_per_multilinear * BITS_WIDTH, random_challenge_subset_products_d, round_idx, n, d-1);
 
 	check(cudaDeviceSynchronize());
+
+	check(cudaFree(random_challenge_subset_products_d));
 }
 
 __host__ __device__ void evaluate_composition_on_batch_row( // after folding, calculate the claimed sum over hypercube by multiplying the individual multilinear evaluations
