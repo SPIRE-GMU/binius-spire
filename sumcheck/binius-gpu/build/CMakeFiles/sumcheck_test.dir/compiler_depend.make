@@ -271,6 +271,7 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/test.cu.o: /home/intern-04/b
   /usr/include/c++/12/bits/char_traits.h \
   /usr/include/c++/12/bits/charconv.h \
   /usr/include/c++/12/bits/chrono.h \
+  /usr/include/c++/12/bits/codecvt.h \
   /usr/include/c++/12/bits/concept_check.h \
   /usr/include/c++/12/bits/cpp_type_traits.h \
   /usr/include/c++/12/bits/cxxabi_forced.h \
@@ -287,8 +288,11 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/test.cu.o: /home/intern-04/b
   /usr/include/c++/12/bits/iterator_concepts.h \
   /usr/include/c++/12/bits/locale_classes.h \
   /usr/include/c++/12/bits/locale_classes.tcc \
+  /usr/include/c++/12/bits/locale_conv.h \
   /usr/include/c++/12/bits/locale_facets.h \
   /usr/include/c++/12/bits/locale_facets.tcc \
+  /usr/include/c++/12/bits/locale_facets_nonio.h \
+  /usr/include/c++/12/bits/locale_facets_nonio.tcc \
   /usr/include/c++/12/bits/localefwd.h \
   /usr/include/c++/12/bits/max_size_type.h \
   /usr/include/c++/12/bits/memoryfwd.h \
@@ -301,6 +305,7 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/test.cu.o: /home/intern-04/b
   /usr/include/c++/12/bits/postypes.h \
   /usr/include/c++/12/bits/predefined_ops.h \
   /usr/include/c++/12/bits/ptr_traits.h \
+  /usr/include/c++/12/bits/quoted_string.h \
   /usr/include/c++/12/bits/range_access.h \
   /usr/include/c++/12/bits/ranges_base.h \
   /usr/include/c++/12/bits/ranges_cmp.h \
@@ -350,11 +355,13 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/test.cu.o: /home/intern-04/b
   /usr/include/c++/12/ext/string_conversions.h \
   /usr/include/c++/12/ext/type_traits.h \
   /usr/include/c++/12/initializer_list \
+  /usr/include/c++/12/iomanip \
   /usr/include/c++/12/ios \
   /usr/include/c++/12/iosfwd \
   /usr/include/c++/12/iostream \
   /usr/include/c++/12/istream \
   /usr/include/c++/12/limits \
+  /usr/include/c++/12/locale \
   /usr/include/c++/12/math.h \
   /usr/include/c++/12/new \
   /usr/include/c++/12/numbers \
@@ -389,6 +396,7 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/test.cu.o: /home/intern-04/b
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
+  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/errno.h \
   /usr/include/linux/limits.h \
@@ -498,7 +506,9 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/test.cu.o: /home/intern-04/b
   /usr/include/x86_64-linux-gnu/c++/12/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/12/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/12/bits/gthr.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -2000,8 +2010,6 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/verifier.cu.o: /home/intern-
 
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__utility/to_underlying.h:
 
-/usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__utility/integer_sequence.h:
-
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__utility/forward_like.h:
 
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__utility/declval.h:
@@ -2100,8 +2108,6 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/verifier.cu.o: /home/intern-
 
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__type_traits/is_callable.h:
 
-/usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__type_traits/is_bounded_array.h:
-
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__type_traits/is_signed.h:
 
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__type_traits/is_assignable.h:
@@ -2191,8 +2197,6 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/verifier.cu.o: /home/intern-
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__concepts/movable.h:
 
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__concepts/different_from.h:
-
-/usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__concepts/copyable.h:
 
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__type_traits/is_pod.h:
 
@@ -2302,6 +2306,12 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/verifier.cu.o: /home/intern-
 
 /usr/include/x86_64-linux-gnu/sys/single_threaded.h:
 
+/usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__type_traits/is_bounded_array.h:
+
+/usr/include/x86_64-linux-gnu/c++/12/bits/time_members.h:
+
+/usr/include/x86_64-linux-gnu/c++/12/bits/messages_members.h:
+
 /usr/include/x86_64-linux-gnu/c++/12/bits/gthr.h:
 
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__type_traits/is_array.h:
@@ -2328,9 +2338,17 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/verifier.cu.o: /home/intern-
 
 /usr/include/x86_64-linux-gnu/bits/cpu-set.h:
 
-/usr/include/c++/12/ext/numeric_traits.h:
+/usr/include/wchar.h:
 
 /usr/include/sched.h:
+
+/usr/include/linux/errno.h:
+
+/usr/include/libintl.h:
+
+/usr/include/c++/12/vector:
+
+/usr/include/c++/12/ext/numeric_traits.h:
 
 /usr/local/cuda-12.6/targets/x86_64-linux/include/crt/math_functions.h:
 
@@ -2426,11 +2444,11 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/verifier.cu.o: /home/intern-
 
 /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h:
 
-/usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__fwd/array.h:
+/usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__type_traits/extent.h:
 
-/usr/local/cuda-12.6/targets/x86_64-linux/include/crt/host_config.h:
+/usr/include/pthread.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
+/usr/include/c++/12/cwctype:
 
 /usr/include/c++/12/tr1/legendre_function.tcc:
 
@@ -2447,8 +2465,6 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/verifier.cu.o: /home/intern-
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__type_traits/is_trivially_move_assignable.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 
@@ -2477,6 +2493,18 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/verifier.cu.o: /home/intern-
 /usr/include/x86_64-linux-gnu/bits/stdlib.h:
 
 /usr/local/cuda-12.6/targets/x86_64-linux/include/crt/device_functions.hpp:
+
+/usr/include/errno.h:
+
+/usr/include/c++/12/utility:
+
+/usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__fwd/array.h:
+
+/usr/local/cuda-12.6/targets/x86_64-linux/include/crt/host_config.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
+
+/usr/include/c++/12/bits/locale_facets_nonio.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
@@ -2517,12 +2545,6 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/verifier.cu.o: /home/intern-
 /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
-
-/usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__type_traits/extent.h:
-
-/usr/include/c++/12/cwctype:
-
-/usr/include/pthread.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
 
@@ -2816,8 +2838,6 @@ third-party/Catch2/generated-includes/catch2/catch_user_config.hpp:
 
 /usr/include/c++/12/bits/ostream.tcc:
 
-/usr/include/linux/errno.h:
-
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__type_traits/is_trivial.h:
 
 /usr/include/c++/12/tr1/special_function_util.h:
@@ -2855,6 +2875,8 @@ third-party/Catch2/generated-includes/catch2/catch_user_config.hpp:
 /usr/include/c++/12/initializer_list:
 
 /home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/src/catch2/interfaces/catch_interfaces_registry_hub.hpp:
+
+/usr/include/c++/12/bits/locale_facets_nonio.tcc:
 
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/type_traits:
 
@@ -2923,6 +2945,8 @@ third-party/Catch2/generated-includes/catch2/catch_user_config.hpp:
 /usr/local/cuda-12.6/targets/x86_64-linux/include/sm_30_intrinsics.h:
 
 /usr/include/assert.h:
+
+/usr/include/c++/12/bits/locale_conv.h:
 
 /usr/include/endian.h:
 
@@ -3018,8 +3042,6 @@ third-party/Catch2/generated-includes/catch2/catch_user_config.hpp:
 
 /home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/src/catch2/catch_timer.hpp:
 
-/usr/include/wchar.h:
-
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__utility/exchange.h:
 
 /home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/src/catch2/catch_tostring.hpp:
@@ -3045,8 +3067,6 @@ third-party/Catch2/generated-includes/catch2/catch_user_config.hpp:
 /usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
 
 /usr/include/asm-generic/errno-base.h:
-
-/usr/include/c++/12/vector:
 
 /home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/src/catch2/internal/catch_config_wchar.hpp:
 
@@ -3110,6 +3130,10 @@ third-party/Catch2/generated-includes/catch2/catch_user_config.hpp:
 
 /usr/include/c++/12/backward/binders.h:
 
+/usr/include/locale.h:
+
+/usr/include/c++/12/bits/alloc_traits.h:
+
 /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
 /home/intern-04/binius-spire/sumcheck/binius-gpu/third-party/Catch2/src/catch2/internal/catch_stringref.hpp:
@@ -3155,6 +3179,10 @@ third-party/Catch2/generated-includes/catch2/catch_user_config.hpp:
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__cuda/cstdint_prelude.h:
 
 /usr/include/c++/12/bits/chrono.h:
+
+/usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__utility/integer_sequence.h:
+
+/usr/include/c++/12/bits/codecvt.h:
 
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__cccl/execution_space.h:
 
@@ -3202,6 +3230,10 @@ third-party/Catch2/generated-includes/catch2/catch_user_config.hpp:
 
 /usr/include/c++/12/bits/postypes.h:
 
+/usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__concepts/copyable.h:
+
+/usr/include/c++/12/bits/quoted_string.h:
+
 /usr/include/c++/12/bits/range_access.h:
 
 /usr/include/c++/12/bits/ranges_base.h:
@@ -3242,9 +3274,15 @@ third-party/Catch2/generated-includes/catch2/catch_user_config.hpp:
 
 /usr/include/c++/12/exception:
 
+/usr/include/x86_64-linux-gnu/bits/waitstatus.h:
+
+/usr/include/c++/12/iomanip:
+
 /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__utility/cmp.h:
 
 /usr/include/c++/12/ios:
+
+/usr/include/c++/12/locale:
 
 /usr/include/c++/12/ostream:
 
@@ -3259,11 +3297,3 @@ third-party/Catch2/generated-includes/catch2/catch_user_config.hpp:
 /usr/include/c++/12/stdexcept:
 
 /usr/include/c++/12/string:
-
-/usr/include/c++/12/utility:
-
-/usr/include/errno.h:
-
-/usr/include/c++/12/bits/alloc_traits.h:
-
-/usr/include/locale.h:
