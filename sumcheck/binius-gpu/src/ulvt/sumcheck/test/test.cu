@@ -2,6 +2,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <cstdint>
 #include <iostream>
+#include <iomanip>
 #include <vector>
 
 #include "../../utils/bitslicing.cuh"
@@ -10,8 +11,29 @@
 #include "./verifier.cuh"
 #include "utils/bigints.cuh"
 
+void print_uint128_hex(__uint128_t value) {
+    if (value == 0) {
+        std::cout << "0x0\n";
+        return;
+    }
+
+    // Split into two 64-bit parts
+    uint64_t high = static_cast<uint64_t>(value >> 64);
+    uint64_t low = static_cast<uint64_t>(value);
+
+    std::cout << "0x";
+    if (high != 0)
+        std::cout << std::hex << high << std::setfill('0') << std::setw(16) << low;
+    else
+        std::cout << std::hex << low;
+
+    std::cout << std::dec << std::endl; // reset to decimal
+}
+
 template <uint32_t NUM_VARS, uint32_t COMPOSITION_SIZE, bool DATA_IS_TRANSPOSED>
 void test_sumcheck() {
+	print_uint128_hex((__uint128_t) 1234123412341234);
+
 	constexpr uint32_t interpolation_points = COMPOSITION_SIZE + 1;
 	const size_t num_ints_in_evals = INTS_PER_VALUE * (1 << NUM_VARS) * COMPOSITION_SIZE;
 
@@ -48,7 +70,17 @@ void test_sumcheck() {
 
 		// Check that this round's sum matches the next claim expected by the verifier from the last fold
 
-		REQUIRE(((round == 0) || (sum_bigint == expected_claim)));
+		// REQUIRE(((round == 0) || (sum_bigint == expected_claim)));
+		if(round != 0) {
+			if(sum_bigint != expected_claim) {
+				printf("REQUIRE assertion failed. ");
+				print_uint128_hex(sum_bigint);
+				printf(" =/= ");
+				print_uint128_hex(expected_claim);
+				printf("\n");
+			}
+			REQUIRE(sum_bigint == expected_claim);
+		}
 
 		__uint128_t points_bigint_arr[interpolation_points];
 
