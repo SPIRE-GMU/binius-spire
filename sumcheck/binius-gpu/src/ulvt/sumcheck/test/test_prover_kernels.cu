@@ -390,26 +390,8 @@ __host__ void get_batch_full(
     const uint32_t n,
     const uint32_t d
 ) {
-    uint32_t* random_challenges_copy = (uint32_t*) malloc(round_idx * BITS_WIDTH * sizeof(uint32_t));
-	memcpy(random_challenges_copy, random_challenges, round_idx * BITS_WIDTH * sizeof(uint32_t));
     uint32_t* random_challenge_subset_products = (uint32_t*) malloc(BITS_WIDTH * (1 << round_idx) * sizeof(uint32_t));
-    memset(random_challenge_subset_products, 0, BITS_WIDTH * (1 << round_idx) * sizeof(uint32_t));
-
-	for(int mask = 0; mask < (1 << round_idx); mask++) {
-		uint32_t* product = random_challenge_subset_products + mask*BITS_WIDTH;
-        product[0] = 0xFFFFFFFF;
-
-        for(int i = 0; i < round_idx; i++) {
-            int rev_i = round_idx - i - 1;
-			if(((mask >> i) & 1) == 0) {
-				random_challenges_copy[BITS_WIDTH*rev_i] ^= 0xFFFFFFFF;
-				multiply_unrolled<TOWER_HEIGHT>(product, random_challenges_copy + BITS_WIDTH * rev_i, product);
-				random_challenges_copy[BITS_WIDTH*rev_i] ^= 0xFFFFFFFF;
-			} else {
-				multiply_unrolled<TOWER_HEIGHT>(product, random_challenges_copy + BITS_WIDTH * rev_i, product);
-			}
-		}
-	}
+    calculate_random_challenge_subset_products(random_challenges, random_challenge_subset_products, round_idx);
 
     get_batch(
         multilinear_evaluations,
@@ -425,7 +407,7 @@ __host__ void get_batch_full(
 TEST_CASE("test_get_batch") {
     const uint32_t n = 20;
     const uint32_t num_batches = (1 << n) / 32;
-    const uint32_t round_idx = 3; // works only for 1
+    const uint32_t round_idx = 3; 
     
     std::srand(0);
 
@@ -470,9 +452,12 @@ TEST_CASE("test_get_batch") {
                 multilinear_evaluations_extension_d,
                 multilinear_evaluations_extension_d,
                 random_challenge_d + BITS_WIDTH * i,
-                ((1 << (n-1)) / 32) >> i,
+                /*((1 << (n-1)) / 32) >> i,
                 ((1 << n) / 32) >> i,
-                ((1 << n) / 32) >> i,
+                ((1 << n) / 32) >> i,*/
+                (1 << (n-1)) >> i >> 5,  
+                (1 << (n)), 
+                (1 << (n)), 
                 1
             );
         check(cudaDeviceSynchronize());
@@ -503,5 +488,120 @@ TEST_CASE("test_get_batch") {
             REQUIRE(get_batch_destination[i] == fold_batch_destination[i]);
         }
     }
+}
 
+TEST_CASE("test_fold_multiple") {
+    const uint32_t n = 28;
+    const uint32_t d = 2;
+    const uint32_t num_batches = (1 << n) / 32;
+    const uint32_t round_idx = 7; // works only for 1
+    
+    std::srand(0);
+
+    uint32_t* multilinear_evaluations_p1 = (uint32_t*) malloc(num_batches * BITS_WIDTH * sizeof(uint32_t));
+    uint32_t* multilinear_evaluations_base = (uint32_t*) malloc((d-1) * num_batches * sizeof(uint32_t));
+
+    uint32_t* multilinear_evaluations_extension = (uint32_t*) malloc(d * num_batches * BITS_WIDTH * sizeof(uint32_t));
+    uint32_t* random_challenge = (uint32_t*) malloc(round_idx * INTS_PER_VALUE * sizeof(uint32_t));
+    uint32_t* random_challenge_batch = (uint32_t*) malloc(round_idx * BITS_WIDTH * sizeof(uint32_t));
+
+
+    uint32_t* multilinear_evaluations_p1_d;
+    uint32_t* multilinear_evaluations_base_d;
+    uint32_t* multilinear_evaluations_extension_d;
+    uint32_t* multilinear_evaluations_folded_d;
+    uint32_t* random_challenge_d;
+
+    check(cudaMalloc(&multilinear_evaluations_p1_d, num_batches * BITS_WIDTH * sizeof(uint32_t)));
+    check(cudaMalloc(&multilinear_evaluations_base_d, (d-1) * num_batches * sizeof(uint32_t)));
+    check(cudaMalloc(&multilinear_evaluations_extension_d, d * num_batches * BITS_WIDTH * sizeof(uint32_t)));
+    check(cudaMalloc(&multilinear_evaluations_folded_d, d * num_batches * BITS_WIDTH * sizeof(uint32_t)));
+    check(cudaMalloc(&random_challenge_d, round_idx * BITS_WIDTH * sizeof(uint32_t)));
+
+    for(int j = 0; j < round_idx; j++) {
+        for(int i = 0; i < INTS_PER_VALUE; i++) {
+            random_challenge[i + j*INTS_PER_VALUE] = std::rand();
+        }
+        BitsliceUtils<BITS_WIDTH>::repeat_value_bitsliced(random_challenge_batch + j*BITS_WIDTH, random_challenge + j * INTS_PER_VALUE);
+    }
+
+    check(cudaMemcpy(random_challenge_d, random_challenge_batch, round_idx * BITS_WIDTH * sizeof(uint32_t), cudaMemcpyHostToDevice));
+
+    for(int i = 0; i < num_batches; i++) {
+        for(int j = 0; j < BITS_WIDTH; j++) {
+            uint32_t batch = std::rand();
+            multilinear_evaluations_p1[i*BITS_WIDTH + j] = batch;
+        }
+    }
+    check(cudaMemcpy(multilinear_evaluations_p1_d, multilinear_evaluations_p1, num_batches * BITS_WIDTH * sizeof(uint32_t), cudaMemcpyHostToDevice));
+    check(cudaMemcpy(multilinear_evaluations_extension, multilinear_evaluations_p1, num_batches * BITS_WIDTH * sizeof(uint32_t), cudaMemcpyHostToHost));
+
+    for(int j = 0; j < (d-1); j++) {
+        for(int i = 0; i < num_batches; i++) {
+            uint32_t batch = std::rand();
+            multilinear_evaluations_base[i] = batch;
+            multilinear_evaluations_extension[BITS_WIDTH * num_batches * (j+1) + BITS_WIDTH * i] = batch;
+        }
+    }
+    check(cudaMemcpy(multilinear_evaluations_base_d, multilinear_evaluations_base, (d-1) * num_batches*sizeof(uint32_t), cudaMemcpyHostToDevice));
+    check(cudaMemcpy(multilinear_evaluations_extension_d, multilinear_evaluations_extension, d * num_batches * BITS_WIDTH * sizeof(uint32_t), cudaMemcpyHostToDevice));
+
+    printf("%u %u\n", multilinear_evaluations_extension[num_batches * BITS_WIDTH], multilinear_evaluations_extension[num_batches * BITS_WIDTH + num_batches * BITS_WIDTH / 2]);
+
+    uint32_t test_folded_batch[BITS_WIDTH];
+    fold_batch(
+        multilinear_evaluations_extension + num_batches * BITS_WIDTH,
+        multilinear_evaluations_extension + num_batches * BITS_WIDTH + num_batches * BITS_WIDTH / 2,
+        test_folded_batch,
+        random_challenge_batch,
+        false
+    );
+    printf("%u\n", test_folded_batch[0]);
+
+    for(int i = 0; i < round_idx; i++) {
+        fold_large_list_halves<<<8192, 256>>>(
+            multilinear_evaluations_extension_d,
+            multilinear_evaluations_extension_d,
+            random_challenge_d + BITS_WIDTH * i,
+            ((1 << (n-1)) / 32) >> i,
+            1 << n,
+            1 << n,
+            d
+        );
+        check(cudaDeviceSynchronize());
+    }
+
+    fold_multiple(
+        multilinear_evaluations_extension_d,
+        multilinear_evaluations_base_d,
+        random_challenge_batch,
+        multilinear_evaluations_folded_d,
+        round_idx,
+        n,
+        d
+    );
+
+    uint32_t num_batches_folded = d * ((1 << n) / 32);
+
+    uint32_t* multilinear_evaluations_folded = (uint32_t*) malloc(num_batches_folded * BITS_WIDTH * sizeof(uint32_t));
+    uint32_t* multilinear_evaluations_folded_multiple = (uint32_t*) malloc(num_batches_folded * BITS_WIDTH * sizeof(uint32_t));
+
+    cudaMemcpy(multilinear_evaluations_folded, multilinear_evaluations_extension_d, num_batches_folded * BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToHost);
+    cudaMemcpy(multilinear_evaluations_folded_multiple, multilinear_evaluations_folded_d, num_batches_folded * BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToHost);
+
+    //printf("%d\n", num_batches_folded / d * BITS_WIDTH);
+    //for(int i = num_batches_folded / d * BITS_WIDTH; i < d * (num_batches >> round_idx) * BITS_WIDTH; i++) {
+
+    /*for(int i = 0; i < d * (num_batches >> round_idx) * BITS_WIDTH; i++) {
+        REQUIRE(multilinear_evaluations_folded[i] == multilinear_evaluations_folded_multiple[i]);
+    }*/
+    // 4194304
+    for(int j = 1; j < d; j++) {
+        for(int i = 0; i < ((1 << (n-round_idx)) / 32) * BITS_WIDTH; i++) {
+            if(multilinear_evaluations_folded[j * num_batches * BITS_WIDTH + i] != multilinear_evaluations_folded_multiple[j * num_batches * BITS_WIDTH + i]) {
+                printf("%u %u %u\n", i, j, j * num_batches * BITS_WIDTH + i);
+            }
+            REQUIRE(multilinear_evaluations_folded[j * num_batches * BITS_WIDTH + i] == multilinear_evaluations_folded_multiple[j * num_batches * BITS_WIDTH + i]);
+        }
+    }
 }

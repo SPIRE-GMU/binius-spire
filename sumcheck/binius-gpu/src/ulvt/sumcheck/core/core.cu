@@ -266,7 +266,7 @@ __host__ __device__ void calculate_multilinear_product_sums(
 
 __host__ void calculate_interpolation_points(
 	const uint32_t* multilinear_evaluations_p1_unbitsliced,
-	const uint32_t* multilinear_evaluations_p1, // eq polynomial in zerocheck (F(2^128))
+	//const uint32_t* multilinear_evaluations_p1, // eq polynomial in zerocheck (F(2^128))
 	const uint32_t* multilinear_evaluations_d, // should be on gpu
 	const uint32_t* random_challenges,
 	uint32_t* destination,
@@ -339,8 +339,9 @@ __host__ __device__ void get_batch(
 	uint32_t j = 0;
 	memset(destination, 0, BITS_WIDTH * sizeof(uint32_t));
 	for(int i = idx; i < (1 << n) / 32; i += stride) {
-		//printf("i=%d out of %d, batch=%d\n", i, (1 << n) / 32, multilinear_evaluations_d[i + p_idx * (1 << n) / 32]);
+		//printf("i=%u out of %u, batch=%u\n", i, (1 << n) / 32, multilinear_evaluations_d[i + p_idx * (1 << n) / 32]);
 		calculate_eb_xor(random_challenges_subset_products + j * BITS_WIDTH, multilinear_evaluations_d[i + p_idx * (1 << n) / 32], destination);
+		//printf("destination is now %u\n", destination[0]);
 		j++;
 	}
 }
@@ -356,15 +357,64 @@ __global__ void fold_multiple_kernel( // only binary
 	uint32_t num_batches = (1 << n) / 32;
 	uint32_t out_num_batches = (1 << (n - round_idx)) / 32;
 	uint32_t idx = threadIdx.x + blockDim.x * blockIdx.x;
-	for(int i = idx; i < d * out_num_batches; i += blockDim.x*gridDim.x) {
-		uint32_t p_idx = i / out_num_batches;
-		uint32_t batch_idx = i % out_num_batches;
-		get_batch(multilinear_evaluations_d, random_challenge_subset_products, destination + i, batch_idx, p_idx, round_idx, n);
-		/*if(i == 0) {
-			printf("folded batch\n");
-			for(int j = 0; j < BITS_WIDTH; j++) 
-				printf("%x\n", destination[j]);
-		}*/
+	for(int p_idx = 0; p_idx < d; p_idx++) {
+		for(int batch_idx = idx; batch_idx < out_num_batches; batch_idx += blockDim.x * gridDim.x) {
+			get_batch(
+				multilinear_evaluations_d,
+				random_challenge_subset_products,
+				destination + p_idx * BITS_WIDTH * num_batches + batch_idx * BITS_WIDTH,
+				batch_idx,
+				p_idx,
+				round_idx,
+				n
+			);
+		}
+	}
+
+	// for(int i = idx; i < d * out_num_batches; i += blockDim.x*gridDim.x) {
+		// uint32_t p_idx = i / out_num_batches;
+		// uint32_t batch_idx = i % out_num_batches;
+		//printf("get_batch %d\n", i);
+		// get_batch(multilinear_evaluations_d, random_challenge_subset_products, destination + i * BITS_WIDTH, batch_idx, p_idx, round_idx, n);
+		//get_batch(multilinear_evaluations_d, random_challenge_subset_products, destinatio + n, batch_idx, p_idx, round_idx, n);
+		// if(i == 0) {
+		// 	printf("folded batch\n");
+		// 	for(int j = 0; j < BITS_WIDTH; j++) 
+		// 		printf("%u\n", destination[j]);
+		// }
+	// }
+
+	// if (idx == 0)
+	// {
+	// 	for(int i = 0; i < (1 << round_idx); i++) {
+	// 		for(int j = 0; j < BITS_WIDTH; j++) {
+	// 			printf("%x", random_challenge_subset_products[i*BITS_WIDTH+j] & 1);
+	// 		}
+	// 		printf("\n");
+	// 	}
+	// 	get_batch(multilinear_evaluations_d, random_challenge_subset_products, destination, 0, 0, round_idx, n);
+	// }
+}
+
+__host__ void calculate_random_challenge_subset_products(const uint32_t* random_challenges, uint32_t* destination, const uint32_t round_idx) {
+    memset(destination, 0, BITS_WIDTH * (1 << round_idx) * sizeof(uint32_t));
+    uint32_t* random_challenges_copy = (uint32_t*) malloc(round_idx * BITS_WIDTH * sizeof(uint32_t));
+	memcpy(random_challenges_copy, random_challenges, round_idx * BITS_WIDTH * sizeof(uint32_t));
+
+	for(int mask = 0; mask < (1 << round_idx); mask++) {
+		uint32_t* product = destination + mask*BITS_WIDTH;
+        product[0] = 0xFFFFFFFF;
+
+        for(int i = 0; i < round_idx; i++) {
+            int rev_i = round_idx - i - 1;
+			if(((mask >> i) & 1) == 0) {
+				random_challenges_copy[BITS_WIDTH*rev_i] ^= 0xFFFFFFFF;
+				multiply_unrolled<TOWER_HEIGHT>(product, random_challenges_copy + BITS_WIDTH * rev_i, product);
+				random_challenges_copy[BITS_WIDTH*rev_i] ^= 0xFFFFFFFF;
+			} else {
+				multiply_unrolled<TOWER_HEIGHT>(product, random_challenges_copy + BITS_WIDTH * rev_i, product);
+			}
+		}
 	}
 }
 
@@ -377,42 +427,19 @@ __host__ void fold_multiple(
 	const uint32_t n,
 	const uint32_t d
 ) {
-	uint32_t* random_challenges_copy = (uint32_t*) malloc((1 << round_idx) * BITS_WIDTH * sizeof(uint32_t));
-	memcpy(random_challenges_copy, random_challenges, (1 << round_idx) * BITS_WIDTH * sizeof(uint32_t));
-	//uint32_t random_challenge_subset_products[BITS_WIDTH * (1 << ROUND_IDX)];
 	uint32_t batches_per_multilinear = (1 << (n - round_idx)) / 32;
-	uint32_t* random_challenge_subset_products = (uint32_t*) malloc(BITS_WIDTH * (1 << round_idx) * sizeof(uint32_t));
-	for(int mask = 0; mask < (1 << round_idx); mask++) {
-		uint32_t* product = random_challenge_subset_products + mask*BITS_WIDTH;
-		for(int i = 0; i < BITS_WIDTH; i++) {
-			if(i == 0)
-				product[i] = 0xFFFFFFFF;
-			else
-				product[i] = 0;
-		}
-		for(int i = 0; i < round_idx; i++) {
-			if(((mask >> i) & 1) == 0) {
-				random_challenges_copy[BITS_WIDTH*i] ^= 0xFFFFFFFF;
-				multiply_unrolled<TOWER_HEIGHT>(product, random_challenges_copy + BITS_WIDTH * i, product);
-				random_challenges_copy[BITS_WIDTH*i] ^= 0xFFFFFFFF;
-			} else {
-				multiply_unrolled<TOWER_HEIGHT>(product, random_challenges_copy + BITS_WIDTH * i, product);
-			}
-		}
-
-		// for(int i = 0; i < BITS_WIDTH; i++) {
-		// 	printf("%x", product[i] & 1);
-		// }
-		// printf("\n");
-	}
-
+	uint32_t padded_batches_per_multilinear = (1 << n) / 32;
+	
+    uint32_t* random_challenge_subset_products = (uint32_t*) malloc(BITS_WIDTH * (1 << round_idx) * sizeof(uint32_t));
+	calculate_random_challenge_subset_products(random_challenges, random_challenge_subset_products, round_idx);
 
 	uint32_t* random_challenge_subset_products_d;
 	check(cudaMalloc(&random_challenge_subset_products_d, BITS_WIDTH * (1 << round_idx) * sizeof(uint32_t)));
 	check(cudaMemcpy(random_challenge_subset_products_d, random_challenge_subset_products, BITS_WIDTH * (1 << round_idx) * sizeof(uint32_t), cudaMemcpyHostToDevice));
 	
-	check(cudaMemcpy(destination, folded_multilinear_evaluations_p1, batches_per_multilinear * BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToDevice));
-	fold_multiple_kernel<<<8192, 256>>>(multilinear_evaluations_d, destination + batches_per_multilinear * BITS_WIDTH, random_challenge_subset_products_d, round_idx, n, d-1);
+	//check(cudaMemset(destination, 0, d * padded_batches_per_multilinear * BITS_WIDTH * sizeof(uint32_t)));
+	check(cudaMemcpy(destination, folded_multilinear_evaluations_p1, padded_batches_per_multilinear * BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToDevice));
+	fold_multiple_kernel<<<8192, 256>>>(multilinear_evaluations_d, destination + padded_batches_per_multilinear * BITS_WIDTH, random_challenge_subset_products_d, round_idx, n, d-1);
 
 	check(cudaDeviceSynchronize());
 }

@@ -24,7 +24,7 @@ __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile 
 
 __host__ __device__ void calculate_interpolation_points(
 	const uint32_t* multilinear_evaluations_p1_unbitsliced, // eq polynomial in zerocheck (F(2^128))
-	const uint32_t* multilinear_evaluations_p1, // eq polynomial in zerocheck (F(2^128))
+	//const uint32_t* multilinear_evaluations_p1, // eq polynomial in zerocheck (F(2^128))
 	const uint32_t* multilinear_evaluations, // binary
 	const uint32_t* random_challenges,
 	uint32_t* destination,
@@ -121,3 +121,5 @@ __host__ __device__ void fold_batch_1( // fold polynomial table in half by plugg
 	const uint32_t coefficient[BITS_WIDTH], // coef is actually just 1 value (r_i) copied over; this makes it so that bitslicing works natively with multiplciations here
 	const bool is_interpolation
 );
+
+__host__ void calculate_random_challenge_subset_products(const uint32_t* random_challenges, uint32_t* destination, const uint32_t round_idx);
