@@ -406,6 +406,14 @@ __global__ void fold_multiple_kernel( // only binary
 	const uint32_t n,
 	const uint32_t d
 ) {
+	__shared__ uint32_t random_challenges_subset_products_s[(1 << 6) * BITS_WIDTH];
+
+	for(int i = threadIdx.x; i < (1 << round_idx) * BITS_WIDTH; i += blockDim.x) {
+		random_challenges_subset_products_s[i] = random_challenge_subset_products[i];
+	}
+
+	__syncthreads();
+
 	uint32_t num_batches = (1 << n) / 32;
 	uint32_t out_num_batches = (1 << (n - round_idx)) / 32;
 	uint32_t idx = threadIdx.x + blockDim.x * blockIdx.x;
@@ -413,7 +421,7 @@ __global__ void fold_multiple_kernel( // only binary
 		for(int batch_idx = idx; batch_idx < out_num_batches; batch_idx += blockDim.x * gridDim.x) {
 			get_batch(
 				multilinear_evaluations_d,
-				random_challenge_subset_products,
+				random_challenges_subset_products_s,
 				destination + p_idx * BITS_WIDTH * num_batches + batch_idx * BITS_WIDTH,
 				batch_idx,
 				p_idx,
@@ -454,7 +462,7 @@ __host__ void fold_multiple(
 	const uint32_t round_idx,
 	const uint32_t n,
 	const uint32_t d
-) {
+) {	
 	uint32_t batches_per_multilinear = (1 << (n - round_idx)) / 32;
 	uint32_t padded_batches_per_multilinear = (1 << n) / 32;
 	

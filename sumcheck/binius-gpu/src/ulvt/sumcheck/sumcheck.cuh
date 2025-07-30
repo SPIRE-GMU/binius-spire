@@ -69,7 +69,7 @@ private:
 	
 	static constexpr size_t TOTAL_INTS_FOLDED = INTS_PER_VALUE * EVALS_PER_MULTILINEAR * COMPOSITION_SIZE / 4;
 
-	static constexpr uint32_t GET_BATCH_SWITCHOVER_ROUND = 6;
+	static constexpr uint32_t GET_BATCH_SWITCHOVER_ROUND = 5;
 
 	uint32_t coefficients[BITS_WIDTH * INTERPOLATION_POINTS];
 
@@ -190,17 +190,6 @@ public:
 
 		if (!DATA_IS_TRANSPOSED) {
 			cudaMemcpy(gpu_original_multilinear_evaluations_p1_unbitsliced, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
-			// cudaMemcpy(gpu_original_multilinear_evaluations_p1, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
-
-			// transpose_kernel<BITS_WIDTH><<<BLOCKS, THREADS_PER_BLOCK>>>(gpu_original_multilinear_evaluations_p1, EVALS_PER_MULTILINEAR / BITS_WIDTH);
-			// transpose_kernel<BITS_WIDTH><<<BLOCKS, THREADS_PER_BLOCK>>>(gpu_original_multilinear_evaluations_p1, TOTAL_INTS / BITS_WIDTH / COMPOSITION_SIZE);
-			// check(cudaDeviceSynchronize());
-
-			// transpose_kernel<BITS_WIDTH>
-				// <<<BLOCKS, THREADS_PER_BLOCK>>>(gpu_multilinear_evaluations, TOTAL_INTS / BITS_WIDTH);
-			// check(cudaDeviceSynchronize());
-			// cudaMemcpy(gpu_multilinear_evaluations_p1, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
-			//cudaMemcpy(gpu_original_multilinear_evaluations_p1, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
 		}
 
 		for (int interpolation_point = 0; interpolation_point < INTERPOLATION_POINTS; ++interpolation_point) {

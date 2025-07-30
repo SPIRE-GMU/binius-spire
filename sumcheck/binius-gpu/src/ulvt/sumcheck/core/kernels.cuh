@@ -145,14 +145,13 @@ __global__ void compute_compositions_using_get_batch( // evaluates Si(Xi) at mul
 	const uint32_t round_idx,
 	const uint32_t n
 ) {
-	// __shared__ uint32_t random_challenges_subset_products_s[(1 << 7) * BITS_WIDTH];
+	__shared__ uint32_t random_challenges_subset_products_s[(1 << 6) * BITS_WIDTH];
 
-	// for(int i = threadIdx.x; i < (1 << round_idx) * BITS_WIDTH; i += blockIdx.x) {
-	// 	printf("set %u\n", i);
-	// 	random_challenges_subset_products_s[i] = random_challenges_subset_products[i];
-	// }
+	for(int i = threadIdx.x; i < (1 << round_idx) * BITS_WIDTH; i += blockDim.x) {
+		random_challenges_subset_products_s[i] = random_challenges_subset_products[i];
+	}
 
-	// __syncthreads();
+	__syncthreads();
 
 
 	const uint32_t tid = threadIdx.x + blockIdx.x * blockDim.x;  // start the batch index off at the tid
@@ -170,7 +169,7 @@ __global__ void compute_compositions_using_get_batch( // evaluates Si(Xi) at mul
 		for(int i = 1; i < COMPOSITION_SIZE; i++) {
 			uint32_t batch[BITS_WIDTH];
 			memset(batch, 0, BITS_WIDTH*sizeof(uint32_t));
-			get_batch(multilinear_evaluations, random_challenges_subset_products, batch, row_idx, i-1, round_idx, n);
+			get_batch(multilinear_evaluations, random_challenges_subset_products_s, batch, row_idx, i-1, round_idx, n);
 			multiply_unrolled<TOWER_HEIGHT>(this_multilinear_product, batch, this_multilinear_product);
 		}
 
@@ -187,8 +186,8 @@ __global__ void compute_compositions_using_get_batch( // evaluates Si(Xi) at mul
 				uint32_t batches_fitting_into_original_column = EVALS_PER_MULTILINEAR / 32;
 				if(column_idx < COMPOSITION_SIZE-1) {
 					uint32_t lower_batch[BITS_WIDTH], upper_batch[BITS_WIDTH];
-					get_batch(multilinear_evaluations, random_challenges_subset_products, lower_batch, row_idx, column_idx, round_idx, n);
-					get_batch(multilinear_evaluations, random_challenges_subset_products, upper_batch, row_idx + num_batch_rows_to_fold, column_idx, round_idx, n);
+					get_batch(multilinear_evaluations, random_challenges_subset_products_s, lower_batch, row_idx, column_idx, round_idx, n);
+					get_batch(multilinear_evaluations, random_challenges_subset_products_s, upper_batch, row_idx + num_batch_rows_to_fold, column_idx, round_idx, n);
 					for (int interpolation_point = 0; interpolation_point < INTERPOLATION_POINTS; ++interpolation_point)
 					{
 						fold_batch( // 3%
