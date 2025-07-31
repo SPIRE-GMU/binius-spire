@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "../utils/constants.hpp"
+#include "../core/core.cuh"
 #include "kernel/verifier_kernel.cuh"
 #include "utils/tower_7_mul.cuh"
 #include "utils/unbitsliced_mul.cuh"
@@ -39,48 +40,48 @@ __uint128_t evaluate_multilinear_given_point(
 
 	__uint128_t *gpu_lagrange_basis_evaluations, *gpu_challenges_ordered_tuple, *gpu_eval;
 
-	cudaMalloc(&gpu_lagrange_basis_evaluations, num_basis_evals * sizeof(__uint128_t));
-	cudaMalloc(&gpu_eval, sizeof(__uint128_t));
-	cudaMemset(gpu_eval, 0, sizeof(__uint128_t));
-	cudaMalloc(&gpu_challenges_ordered_tuple, num_challenges * sizeof(__uint128_t));
+	check(cudaMalloc(&gpu_lagrange_basis_evaluations, num_basis_evals * sizeof(__uint128_t)));
+	check(cudaMalloc(&gpu_eval, sizeof(__uint128_t)));
+	check(cudaMemset(gpu_eval, 0, sizeof(__uint128_t)));
+	check(cudaMalloc(&gpu_challenges_ordered_tuple, num_challenges * sizeof(__uint128_t)));
 
-	cudaMemcpy(
+	check(cudaMemcpy(
 		gpu_lagrange_basis_evaluations,
 		lagrange_basis_evaluations,
 		num_basis_evals * sizeof(__uint128_t),
 		cudaMemcpyHostToDevice
-	);
+	));
 
-	cudaMemcpy(
+	check(cudaMemcpy(
 		gpu_challenges_ordered_tuple,
 		challenges_ordered_tuple,
 		num_challenges * sizeof(__uint128_t),
 		cudaMemcpyHostToDevice
-	);
+	));
 
 	lagrange_basis_eval<<<256, 256>>>(
 		gpu_lagrange_basis_evaluations, gpu_challenges_ordered_tuple, gpu_eval, num_challenges, num_basis_evals
 	);
 
-	cudaDeviceSynchronize();
+	check(cudaDeviceSynchronize());
 
-	cudaMemcpy(
+	check(cudaMemcpy(
 		lagrange_basis_evaluations,
 		gpu_lagrange_basis_evaluations,
 		num_basis_evals * sizeof(__uint128_t),
 		cudaMemcpyDeviceToHost
-	);
-	cudaMemcpy(&evaluation, gpu_eval, sizeof(__uint128_t), cudaMemcpyDeviceToHost);
-	cudaMemcpy(
+	));
+	check(cudaMemcpy(&evaluation, gpu_eval, sizeof(__uint128_t), cudaMemcpyDeviceToHost));
+	check(cudaMemcpy(
 		challenges_ordered_tuple,
 		gpu_challenges_ordered_tuple,
 		num_challenges * sizeof(__uint128_t),
 		cudaMemcpyDeviceToHost
-	);
+	));
 
-	cudaFree(gpu_lagrange_basis_evaluations);
-	cudaFree(gpu_eval);
-	cudaFree(gpu_challenges_ordered_tuple);
+	check(cudaFree(gpu_lagrange_basis_evaluations));
+	check(cudaFree(gpu_eval));
+	check(cudaFree(gpu_challenges_ordered_tuple));
 
 	return evaluation;
 }

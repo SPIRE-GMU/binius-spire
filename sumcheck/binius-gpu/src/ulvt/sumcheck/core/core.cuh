@@ -3,6 +3,21 @@
 
 #include "../utils/constants.hpp"
 
+#ifndef CUDA_CHECK
+#define CUDA_CHECK
+#define check(ans) { gpuAssert((ans), __FILE__, __LINE__); }
+inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
+{
+   if (code != cudaSuccess) 
+   {
+      fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
+      if (abort) exit(code);
+   }
+}
+#endif
+
+
+
 __global__ void calculate_multilinear_product_sums_kernel_tiled( // NUM_BATCHES_IN_PRODUCT % STRIDE = 0 IS REQUIRED
 	const uint32_t* multilinear_evaluations_p1, // eq polynomial in zerocheck (F(2^128))
 	const uint32_t* multilinear_evaluations, // binary 

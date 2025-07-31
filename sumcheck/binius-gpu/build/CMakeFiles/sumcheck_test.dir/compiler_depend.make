@@ -1367,6 +1367,7 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/utils/tower_7_mul.cu.o: /hom
   /usr/local/cuda-12.6/targets/x86_64-linux/include/cuda/std/__type_traits/is_same.h
 
 CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/verifier.cu.o: /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/verifier.cu \
+  /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/core/core.cuh \
   /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/utils/constants.hpp \
   /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/kernel/verifier_kernel.cuh \
   /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/finite_fields/circuit_generator/unrolled/binary_tower_unrolled.cuh \

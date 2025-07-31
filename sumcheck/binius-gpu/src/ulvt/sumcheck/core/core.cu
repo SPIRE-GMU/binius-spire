@@ -348,56 +348,6 @@ __host__ __device__ void get_batch(
 	}
 }
 
-// __global__ void fold_multiple_kernel( // only binary
-// 	const uint32_t* multilinear_evaluations_d,
-// 	uint32_t* destination,
-// 	uint32_t* random_challenge_subset_products,
-// 	const uint32_t round_idx,
-// 	const uint32_t n,
-// 	const uint32_t d
-// ) {
-// 	uint32_t num_batches = (1 << n) / 32;
-// 	uint32_t out_num_batches = (1 << (n - round_idx)) / 32;
-// 	uint32_t idx = threadIdx.x + blockDim.x * blockIdx.x;
-// 	for(int p_idx = 0; p_idx < d; p_idx++) {
-// 		for(int batch_idx = idx; batch_idx < out_num_batches; batch_idx += blockDim.x * gridDim.x) {
-// 			get_batch(
-// 				multilinear_evaluations_d,
-// 				random_challenge_subset_products,
-// 				destination + p_idx * BITS_WIDTH * num_batches + batch_idx * BITS_WIDTH,
-// 				batch_idx,
-// 				p_idx,
-// 				round_idx,
-// 				n
-// 			);
-// 		}
-// 	}
-
-	// for(int i = idx; i < d * out_num_batches; i += blockDim.x*gridDim.x) {
-		// uint32_t p_idx = i / out_num_batches;
-		// uint32_t batch_idx = i % out_num_batches;
-		//printf("get_batch %d\n", i);
-		// get_batch(multilinear_evaluations_d, random_challenge_subset_products, destination + i * BITS_WIDTH, batch_idx, p_idx, round_idx, n);
-		//get_batch(multilinear_evaluations_d, random_challenge_subset_products, destinatio + n, batch_idx, p_idx, round_idx, n);
-		// if(i == 0) {
-		// 	printf("folded batch\n");
-		// 	for(int j = 0; j < BITS_WIDTH; j++) 
-		// 		printf("%u\n", destination[j]);
-		// }
-	// }
-
-	// if (idx == 0)
-	// {
-	// 	for(int i = 0; i < (1 << round_idx); i++) {
-	// 		for(int j = 0; j < BITS_WIDTH; j++) {
-	// 			printf("%x", random_challenge_subset_products[i*BITS_WIDTH+j] & 1);
-	// 		}
-	// 		printf("\n");
-	// 	}
-	// 	get_batch(multilinear_evaluations_d, random_challenge_subset_products, destination, 0, 0, round_idx, n);
-	// }
-// }
-
 __global__ void fold_multiple_kernel( // only binary
 	const uint32_t* multilinear_evaluations_d,
 	uint32_t* destination,

@@ -289,6 +289,7 @@ CMakeFiles/sumcheck_test.dir/src/ulvt/sumcheck/test/verifier.cu.o : /home/intern
     /usr/include/c++/12/istream \
     /usr/include/c++/12/bits/istream.tcc \
     /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/../utils/constants.hpp \
+    /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/../core/core.cuh \
     /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/kernel/verifier_kernel.cuh \
     /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/utils/tower_7_mul.cuh \
     /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/test/utils/unbitsliced_mul.cuh \

@@ -54,65 +54,70 @@ void test_sumcheck() {
 		}
 	}
 
-	Sumcheck<NUM_VARS, COMPOSITION_SIZE, DATA_IS_TRANSPOSED> s(multilinear_evals, false);
 
 	__uint128_t challenges_bigints[NUM_VARS];
 
 	__uint128_t expected_claim;
+	
+	__uint128_t sum_bigint;
 
-	for (uint32_t round = 0; round < NUM_VARS; ++round) {
+	{
+		Sumcheck<NUM_VARS, COMPOSITION_SIZE, DATA_IS_TRANSPOSED> s(multilinear_evals, false);
+		
+		for (uint32_t round = 0; round < NUM_VARS; ++round) {
+			std::array<uint32_t, INTS_PER_VALUE> sum;
+			std::array<uint32_t, interpolation_points * INTS_PER_VALUE> points;
+
+			s.this_round_messages(sum, points);
+
+			__uint128_t sum_bigint = to_bigint(sum.data());
+
+			// Check that this round's sum matches the next claim expected by the verifier from the last fold
+
+			// REQUIRE(((round == 0) || (sum_bigint == expected_claim)));
+			if(round != 0) {
+				// if(sum_bigint != expected_claim) {
+					// printf("REQUIRE assertion. ");
+					// print_uint128_hex(sum_bigint);
+					// printf(" =?=");
+					// print_uint128_hex(expected_claim);
+					// printf("\n");
+				// }
+				REQUIRE(sum_bigint == expected_claim);
+			}
+
+			__uint128_t points_bigint_arr[interpolation_points];
+
+			to_bigint_arr(points.data(), points_bigint_arr, interpolation_points);
+
+			// Check that this round's sum matches the previous claim expected by the verifier from the current fold
+
+			REQUIRE(sum_bigint == (points_bigint_arr[0] ^ points_bigint_arr[1]));
+
+			std::array<uint32_t, INTS_PER_VALUE> challenge;
+			challenge[0] = std::rand();
+			challenge[1] = std::rand();
+			challenge[2] = std::rand();
+			challenge[3] = std::rand();
+
+			__uint128_t challenge_bigint = to_bigint(challenge.data());
+
+			challenges_bigints[round] = challenge_bigint;
+
+			// Set the verifier's expected next claim for the current fold
+
+			expected_claim = evaluate_univariate_given_points(challenge_bigint, points_bigint_arr, interpolation_points);
+
+			s.move_to_next_round(challenge);
+		}
+
 		std::array<uint32_t, INTS_PER_VALUE> sum;
 		std::array<uint32_t, interpolation_points * INTS_PER_VALUE> points;
 
 		s.this_round_messages(sum, points);
-
-		__uint128_t sum_bigint = to_bigint(sum.data());
-
-		// Check that this round's sum matches the next claim expected by the verifier from the last fold
-
-		// REQUIRE(((round == 0) || (sum_bigint == expected_claim)));
-		if(round != 0) {
-			if(sum_bigint != expected_claim) {
-				printf("REQUIRE assertion failed. ");
-				print_uint128_hex(sum_bigint);
-				printf(" =/= ");
-				print_uint128_hex(expected_claim);
-				printf("\n");
-			}
-			REQUIRE(sum_bigint == expected_claim);
-		}
-
-		__uint128_t points_bigint_arr[interpolation_points];
-
-		to_bigint_arr(points.data(), points_bigint_arr, interpolation_points);
-
-		// Check that this round's sum matches the previous claim expected by the verifier from the current fold
-
-		REQUIRE(sum_bigint == (points_bigint_arr[0] ^ points_bigint_arr[1]));
-
-		std::array<uint32_t, INTS_PER_VALUE> challenge;
-		challenge[0] = std::rand();
-		challenge[1] = std::rand();
-		challenge[2] = std::rand();
-		challenge[3] = std::rand();
-
-		__uint128_t challenge_bigint = to_bigint(challenge.data());
-
-		challenges_bigints[round] = challenge_bigint;
-
-		// Set the verifier's expected next claim for the current fold
-
-		expected_claim = evaluate_univariate_given_points(challenge_bigint, points_bigint_arr, interpolation_points);
-
-		s.move_to_next_round(challenge);
+		sum_bigint = to_bigint(sum.data()); 
 	}
 
-	std::array<uint32_t, INTS_PER_VALUE> sum;
-	std::array<uint32_t, interpolation_points * INTS_PER_VALUE> points;
-
-	s.this_round_messages(sum, points);
-
-	__uint128_t sum_bigint = to_bigint(sum.data());
 
 	// Check that this round's sum matches the next claim expected by the verifier from the last fold
 
@@ -123,6 +128,7 @@ void test_sumcheck() {
 	// 1. Untranspose all the data if necessary
 	printf("FINISH PROVER MESSAGES, BEGIN FINAL VERIFICATION\n");
 	if (DATA_IS_TRANSPOSED) {
+		//printf("ur not suppsoed to be here\n");
 		uint32_t *gpu_evals;
 
 		cudaMalloc(&gpu_evals, num_ints_in_evals * sizeof(uint32_t));
@@ -139,6 +145,12 @@ void test_sumcheck() {
 
 	__uint128_t claimed_evaluation =
 		evaluate_multilinear_composition(multilinear_evals_bigints, challenges_bigints, NUM_VARS, COMPOSITION_SIZE);
+
+	// printf("REQUIRE assertion. ");
+	// print_uint128_hex(expected_claim);
+	// printf(" =?=");
+	// print_uint128_hex(claimed_evaluation);
+	// printf("\n");
 
 	REQUIRE(expected_claim == claimed_evaluation);
 
