@@ -223,7 +223,7 @@ public:
 			// If the number of evals fits in a single batch, use the CPU
 
 			// 1. Calculate the products of the multilinear evaluations
-			printf("round %d cpu\n", round);
+			// printf("round %d cpu\n", round);
 			evaluate_composition_on_batch_row(cpu_multilinear_evaluations, multilinear_products, COMPOSITION_SIZE, 32);
 
 			// For each interpolation point, fold according to that point, and load the result into "folded_at_point"
@@ -306,10 +306,10 @@ public:
 				memcpy(sum, cpu_claimed_sum, INTS_PER_VALUE * sizeof(uint32_t));
 				memcpy(points, cpu_interpolation_points, INTS_PER_VALUE * INTERPOLATION_POINTS * sizeof(uint32_t));
 
-				printf("round %d alg 2\n", round);
+				// printf("round %d alg 2\n", round);
 				//LINE;
 			} else {
-				printf("round %d alg 1\n", round);
+				// printf("round %d alg 1\n", round);
 				//printf("round %d algorithm 1\n", round);
 				compute_compositions<INTERPOLATION_POINTS, COMPOSITION_SIZE, EVALS_PER_MULTILINEAR>
 					<<<BLOCKS, THREADS_PER_BLOCK>>>(

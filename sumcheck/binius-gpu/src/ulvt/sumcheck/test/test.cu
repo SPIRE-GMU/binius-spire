@@ -70,11 +70,11 @@ void test_sumcheck() {
 
 		if(round != 0) {
 			//if(sum_bigint != expected_claim) {
-				printf("REQUIRE assertion: ");
-				print_uint128_hex(sum_bigint);
-				printf(" =?= ");
-				print_uint128_hex(expected_claim);
-				printf("\n");
+				// printf("REQUIRE assertion: ");
+				// print_uint128_hex(sum_bigint);
+				// printf(" =?= ");
+				// print_uint128_hex(expected_claim);
+				// printf("\n");
 			//}
 			REQUIRE(sum_bigint == expected_claim);
 		}
