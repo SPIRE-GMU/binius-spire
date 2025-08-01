@@ -55,21 +55,16 @@ void checkPointerLocation(void* ptr) {
 
 template <uint32_t NUM_VARS, uint32_t COMPOSITION_SIZE, bool DATA_IS_TRANSPOSED>
 class Sumcheck {
-	//static_assert(NUM_VARS == 20 || NUM_VARS == 24 || NUM_VARS == 28, "NUM_VARS must be 20, 24, or 28");
+	static_assert(NUM_VARS == 20 || NUM_VARS == 24 || NUM_VARS == 28, "NUM_VARS must be 20, 24, or 28");
 	static_assert(
 		COMPOSITION_SIZE == 2 || COMPOSITION_SIZE == 3 || COMPOSITION_SIZE == 4, "COMPOSITION_SIZE must be 2, 3, or 4"
 	);
 
 private:
 	static constexpr uint32_t INTERPOLATION_POINTS = COMPOSITION_SIZE + 1;
-
 	static constexpr uint32_t EVALS_PER_MULTILINEAR = 1 << NUM_VARS;
-
 	static constexpr size_t TOTAL_INTS = INTS_PER_VALUE * EVALS_PER_MULTILINEAR * COMPOSITION_SIZE;
-	
-	static constexpr size_t TOTAL_INTS_FOLDED = INTS_PER_VALUE * EVALS_PER_MULTILINEAR * COMPOSITION_SIZE / 4;
-
-	static constexpr uint32_t GET_BATCH_SWITCHOVER_ROUND = 5;
+	static constexpr uint32_t GET_BATCH_SWITCHOVER_ROUND = 4;
 
 	uint32_t coefficients[BITS_WIDTH * INTERPOLATION_POINTS];
 
@@ -78,13 +73,10 @@ private:
 	uint32_t *cpu_multilinear_evaluations, *gpu_multilinear_evaluations;
 
 	uint32_t *cpu_original_multilinear_evaluations;
-	//uint32_t *gpu_original_multilinear_evaluations_p1;
-	//uint32_t *gpu_original_multilinear_evaluations_p1_unbitsliced;
 	uint32_t *gpu_original_multilinear_evaluations;
 
 	uint32_t *gpu_coefficients;
 
-	//uint32_t *gpu_multilinear_evaluations_p1;
 	uint32_t* gpu_random_challenges;
 
 	uint32_t cpu_random_challenges[(NUM_VARS + 1) * INTS_PER_VALUE];
@@ -106,10 +98,6 @@ private:
 		if (batches_in_half_list > 0) {
 			// For lists of size >32 elements, fold in half with folding factor
 			// Assume source lives on the GPU
-
-			/*printf("fold here %d\n", __LINE__);
-			checkPointerLocation(source);
-			checkPointerLocation(destination);*/
 
 			uint32_t *gpu_coefficient;
 
@@ -186,10 +174,6 @@ public:
 		if (benchmarking) {
 			start_before_transpose = std::chrono::high_resolution_clock::now();
 		}
-
-		/*if (!DATA_IS_TRANSPOSED) {
-			cudaMemcpy(gpu_original_multilinear_evaluations_p1_unbitsliced, gpu_multilinear_evaluations, EVALS_PER_MULTILINEAR * INTS_PER_VALUE * sizeof(uint32_t), cudaMemcpyDeviceToDevice);
-		}*/
 
 		for (int interpolation_point = 0; interpolation_point < INTERPOLATION_POINTS; ++interpolation_point) {
 			uint32_t coefficient_as_value[INTS_PER_VALUE];
@@ -301,9 +285,6 @@ public:
 				);
 			}
 		} else {
-			//uint32_t* correct_gpu_multilinear_products;
-			//uint32_t* correct_gpu_folded_products_sums;
-			
 			uint32_t cpu_claimed_sum[INTS_PER_VALUE];
 			check(cudaMalloc(&gpu_multilinear_products, BITS_WIDTH * sizeof(uint32_t)));
 			check(cudaMemset(gpu_multilinear_products, 0, BITS_WIDTH * sizeof(uint32_t)));
@@ -311,12 +292,7 @@ public:
 			check(cudaMemset(gpu_folded_products_sums, 0, INTERPOLATION_POINTS * BITS_WIDTH * sizeof(uint32_t)));
 
 			if(USE_BOTH_ALGORITHMS && ((round < 3 && COMPOSITION_SIZE == 2) || (round < 2 && COMPOSITION_SIZE == 3) || (round < 2 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
-				//LINE;
-				//printf("round %d algorithm 2\n", round);
-				//printf("here\n");
 				calculate_interpolation_points(
-					//gpu_original_multilinear_evaluations_p1_unbitsliced,
-					//gpu_original_multilinear_evaluations_p1,
 					gpu_multilinear_evaluations,
 					gpu_original_multilinear_evaluations,
 					cpu_random_challenges,
@@ -329,12 +305,8 @@ public:
 
 				memcpy(sum, cpu_claimed_sum, INTS_PER_VALUE * sizeof(uint32_t));
 				memcpy(points, cpu_interpolation_points, INTS_PER_VALUE * INTERPOLATION_POINTS * sizeof(uint32_t));
-				// printf("alg 3 round %d\n", round);
-				//LINE;
 			} else {
-				//printf("round %d algorithm 1\n", round);
 				if(round >= GET_BATCH_SWITCHOVER_ROUND) {
-					// printf("alg 1 round %d\n", round);
 					compute_compositions<INTERPOLATION_POINTS, COMPOSITION_SIZE, EVALS_PER_MULTILINEAR>
 						<<<BLOCKS, THREADS_PER_BLOCK>>>(
 							gpu_multilinear_evaluations,
@@ -346,12 +318,8 @@ public:
 							active_threads_folded);
 					check(cudaDeviceSynchronize());
 				} else {
-					// printf("alg 2 round %d\n", round);
 					uint32_t *random_challenge_subset_products = (uint32_t *)malloc(BITS_WIDTH * (1 << round) * sizeof(uint32_t));
 					calculate_random_challenge_subset_products(cpu_random_challenges_batched, random_challenge_subset_products, round);
-
-					//for(int i = 0; i < BITS_WIDTH; i++) 
-						//printf("%x\n", random_challenge_subset_products[i]);
 
 					uint32_t *random_challenge_subset_products_d;
 					check(cudaMalloc(&random_challenge_subset_products_d, BITS_WIDTH * (1 << round) * sizeof(uint32_t)));
@@ -359,7 +327,6 @@ public:
 
 					compute_compositions_using_get_batch<INTERPOLATION_POINTS, COMPOSITION_SIZE, EVALS_PER_MULTILINEAR>
 						<<<BLOCKS, THREADS_PER_BLOCK>>>(
-							//gpu_original_multilinear_evaluations_p1_unbitsliced,
 							gpu_multilinear_evaluations,
 							gpu_original_multilinear_evaluations,
 							random_challenge_subset_products_d,
@@ -405,7 +372,6 @@ public:
 	void move_to_next_round(const std::array<uint32_t, INTS_PER_VALUE> &challenge_span) { // by folding polynomial using challenge point
 		const uint32_t *challenge = challenge_span.data();
 
-		//printf("copy %u %u %u %u, it is round %u\n", challenge[0], challenge[1], challenge[2], challenge[3], round);
 		memcpy(cpu_random_challenges + INTS_PER_VALUE*round, challenge, INTS_PER_VALUE*sizeof(uint32_t));
 
 		// Take a_i(x_i,...,x_n) and create a_(i+1)(x_(i+1),...,x_n) = a_i(challenge,x_(i+1),...,x_n)
@@ -418,7 +384,6 @@ public:
 		memcpy(cpu_random_challenges_batched + BITS_WIDTH * round, coefficient, BITS_WIDTH * sizeof(uint32_t));
 		cudaMemcpy(gpu_random_challenges + BITS_WIDTH * round, coefficient, BITS_WIDTH * sizeof(uint32_t), cudaMemcpyHostToDevice);
 
-		// if(USE_BOTH_ALGORITHMS && ((round >= 3 && COMPOSITION_SIZE == 2) || (round >= 2 && COMPOSITION_SIZE == 3) || (round >= 2 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
 		if(round >= GET_BATCH_SWITCHOVER_ROUND) {
 			if (num_eval_points_per_multilinear <= 32) {
 				fold_list_halves(
@@ -441,14 +406,9 @@ public:
 					COMPOSITION_SIZE
 				);
 			}
-		// } else if(USE_BOTH_ALGORITHMS && ((round == 2 && COMPOSITION_SIZE == 2) || (round == 1 && COMPOSITION_SIZE == 3) || (round == 1 && COMPOSITION_SIZE == 4))) { // https://www.desmos.com/calculator/clxcaquiye
 		} else if(round == GET_BATCH_SWITCHOVER_ROUND-1) {		
-			// printf("SWITCHOVER FOLDING\n");
-			
 			uint32_t num = EVALS_PER_MULTILINEAR >> round;
 			fold_list_halves(
-				//gpu_original_multilinear_evaluations_p1_unbitsliced,
-				//gpu_original_multilinear_evaluations_p1_unbitsliced,
 				gpu_multilinear_evaluations,
 				gpu_multilinear_evaluations,
 				cpu_random_challenges_batched + BITS_WIDTH * round,
@@ -458,7 +418,6 @@ public:
 				1);
 			
 			fold_multiple(
-				//gpu_original_multilinear_evaluations_p1_unbitsliced,
 				gpu_multilinear_evaluations,
 				gpu_original_multilinear_evaluations,
 				cpu_random_challenges_batched,
@@ -470,8 +429,6 @@ public:
 		} else if(USE_BOTH_ALGORITHMS && ((round > 2 && COMPOSITION_SIZE == 2) || (round > 1 && COMPOSITION_SIZE == 3) || (round > 1 && COMPOSITION_SIZE == 4))) {
 			uint32_t num = EVALS_PER_MULTILINEAR >> round;
 			fold_list_halves(
-				//gpu_original_multilinear_evaluations_p1_unbitsliced,
-				// gpu_original_multilinear_evaluations_p1_unbitsliced,
 				gpu_multilinear_evaluations,
 				gpu_multilinear_evaluations,
 				cpu_random_challenges_batched + BITS_WIDTH * round,
@@ -480,17 +437,12 @@ public:
 				EVALS_PER_MULTILINEAR,
 			1);
 		} else if(USE_BOTH_ALGORITHMS && ((round == 2 && COMPOSITION_SIZE == 2) || (round == 1 && COMPOSITION_SIZE == 3) || (round == 1 && COMPOSITION_SIZE == 4))) {
-			//transpose_kernel<BITS_WIDTH>
-				//<<<BLOCKS, THREADS_PER_BLOCK>>>(gpu_original_multilinear_evaluations_p1_unbitsliced, TOTAL_INTS / BITS_WIDTH / COMPOSITION_SIZE);
 			transpose_kernel<BITS_WIDTH>
 				<<<BLOCKS, THREADS_PER_BLOCK>>>(gpu_multilinear_evaluations, TOTAL_INTS / BITS_WIDTH / COMPOSITION_SIZE);
-
 
 			for (int i = 0; i <= round; i++) {
 				uint32_t num = EVALS_PER_MULTILINEAR >> i;
 				fold_list_halves(
-					//gpu_original_multilinear_evaluations_p1_unbitsliced,
-					//gpu_original_multilinear_evaluations_p1_unbitsliced,
 					gpu_multilinear_evaluations,
 					gpu_multilinear_evaluations,
 					cpu_random_challenges_batched + BITS_WIDTH * i,

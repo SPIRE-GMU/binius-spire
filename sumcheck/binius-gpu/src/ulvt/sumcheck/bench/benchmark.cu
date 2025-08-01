@@ -49,15 +49,7 @@ template <uint32_t NUM_VARS, uint32_t COMPOSITION_SIZE>
 void benchmark(int num_runs) {
 	std::cout << "NUM_VARS: " << NUM_VARS << " COMPOSITION_SIZE: " << COMPOSITION_SIZE << std::endl;
 	
-	
-	// size_t free_mem, total_mem;
-	// cudaMemGetInfo(&free_mem, &total_mem);
-	// printf("before free memory: %llu, total memory: %llu\n", free_mem, total_mem);
-
 	benchmark_one_sample<NUM_VARS, COMPOSITION_SIZE>();
-	
-	// cudaMemGetInfo(&free_mem, &total_mem);
-	// printf("after free memory: %llu, total memory: %llu\n", free_mem, total_mem);
 
 	double total_memcpy = 0;
 	double total_transpose = 0;

@@ -22,7 +22,7 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
 #endif
 
 #define BLOCK_SIZE_MULTILINEAR 1024
-#define MAX_SMEM_SIZE 32
+#define MAX_SMEM_SIZE 256 
 #define COARSE_FACTOR BLOCK_SIZE_MULTILINEAR / MAX_SMEM_SIZE
 #define LINE printf("%s: at line %d\n", __FILE__, __LINE__)
 
@@ -82,7 +82,8 @@ __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile 
 	const uint32_t n
 ) { // each thread computes 1 batch
 	//__shared__ uint32_t products_s[BLOCK_SIZE_MULTILINEAR][128];
-	__shared__ uint32_t products_s[MAX_SMEM_SIZE * BITS_WIDTH];
+	//__shared__ uint32_t products_s[MAX_SMEM_SIZE * BITS_WIDTH];
+	__shared__ uint32_t products_s[MAX_SMEM_SIZE * INTS_PER_VALUE];
 
 	uint32_t idx = threadIdx.x + blockIdx.x * blockDim.x;
 	uint32_t stride = blockDim.x * gridDim.x;
@@ -109,32 +110,32 @@ __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile 
 			product = product & multilinear_evaluations[(p_idx) * (1 << n) / 32 + start_pos_in_table[p_idx] / 32 + x_idx];
 		}
 		
-		for(int l = threadIdx.x; l < MAX_SMEM_SIZE * BITS_WIDTH; l += blockDim.x) {
+		for(int l = threadIdx.x; l < MAX_SMEM_SIZE * INTS_PER_VALUE; l += blockDim.x) {
 			products_s[l] = 0;
 		}
 
 		__syncthreads();
 		
-		memset(eb_sum, 0, 4 * sizeof(uint32_t));
+		memset(eb_sum, 0, INTS_PER_VALUE * sizeof(uint32_t));
 		for(int j = 0; j < 32; j++) {
 			if(product & (1 << j)) {
-				for(int l = 0; l < 4; l++) {
+				for(int l = 0; l < INTS_PER_VALUE; l++) {
 					eb_sum[l] ^= multilinear_evaluations_p1_unbitsliced[x_idx * BITS_WIDTH + start_pos_in_table[d - 1] * INTS_PER_VALUE + j * INTS_PER_VALUE + l];
 				}
 			}
 		}
 
-		for(int j = 0; j < BITS_WIDTH; j++) {
-			int limb_idx = j / 32;
-			int bit_idx = j % 32;
-			atomicOr(products_s + threadIdx.x / 32 * BITS_WIDTH + j, ((eb_sum[limb_idx] >> bit_idx) & 1) << (threadIdx.x % 32));
+		for(int l = 0; l < INTS_PER_VALUE; l++) {
+			atomicXor(products_s + (threadIdx.x % MAX_SMEM_SIZE) * INTS_PER_VALUE + l, eb_sum[l]);
 		}
+			
 
 		__syncthreads();
-
 		for(int reduce_stride = MAX_SMEM_SIZE / 2; reduce_stride > 0; reduce_stride /= 2) {
 			if(threadIdx.x < reduce_stride) {
-				add_ee(products_s + threadIdx.x * BITS_WIDTH, products_s + (threadIdx.x + reduce_stride) * BITS_WIDTH, products_s + threadIdx.x * BITS_WIDTH);
+				for(int l = 0; l < INTS_PER_VALUE; l++) {
+					products_s[threadIdx.x * INTS_PER_VALUE + l] ^= products_s[(threadIdx.x + reduce_stride) * INTS_PER_VALUE + l];
+				}
 			}
 			__syncthreads();
 		}
@@ -142,8 +143,11 @@ __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile 
 		if(threadIdx.x < BITS_WIDTH) {
 			uint32_t destination_batch_idx = i / 32 * BITS_WIDTH;
 			uint32_t destination_batch_bit_idx = i % 32;
-			atomicXor(destination + destination_batch_idx + threadIdx.x, (__builtin_popcount(products_s[threadIdx.x]) & 1) << destination_batch_bit_idx);
+			uint32_t limb_idx = threadIdx.x / 32;
+			uint32_t bit_idx = threadIdx.x % 32;
+			atomicXor(destination + destination_batch_idx + threadIdx.x, ((products_s[limb_idx] >> bit_idx) & 1) << destination_batch_bit_idx);
 		}
+		
 		__syncthreads();
 	}
 }
@@ -356,7 +360,7 @@ __global__ void fold_multiple_kernel( // only binary
 	const uint32_t n,
 	const uint32_t d
 ) {
-	__shared__ uint32_t random_challenges_subset_products_s[(1 << 6) * BITS_WIDTH];
+	__shared__ uint32_t random_challenges_subset_products_s[(1 << 5) * BITS_WIDTH];
 
 	for(int i = threadIdx.x; i < (1 << round_idx) * BITS_WIDTH; i += blockDim.x) {
 		random_challenges_subset_products_s[i] = random_challenge_subset_products[i];

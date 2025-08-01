@@ -221,13 +221,6 @@ TEST_CASE("test_fold_multiple") {
     cudaMemcpy(multilinear_evaluations_folded, multilinear_evaluations_extension_d, num_batches_folded * BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToHost);
     cudaMemcpy(multilinear_evaluations_folded_multiple, multilinear_evaluations_folded_d, num_batches_folded * BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToHost);
 
-    //printf("%d\n", num_batches_folded / d * BITS_WIDTH);
-    //for(int i = num_batches_folded / d * BITS_WIDTH; i < d * (num_batches >> round_idx) * BITS_WIDTH; i++) {
-
-    /*for(int i = 0; i < d * (num_batches >> round_idx) * BITS_WIDTH; i++) {
-        REQUIRE(multilinear_evaluations_folded[i] == multilinear_evaluations_folded_multiple[i]);
-    }*/
-    // 4194304
     for(int j = 1; j < d; j++) {
         for(int i = 0; i < ((1 << (n-round_idx)) / 32) * BITS_WIDTH; i++) {
             if(multilinear_evaluations_folded[j * num_batches * BITS_WIDTH + i] != multilinear_evaluations_folded_multiple[j * num_batches * BITS_WIDTH + i]) {

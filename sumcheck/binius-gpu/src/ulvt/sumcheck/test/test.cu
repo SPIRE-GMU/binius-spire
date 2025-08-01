@@ -76,13 +76,13 @@ void test_sumcheck() {
 
 			// REQUIRE(((round == 0) || (sum_bigint == expected_claim)));
 			if(round != 0) {
-				// if(sum_bigint != expected_claim) {
+				//if(sum_bigint != expected_claim) {
 					// printf("REQUIRE assertion. ");
 					// print_uint128_hex(sum_bigint);
 					// printf(" =?=");
 					// print_uint128_hex(expected_claim);
 					// printf("\n");
-				// }
+				//}
 				REQUIRE(sum_bigint == expected_claim);
 			}
 
@@ -146,11 +146,6 @@ void test_sumcheck() {
 	__uint128_t claimed_evaluation =
 		evaluate_multilinear_composition(multilinear_evals_bigints, challenges_bigints, NUM_VARS, COMPOSITION_SIZE);
 
-	// printf("REQUIRE assertion. ");
-	// print_uint128_hex(expected_claim);
-	// printf(" =?=");
-	// print_uint128_hex(claimed_evaluation);
-	// printf("\n");
 
 	REQUIRE(expected_claim == claimed_evaluation);
 
@@ -165,27 +160,8 @@ void test_sumcheck_then_reset() {
 	check(cudaDeviceReset());
 }
 
-/*TEST_CASE("sumcheck 19 vars", "[sumcheck]") {
-	test_sumcheck<19, 2, true>();
-
-	test_sumcheck<19, 3, true>();
-
-	test_sumcheck<19, 4, true>();
-
-	test_sumcheck<19, 2, false>();
-
-	test_sumcheck<19, 3, false>();
-
-	test_sumcheck<19, 4, false>();
-}*/
 
 TEST_CASE("sumcheck 20 vars", "[sumcheck]") {
-	/*test_sumcheck<20, 2, true>();
-
-	test_sumcheck<20, 3, true>();
-
-	test_sumcheck<20, 4, true>();*/
-
 	test_sumcheck_then_reset<20, 2, false>();
 	test_sumcheck_then_reset<20, 3, false>();
 	test_sumcheck_then_reset<20, 4, false>();
