@@ -289,6 +289,32 @@ CMakeFiles/sumcheck_bench.dir/src/ulvt/sumcheck/bench/benchmark.cu.o : /home/int
     /usr/include/c++/12/bits/ostream.tcc \
     /usr/include/c++/12/istream \
     /usr/include/c++/12/bits/istream.tcc \
+    /usr/include/c++/12/random \
+    /usr/include/c++/12/bits/random.h \
+    /usr/include/c++/12/vector \
+    /usr/include/c++/12/bits/stl_uninitialized.h \
+    /usr/include/c++/12/bits/stl_vector.h \
+    /usr/include/c++/12/bits/stl_bvector.h \
+    /usr/include/c++/12/bits/vector.tcc \
+    /usr/include/c++/12/bits/uniform_int_dist.h \
+    /usr/include/x86_64-linux-gnu/c++/12/bits/opt_random.h \
+    /usr/include/c++/12/bits/random.tcc \
+    /usr/include/c++/12/numeric \
+    /usr/include/c++/12/bits/stl_numeric.h \
+    /usr/include/c++/12/bit \
+    /usr/include/c++/12/pstl/glue_numeric_defs.h \
+    /usr/include/c++/12/pstl/execution_defs.h \
+    /usr/include/c++/12/iterator \
+    /usr/include/c++/12/bits/stream_iterator.h \
+    /usr/include/c++/12/algorithm \
+    /usr/include/c++/12/bits/stl_algo.h \
+    /usr/include/c++/12/bits/algorithmfwd.h \
+    /usr/include/c++/12/bits/stl_heap.h \
+    /usr/include/c++/12/bits/stl_tempbuf.h \
+    /usr/include/c++/12/bits/ranges_algo.h \
+    /usr/include/c++/12/bits/ranges_algobase.h \
+    /usr/include/c++/12/bits/ranges_util.h \
+    /usr/include/c++/12/pstl/glue_algorithm_defs.h \
     /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/bench/../sumcheck.cuh \
     /usr/include/c++/12/chrono \
     /usr/include/c++/12/bits/chrono.h \
@@ -297,11 +323,6 @@ CMakeFiles/sumcheck_bench.dir/src/ulvt/sumcheck/bench/benchmark.cu.o : /home/int
     /usr/include/c++/12/bits/parse_numbers.h \
     /usr/include/c++/12/sstream \
     /usr/include/c++/12/bits/sstream.tcc \
-    /usr/include/c++/12/vector \
-    /usr/include/c++/12/bits/stl_uninitialized.h \
-    /usr/include/c++/12/bits/stl_vector.h \
-    /usr/include/c++/12/bits/stl_bvector.h \
-    /usr/include/c++/12/bits/vector.tcc \
     /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/bench/../../utils/bitslicing.cuh \
     /usr/include/c++/12/cstring \
     /home/intern-04/binius-spire/sumcheck/binius-gpu/src/ulvt/sumcheck/bench/../core/core.cuh \
