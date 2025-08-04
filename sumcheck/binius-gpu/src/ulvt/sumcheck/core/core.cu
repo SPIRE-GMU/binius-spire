@@ -118,10 +118,9 @@ __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile 
 		
 		memset(eb_sum, 0, INTS_PER_VALUE * sizeof(uint32_t));
 		for(int j = 0; j < 32; j++) {
-			if(product & (1 << j)) {
-				for(int l = 0; l < INTS_PER_VALUE; l++) {
-					eb_sum[l] ^= multilinear_evaluations_p1_unbitsliced[x_idx * BITS_WIDTH + start_pos_in_table[d - 1] * INTS_PER_VALUE + j * INTS_PER_VALUE + l];
-				}
+			uint32_t bit = (product >> j) & 1;
+			for(int l = 0; l < INTS_PER_VALUE; l++) {
+				eb_sum[l] ^= bit * multilinear_evaluations_p1_unbitsliced[x_idx * BITS_WIDTH + start_pos_in_table[d - 1] * INTS_PER_VALUE + j * INTS_PER_VALUE + l];
 			}
 		}
 
