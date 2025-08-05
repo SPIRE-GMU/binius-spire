@@ -15,6 +15,9 @@ The implementation is 4096-point NTT but remember the architecture is scalable f
 
 Golden samples as well as coefficients are printed for convenient debug.
 
+
+We also refer to kernels in https://github.com/ingonyama-zk/open-binius for implementation in PL domain.
+
 ### Tools:
 
 OS: Ubuntu 2024.2
