@@ -20,18 +20,16 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
 }
 #endif
 
+// written by andrew
+// kernel to pack the polynomial evals generated in the testing into 32-bit integers
 template<uint32_t COMPOSITION_SIZE, uint32_t EVALS_PER_MULTILINEAR>
 __global__ void bitpack_kernel(const uint32_t* evals, uint32_t* destination) {
 	uint64_t idx = threadIdx.x + blockIdx.x * blockDim.x;
 	uint64_t unpacked_bit_idx = idx * INTS_PER_VALUE;
 
-	// printf("composition_size %u\n", COMPOSITION_SIZE);
-	//printf("idx %u out of %u\n", idx, COMPOSITION_SIZE * EVALS_PER_MULTILINEAR);
-	//if(unpacked_bit_idx < (uint64_t) COMPOSITION_SIZE * EVALS_PER_MULTILINEAR*INTS_PER_VALUE) {
 	if(idx < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR) {
 		if(idx / 32 < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32) {
 			if(idx % 32 == 0) destination[idx / 32] = 0;
-			//if(idx == 0) destination[0] = 0;
 			__syncthreads();
 			atomicOr(destination + idx / 32, evals[unpacked_bit_idx] << (idx % 32));
 		} else {
@@ -40,10 +38,12 @@ __global__ void bitpack_kernel(const uint32_t* evals, uint32_t* destination) {
 	}
 }
 
+// written by andrew
+// computing the claimed sum & interpolation points using algorithm 2 (get_batch reconstruction)
 template <uint32_t INTERPOLATION_POINTS, uint32_t COMPOSITION_SIZE, uint32_t EVALS_PER_MULTILINEAR>
-__global__ void compute_compositions_using_get_batch( // evaluates Si(Xi) at multiple points and gets the claimed sum
+__global__ void compute_compositions_using_get_batch(
 	const uint32_t* multilinear_evaluations_p1,
-	const uint32_t* multilinear_evaluations, // d x 2^n table representing the 3 multiplied hypercubes
+	const uint32_t* multilinear_evaluations,
 	const uint32_t* random_challenges_subset_products,
 	uint32_t* multilinear_products_sums, 
 	uint32_t* folded_products_sums,
@@ -54,7 +54,7 @@ __global__ void compute_compositions_using_get_batch( // evaluates Si(Xi) at mul
 	const uint32_t round_idx,
 	const uint32_t n
 ) {
-	const uint32_t tid = threadIdx.x + blockIdx.x * blockDim.x;  // start the batch index off at the tid
+	const uint32_t tid = threadIdx.x + blockIdx.x * blockDim.x; 
 
 	uint32_t folded_products_sums_this_thread[INTERPOLATION_POINTS * BITS_WIDTH];
 	uint32_t multilinear_products_sums_this_thread[BITS_WIDTH];
@@ -74,7 +74,7 @@ __global__ void compute_compositions_using_get_batch( // evaluates Si(Xi) at mul
 		}
 
 		for (uint32_t i = 0; i < BITS_WIDTH; ++i) {
-			multilinear_products_sums_this_thread[i] ^= this_multilinear_product[i]; // add to running batch sums
+			multilinear_products_sums_this_thread[i] ^= this_multilinear_product[i]; 
 		}
 
 		uint32_t num_batch_rows_to_fold = num_batch_rows / 2;
@@ -90,7 +90,7 @@ __global__ void compute_compositions_using_get_batch( // evaluates Si(Xi) at mul
 					get_batch(multilinear_evaluations, random_challenges_subset_products, upper_batch, row_idx + num_batch_rows_to_fold, column_idx, round_idx, n);
 					for (int interpolation_point = 0; interpolation_point < INTERPOLATION_POINTS; ++interpolation_point)
 					{
-						fold_batch( // 3%
+						fold_batch(
 							lower_batch,
 							upper_batch,
 							folded_batch_row + BITS_WIDTH * (column_idx * INTERPOLATION_POINTS + interpolation_point),
@@ -104,7 +104,7 @@ __global__ void compute_compositions_using_get_batch( // evaluates Si(Xi) at mul
 					upper_batch = lower_batch + BITS_WIDTH * num_batch_rows_to_fold;
 					for (int interpolation_point = 0; interpolation_point < INTERPOLATION_POINTS; ++interpolation_point)
 					{
-						fold_batch( // 3%
+						fold_batch(
 							lower_batch,
 							upper_batch,
 							folded_batch_row + BITS_WIDTH * (column_idx * INTERPOLATION_POINTS + interpolation_point),
@@ -116,11 +116,11 @@ __global__ void compute_compositions_using_get_batch( // evaluates Si(Xi) at mul
 
 			uint32_t this_interpolation_point_product_batch[BITS_WIDTH];
 			for (int interpolation_point = 0; interpolation_point < INTERPOLATION_POINTS; ++interpolation_point) {
-				evaluate_composition_on_batch_row( // THIS IS THE BIGGEST SLOWDOWN
-					folded_batch_row + BITS_WIDTH * interpolation_point, // starting batch
-					this_interpolation_point_product_batch, // destination 
-					COMPOSITION_SIZE, // number of batches to multiply (number of multilinear polynomials together)
-					INTERPOLATION_POINTS * 32 // stride to let the algorithm determine whcih batches to multiply
+				evaluate_composition_on_batch_row(
+					folded_batch_row + BITS_WIDTH * interpolation_point,
+					this_interpolation_point_product_batch,
+					COMPOSITION_SIZE,
+					INTERPOLATION_POINTS * 32
 				);
 				uint32_t* this_interpolation_point_sum_location =
 					folded_products_sums_this_thread + BITS_WIDTH * interpolation_point;
@@ -133,7 +133,7 @@ __global__ void compute_compositions_using_get_batch( // evaluates Si(Xi) at mul
 
 	if (tid < active_threads) {
 		for (uint32_t i = 0; i < BITS_WIDTH; ++i) {
-			atomicXor(multilinear_products_sums + i, multilinear_products_sums_this_thread[i]); // TODO instead of atomic xor may speedup by a few %
+			atomicXor(multilinear_products_sums + i, multilinear_products_sums_this_thread[i]);
 		}
 	}
 
@@ -149,9 +149,11 @@ __global__ void compute_compositions_using_get_batch( // evaluates Si(Xi) at mul
 	}
 }
 
+// written by andrew
+// improved algorithm 1 computation using reductions and shared memory
 template <uint32_t INTERPOLATION_POINTS, uint32_t COMPOSITION_SIZE, uint32_t EVALS_PER_MULTILINEAR>
-__global__ void compute_compositions( // evaluates Si(Xi) at multiple points and gets the claimed sum
-	const uint32_t* multilinear_evaluations, // d x 2^n table representing the 3 multiplied hypercubes
+__global__ void compute_compositions(
+	const uint32_t* multilinear_evaluations,
 	uint32_t* multilinear_products_sums, 
 	uint32_t* folded_products_sums,
 	const uint32_t coefficients[INTERPOLATION_POINTS * BITS_WIDTH],
@@ -162,11 +164,10 @@ __global__ void compute_compositions( // evaluates Si(Xi) at multiple points and
 	const int SMEM_SIZE = 32;
 	__shared__ uint32_t thread_batches[SMEM_SIZE][BITS_WIDTH];
 	
-	const uint32_t tid = threadIdx.x + blockIdx.x * blockDim.x;  // start the batch index off at the tid	
+	const uint32_t tid = threadIdx.x + blockIdx.x * blockDim.x;	
 	uint32_t num_batch_rows_to_fold = num_batch_rows / 2;
 
 	for(int interpolation_point = 0; interpolation_point < INTERPOLATION_POINTS; interpolation_point++) {
-		//for(int i = 0; i < ; i++) {
 		if(threadIdx.x < SMEM_SIZE) {
 			for(int i = 0; i < BITS_WIDTH; i++) {
 				thread_batches[threadIdx.x][i] = 0;
@@ -218,6 +219,7 @@ __global__ void compute_compositions( // evaluates Si(Xi) at multiple points and
 }
 
 
+// by irreducible
 __global__ void fold_large_list_halves(
 	uint32_t* source,
 	uint32_t* destination,
@@ -227,6 +229,3 @@ __global__ void fold_large_list_halves(
 	const uint32_t dst_evals_per_column,
 	const uint32_t num_cols
 );
-
-
-__global__ void print_debug(uint32_t* source, const uint32_t num_batch_rows);

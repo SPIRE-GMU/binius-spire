@@ -20,15 +20,6 @@ Benchmarks benchmark_one_sample() {
 	const size_t total_ints = INTS_PER_VALUE * EVALS_PER_MULTILINEAR * COMPOSITION_SIZE;
 	std::vector<uint32_t> multilinear_evals(total_ints, 1);
 
-	// auto gen = [&]() {
-	// 	return std::rand();
-	// };
-	//std::generate(multilinear_evals.begin(), multilinear_evals.end(), std::rand);
-	 /*for(int i = 0; i < total_ints; i++) {
-		multilinear_evals[i] = std::rand();
-	}*/
-	//memset(begin(multilinear_evals), 0, total_ints * sizeof(uint32_t));
-
 	Sumcheck<NUM_VARS, COMPOSITION_SIZE, false> s(multilinear_evals, true);
 
 	for (uint32_t round = 0; round < NUM_VARS; ++round) {

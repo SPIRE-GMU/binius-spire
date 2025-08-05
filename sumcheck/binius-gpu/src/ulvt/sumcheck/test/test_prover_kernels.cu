@@ -13,6 +13,9 @@
 
 #define PRINTLINE printf("%d\n", __LINE__);
 
+// UNIT TESTS WRITTEN BY ANDREW
+// NOT INCLUDED IN ANY EXPERIMENTS
+
 __host__ void get_batch_full(
     const uint32_t* multilinear_evaluations,
     const uint32_t* random_challenges,

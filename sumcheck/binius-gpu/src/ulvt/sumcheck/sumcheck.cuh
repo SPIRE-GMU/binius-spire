@@ -6,52 +6,13 @@
 #include "core/core.cuh"
 #include "core/kernels.cuh"
 #include "utils/constants.hpp"
-//#include "../utils/common.cuh"
 
-#define LINE printf("%s: at line %d\n", __FILE__, __LINE__)
+// MODIFIED BY ANDREW
+// ENTIRE FILE ORIGINALLY BY IRREDUCIBLE
+// BUT ADAPTED TO SWITCH BETWEEN ALGORITHMS
+
 #define USE_FINE_KERNEL false 
 #define USE_BOTH_ALGORITHMS true 
-
-void checkPointerLocation(void* ptr) {
-    cudaPointerAttributes attributes;
-    cudaError_t err = cudaPointerGetAttributes(&attributes, ptr);
-
-    if (err != cudaSuccess) {
-        std::cerr << "Error getting pointer attributes: " << cudaGetErrorString(err) << std::endl;
-        return;
-    }
-
-#if CUDART_VERSION >= 10000
-    switch (attributes.type) {
-        case cudaMemoryTypeHost:
-            std::cout << "Pointer is in host memory (pinned)." << std::endl;
-            break;
-        case cudaMemoryTypeDevice:
-            std::cout << "Pointer is in device memory." << std::endl;
-            break;
-        case cudaMemoryTypeManaged:
-            std::cout << "Pointer is in unified memory." << std::endl;
-            break;
-        default:
-            std::cout << "Pointer type unknown." << std::endl;
-            break;
-    }
-#else
-    // For CUDA versions < 10
-    switch (attributes.memoryType) {
-        case cudaMemoryTypeHost:
-            std::cout << "Pointer is in host memory (pinned)." << std::endl;
-            break;
-        case cudaMemoryTypeDevice:
-            std::cout << "Pointer is in device memory." << std::endl;
-            break;
-        default:
-            std::cout << "Pointer type unknown." << std::endl;
-            break;
-    }
-#endif
-}
-
 
 template <uint32_t NUM_VARS, uint32_t COMPOSITION_SIZE, bool DATA_IS_TRANSPOSED>
 class Sumcheck {
@@ -159,7 +120,6 @@ public:
 
 		if(DATA_IS_TRANSPOSED) {
 			for(int i = 0; i < COMPOSITION_SIZE * EVALS_PER_MULTILINEAR / 32; i++) {
-				//int idx = i * 4;
 				cpu_original_multilinear_evaluations[i] = 0;
 				for(int j = 0; j < 32; j++) {
 					cpu_original_multilinear_evaluations[i] ^= ((evals[INTS_PER_VALUE*(32*i + j)] & 1) << j);
@@ -242,10 +202,7 @@ public:
 
 		uint32_t *gpu_multilinear_products, *gpu_folded_products_sums;
 
-		if (num_eval_points_per_multilinear_padded == 32) { // this is constructing Si(Xi) i think?
-															// ok so basically they aren't actually construcing S
-															// they are evaluating it at a few points and sending those results to the verifier
-															// and letting the verifier interpolate Si using those points
+		if (num_eval_points_per_multilinear_padded == 32) { 
 			// If the number of evals fits in a single batch, use the CPU
 
 			// 1. Calculate the products of the multilinear evaluations
@@ -374,7 +331,6 @@ public:
 
 		memcpy(cpu_random_challenges + INTS_PER_VALUE*round, challenge, INTS_PER_VALUE*sizeof(uint32_t));
 
-		// Take a_i(x_i,...,x_n) and create a_(i+1)(x_(i+1),...,x_n) = a_i(challenge,x_(i+1),...,x_n)
 		uint32_t coefficient[BITS_WIDTH];
 
 		uint32_t num_eval_points_per_multilinear = EVALS_PER_MULTILINEAR >> round;

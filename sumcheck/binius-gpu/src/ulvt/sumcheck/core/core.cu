@@ -7,7 +7,6 @@
 #include "../utils/constants.hpp"
 #include "core.cuh"
 
-
 #ifndef CUDA_CHECK
 #define CUDA_CHECK
 #define check(ans) { gpuAssert((ans), __FILE__, __LINE__); }
@@ -26,14 +25,8 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
 #define COARSE_FACTOR BLOCK_SIZE_MULTILINEAR / MAX_SMEM_SIZE
 #define LINE printf("%s: at line %d\n", __FILE__, __LINE__)
 
-
-__host__ __device__ void add_ee(const uint32_t a[BITS_WIDTH], const uint32_t b[BITS_WIDTH], uint32_t destination[BITS_WIDTH]){
-	for(int i = 0; i < BITS_WIDTH; i++) {
-		destination[i] = a[i] ^ b[i];
-	}
-}
-
-__host__ __device__ void calculate_es(
+// utility functions for mismatched multiplications, written by andrew
+__host__ __device__ void calculate_es( 
 	const uint32_t e[BITS_WIDTH], 
 	const uint32_t s[INTERPOLATION_BITS_WIDTH],
 	uint32_t destination[BITS_WIDTH]
@@ -63,35 +56,24 @@ __host__ __device__ void calculate_eb_xor(
 	}
 }
 
-__device__ void calculate_eb_atomic(
-	const uint32_t e[BITS_WIDTH], 
-	const uint32_t b,
-	uint32_t destination[BITS_WIDTH]
-) { // product of extension field batch and interpolation field batch
-	for(int i = 0; i < BITS_WIDTH; i++) {
-		atomicXor(destination + i, e[i] & b);
-	}
-}
-
-__global__ void calculate_multilinear_product_sums_kernel( // can possibly tile becuase a lot of data reuse
-	const uint32_t* multilinear_evaluations_p1_unbitsliced,
-	const uint32_t* multilinear_evaluations,
+// written by andrew
+// calculate the sums for each term of the product in algorithm 3
+__global__ void calculate_multilinear_product_sums_kernel(
+	const uint32_t* multilinear_evaluations_p1_unbitsliced, // the extension field multilinears 
+	const uint32_t* multilinear_evaluations, // the base field multilinears
 	uint32_t* destination,
 	const uint32_t d,
 	const uint32_t round_idx,
 	const uint32_t n
-) { // each thread computes 1 batch
-	//__shared__ uint32_t products_s[BLOCK_SIZE_MULTILINEAR][128];
-	//__shared__ uint32_t products_s[MAX_SMEM_SIZE * BITS_WIDTH];
+) {
 	__shared__ uint32_t products_s[MAX_SMEM_SIZE * INTS_PER_VALUE];
 
 	uint32_t idx = threadIdx.x + blockIdx.x * blockDim.x;
 	uint32_t stride = blockDim.x * gridDim.x;
 
-	uint32_t num_terms = (1U << (d*round_idx + d));  // n=28, d=4, round_idx=4
+	uint32_t num_terms = (1U << (d*round_idx + d));
 	uint32_t num_batches_in_product = (1U << (n - round_idx - 1)) / 32;
 	uint32_t start_pos_in_table[MAX_COMPOSITION_SIZE];
-	//uint32_t eb_product[BITS_WIDTH];
 	uint32_t eb_sum[INTS_PER_VALUE];
 
 	for(uint64_t k = idx; k < (uint64_t) num_terms * num_batches_in_product; k += stride){
@@ -151,7 +133,9 @@ __global__ void calculate_multilinear_product_sums_kernel( // can possibly tile 
 	}
 }
 
-
+// written by andrew
+// precompute the products for random challenges
+// very little computations compared to above kernel, so we can just do this on cpu
 __host__ __device__ void calculate_random_challenge_products(
 	const uint32_t* random_challenges,
 	uint32_t* destination,
@@ -165,7 +149,6 @@ __host__ __device__ void calculate_random_challenge_products(
 		for(int j = 1; j < BITS_WIDTH; j++) {
 			batch_product[j] = 0;
 		}
-		//printf("i %d\n", i);
 		for(int r_idx = 0; r_idx < d*round_idx + d; r_idx++) {
 			if(r_idx % (round_idx + 1) == round_idx) continue; // skip if it's a c index (* interpolation point, not random challenge)
 			uint32_t random_challenge_idx = r_idx % (round_idx + 1);
@@ -189,6 +172,9 @@ __host__ __device__ void calculate_random_challenge_products(
 	}
 }
 
+// written by andrew
+// precompute products for interpolation points
+// similar to above
 __host__ __device__ void calculate_interpolation_point_products(
 	const uint32_t interpolation_point,
 	uint32_t* destination,
@@ -196,7 +182,6 @@ __host__ __device__ void calculate_interpolation_point_products(
 	const uint32_t round_idx	
 ) {
 	uint32_t num_terms = (1 << (d*round_idx + d));
-	//printf("num_terms %d\n", num_terms);
 	for(int i = 0; i < num_terms; i += 32) {
 		uint32_t batch_product[INTERPOLATION_BITS_WIDTH];
 		batch_product[0] = 0xFFFFFFFF;
@@ -211,66 +196,23 @@ __host__ __device__ void calculate_interpolation_point_products(
 			for(int term_idx = i; term_idx < min(i+32, num_terms); term_idx++) {
 				uint32_t first_bit_xor = (term_idx & (1 << r_idx)) == 0;
 				batch[0] ^= ((interpolation_point & 1) ^ first_bit_xor) << (term_idx - i);
-				//printf("term_idx %d\n", term_idx);
-				//printf("%d", (batch[0] >> (term_idx-i)) & 1);
 				for(int bit_idx = 1; bit_idx < INTERPOLATION_BITS_WIDTH; bit_idx++) {
-					//printf("%d", (batch[bit_idx] >> (term_idx-i)) & 1);
 					batch[bit_idx] ^= ((interpolation_point >> bit_idx) & 1) << (term_idx - i);
 				}
-				//printf("\n");
 			}
-
-			//printf("(%d %d %d %d) * (%d %d %d %d)\n", batch_product[0], batch_product[1], batch_product[2], batch_product[3], batch[0], batch[1], batch[2], batch[3]);
 			multiply_unrolled<INTERPOLATION_TOWER_HEIGHT>(batch_product, batch, batch_product);
-
-			//printf("multiply result %d %d %d %d\n", batch_product[0], batch_product[1], batch_product[2], batch_product[3]);
 		}
 
-		//printf("memcpy destination + %d out of %d ints\n", INTERPOLATION_BITS_WIDTH*i / 32, (num_terms + 31) / 32 * INTERPOLATION_BITS_WIDTH);
 		memcpy(destination + INTERPOLATION_BITS_WIDTH*i / 32, batch_product, INTERPOLATION_BITS_WIDTH*sizeof(uint32_t));
 	}
 }
 
-__host__ __device__ void calculate_multilinear_product_sums(
-	const uint32_t* multilinear_evaluations_p1, // eq polynomial in zerocheck (F(2^128))
-	const uint32_t* multilinear_evaluations,
-	uint32_t* destination,
-	const uint32_t d,
-	const uint32_t round_idx,
-	const uint32_t n
-) {
-	uint32_t num_terms = (1 << (d*round_idx + d));
-	uint32_t num_batches_in_product = (1 << (n - round_idx - 1)) / 32;
-	for(int i = 0; i < num_terms; i++) {
-		uint32_t product_sum_batch = 0;
-		//uint32_t start_points[d][round_idx+1];
-		//uint32_t start_pos_in_table[d];
-		uint32_t* start_pos_in_table = (uint32_t*) malloc(d * sizeof(uint32_t));
-		memset(start_pos_in_table, 0, d*sizeof(uint32_t));
-		for(int j = 0; j < d*round_idx + d; j++) {
-			int p_idx = j / (round_idx + 1);
-			int x_idx = j % (round_idx + 1);
-			start_pos_in_table[p_idx] += ((i & (1 << j)) != 0) << (n - 1 - x_idx);
-		}
-		for(int x_idx = 0; x_idx < num_batches_in_product; x_idx++) {
-			uint32_t product = 0xFFFFFFFF;
-			for(int p_idx = 0; p_idx < d; p_idx++) {
-				product = product & multilinear_evaluations[p_idx * (1 << n) / 32 + start_pos_in_table[p_idx] / 32 + x_idx];
-			}
-			product_sum_batch ^= product;
-		}
-		
-		uint32_t destination_batch_idx = i / 32;
-		uint32_t destination_batch_bit_idx = i % 32;
-		destination[destination_batch_idx] ^= (__builtin_popcount(product_sum_batch) % 2) << destination_batch_bit_idx; // XOR of all bits in a batch sum
-
-	}
-}
-
+// written by andrew
+// combines the above functions to find the field element
+// for each interpolation point
 __host__ void calculate_interpolation_points(
 	const uint32_t* multilinear_evaluations_p1_unbitsliced,
-	//const uint32_t* multilinear_evaluations_p1, // eq polynomial in zerocheck (F(2^128))
-	const uint32_t* multilinear_evaluations_d, // should be on gpu
+	const uint32_t* multilinear_evaluations_d,
 	const uint32_t* random_challenges,
 	uint32_t* destination,
 	uint32_t* claimed_sum,
@@ -331,9 +273,13 @@ __host__ void calculate_interpolation_points(
 	check(cudaFree(multilinear_product_sums_d));
 }
 
+
+// written by andrew
+// get_batch constructs an extension field batch using multiple base field batches
+// part of algorithm 2
 __host__ __device__ void get_batch(
-	const uint32_t* multilinear_evaluations_d,
-	const uint32_t* random_challenges_subset_products, 
+	const uint32_t* multilinear_evaluations_d, // binary multilinear polynomial
+	const uint32_t* random_challenges_subset_products,  // precomputed
 	uint32_t* destination,
 	const uint32_t idx,
 	const uint32_t p_idx,
@@ -344,14 +290,14 @@ __host__ __device__ void get_batch(
 	uint32_t j = 0;
 	memset(destination, 0, BITS_WIDTH * sizeof(uint32_t));
 	for(int i = idx; i < (1 << n) / 32; i += stride) {
-		//printf("i=%u out of %u, batch=%u\n", i, (1 << n) / 32, multilinear_evaluations_d[i + p_idx * (1 << n) / 32]);
 		calculate_eb_xor(random_challenges_subset_products + j * BITS_WIDTH, multilinear_evaluations_d[i + p_idx * (1 << n) / 32], destination);
-		//printf("destination is now %u\n", destination[0]);
 		j++;
 	}
 }
 
-__global__ void fold_multiple_kernel( // only binary
+// written by andrew
+// uses get_batch to efficiently fold a binary polynomial multiple times
+__global__ void fold_multiple_kernel(  
 	const uint32_t* multilinear_evaluations_d,
 	uint32_t* destination,
 	uint32_t* random_challenge_subset_products,
@@ -385,6 +331,9 @@ __global__ void fold_multiple_kernel( // only binary
 	}
 }
 
+// written by andrew
+// precompute the coefficients for each base field element that gets added up to reconstruct the extension field element 
+// for get_batch
 __host__ void calculate_random_challenge_subset_products(const uint32_t* random_challenges, uint32_t* destination, const uint32_t round_idx) {
     memset(destination, 0, BITS_WIDTH * (1 << round_idx) * sizeof(uint32_t));
     uint32_t* random_challenges_copy = (uint32_t*) malloc(round_idx * BITS_WIDTH * sizeof(uint32_t));
@@ -407,6 +356,9 @@ __host__ void calculate_random_challenge_subset_products(const uint32_t* random_
 	}
 }
 
+// written by andrew
+// uses the big extension field polynomial and binary polynomials
+// and uses fold_multiple to construct the set of polynomials used by Algorithm 1
 __host__ void fold_multiple(
 	const uint32_t* folded_multilinear_evaluations_p1,
 	const uint32_t* multilinear_evaluations_d,
@@ -426,7 +378,6 @@ __host__ void fold_multiple(
 	check(cudaMalloc(&random_challenge_subset_products_d, BITS_WIDTH * (1 << round_idx) * sizeof(uint32_t)));
 	check(cudaMemcpy(random_challenge_subset_products_d, random_challenge_subset_products, BITS_WIDTH * (1 << round_idx) * sizeof(uint32_t), cudaMemcpyHostToDevice));
 	
-	//check(cudaMemset(destination, 0, d * padded_batches_per_multilinear * BITS_WIDTH * sizeof(uint32_t)));
 	check(cudaMemcpy(destination, folded_multilinear_evaluations_p1, padded_batches_per_multilinear * BITS_WIDTH * sizeof(uint32_t), cudaMemcpyDeviceToDevice));
 	fold_multiple_kernel<<<2048, 128>>>(multilinear_evaluations_d, destination + padded_batches_per_multilinear * BITS_WIDTH, random_challenge_subset_products_d, round_idx, n, d-1);
 
@@ -435,7 +386,10 @@ __host__ void fold_multiple(
 	check(cudaFree(random_challenge_subset_products_d));
 }
 
-__host__ __device__ void evaluate_composition_on_batch_row( // after folding, calculate the claimed sum over hypercube by multiplying the individual multilinear evaluations
+
+// WRITTEN BY IRREDUCIBLE
+// utility functions for algorithm 1
+__host__ __device__ void evaluate_composition_on_batch_row(
 	const uint32_t* first_batch_of_row,
 	uint32_t* batch_composition_destination,
 	const uint32_t composition_size,
@@ -444,12 +398,8 @@ __host__ __device__ void evaluate_composition_on_batch_row( // after folding, ca
 	memcpy(batch_composition_destination, first_batch_of_row, BITS_WIDTH * sizeof(uint32_t));
 
 	for (int operand_in_composition = 1; operand_in_composition < composition_size; ++operand_in_composition) {
-		// next polynomial in the composition
-		// makes sense because the INTS_PER_VALUE still represents the size of all the batches
 		const uint32_t* nth_batch_of_row =
-			first_batch_of_row + operand_in_composition * original_evals_per_col * INTS_PER_VALUE; // move forward to the next polynomial in the composition
-		
-		// multiply
+			first_batch_of_row + operand_in_composition * original_evals_per_col * INTS_PER_VALUE;
 		multiply_unrolled<TOWER_HEIGHT>(batch_composition_destination, nth_batch_of_row, batch_composition_destination);
 	}
 }
@@ -486,28 +436,6 @@ __host__ __device__ void fold_batch( // fold polynomial table in half by pluggin
 		dst_batch[i] = lower_batch[i] ^ product[i];
 	}
 }
-
-__host__ __device__ void fold_batch_1( // fold polynomial table in half by plugging in random challenge point
-	const uint32_t lower_batch[BITS_WIDTH],
-	const uint32_t upper_batch[BITS_WIDTH],
-	uint32_t dst_batch[BITS_WIDTH],
-	const uint32_t coefficient[BITS_WIDTH], // coef is actually just 1 value (r_i) copied over; this makes it so that bitslicing works natively with multiplciations here
-	const bool is_interpolation
-) {
-	uint32_t tmp_coef[BITS_WIDTH];
-	uint32_t upper_product[BITS_WIDTH];
-	uint32_t lower_product[BITS_WIDTH];
-	memcpy(tmp_coef, coefficient, BITS_WIDTH * sizeof(uint32_t));
-
-	multiply_unrolled<TOWER_HEIGHT>(upper_batch, tmp_coef, upper_product);
-	tmp_coef[0] ^= 0xFFFFFFFF;
-	multiply_unrolled<TOWER_HEIGHT>(lower_batch, tmp_coef, lower_product);
-
-	for(int i = 0; i < BITS_WIDTH; i++) {
-		dst_batch[i] = upper_product[i] ^ lower_product[i];
-	}
-}
-
 
 void fold_small(
 	const uint32_t source[BITS_WIDTH],
