@@ -12,13 +12,14 @@ using namespace adf;
 class clipped : public graph {  
 
   private:
-    kernel AIE_intt_stage_0,AIE_intt_stage_1,AIE_intt_stage_2,AIE_intt_stage_3,AIE_intt_stage_4,AIE_intt_stage_5,AIE_intt_stage_6,AIE_intt_stage_7,AIE_intt_stage_8,AIE_intt_stage_9,AIE_intt_stage_10,AIE_intt_stage_11;
+    kernel AIE_intt_stage_0,AIE_intt_stage_1,AIE_intt_stage_2,AIE_intt_stage_3,AIE_intt_stage_4,AIE_intt_stage_5,AIE_intt_stage_6,AIE_intt_stage_7,AIE_intt_stage_8;
+// ,AIE_intt_stage_9,AIE_intt_stage_10,AIE_intt_stage_11;
     kernel cache;
    
   public:
  
-    adf::input_plio in0,PL_intt_stage_0_out,PL_intt_stage_1_out,PL_intt_stage_2_out,PL_intt_stage_3_out,PL_intt_stage_4_out,PL_intt_stage_5_out,PL_intt_stage_6_out,PL_intt_stage_7_out,PL_intt_stage_8_out,PL_intt_stage_9_out,PL_intt_stage_10_out,PL_intt_stage_11_out;
-	adf::output_plio  out0,PL_intt_stage_0_in,PL_intt_stage_1_in,PL_intt_stage_2_in,PL_intt_stage_3_in,PL_intt_stage_4_in,PL_intt_stage_5_in,PL_intt_stage_6_in,PL_intt_stage_7_in,PL_intt_stage_8_in,PL_intt_stage_9_in,PL_intt_stage_10_in,PL_intt_stage_11_in;
+    adf::input_plio in0,PL_intt_stage_0_out,PL_intt_stage_1_out,PL_intt_stage_2_out,PL_intt_stage_3_out,PL_intt_stage_4_out,PL_intt_stage_5_out,PL_intt_stage_6_out,PL_intt_stage_7_out,PL_intt_stage_8_out;
+	adf::output_plio  out0,PL_intt_stage_0_in,PL_intt_stage_1_in,PL_intt_stage_2_in,PL_intt_stage_3_in,PL_intt_stage_4_in,PL_intt_stage_5_in,PL_intt_stage_6_in,PL_intt_stage_7_in,PL_intt_stage_8_in;
     clipped() {
 	in0 = adf::input_plio::create("DataIn1", adf::plio_32_bits,"data/input.txt");
     out0 = adf::output_plio::create("DataOut1",adf::plio_32_bits, "data/output.txt");
@@ -39,13 +40,13 @@ class clipped : public graph {
     PL_intt_stage_7_out =  adf::input_plio::create("Data_stage7_out0",adf::plio_32_bits, "data/input1.txt");
 	PL_intt_stage_7_in  =  adf::output_plio::create("Data_stage7_in0", adf::plio_32_bits,"data/output1.txt");
     PL_intt_stage_8_out =  adf::input_plio::create("Data_stage8_out0",adf::plio_32_bits, "data/input1.txt");
-	PL_intt_stage_8_in  =  adf::output_plio::create("Data_stage8_in0", adf::plio_32_bits,"data/output1.txt");
-    PL_intt_stage_9_out =  adf::input_plio::create("Data_stage9_out0",adf::plio_32_bits, "data/input1.txt");
-	PL_intt_stage_9_in  =  adf::output_plio::create("Data_stage9_in0", adf::plio_32_bits,"data/output1.txt");
-    PL_intt_stage_10_out =  adf::input_plio::create("Data_stage10_out0",adf::plio_32_bits, "data/input1.txt");
-	PL_intt_stage_10_in  =  adf::output_plio::create("Data_stage10_in0", adf::plio_32_bits,"data/output1.txt");
-    PL_intt_stage_11_out =  adf::input_plio::create("Data_stage11_out0",adf::plio_32_bits, "data/input1.txt");
-	PL_intt_stage_11_in  =  adf::output_plio::create("Data_stage11_in0", adf::plio_32_bits,"data/output1.txt");
+	// PL_intt_stage_8_in  =  adf::output_plio::create("Data_stage8_in0", adf::plio_32_bits,"data/output1.txt");
+ //    PL_intt_stage_9_out =  adf::input_plio::create("Data_stage9_out0",adf::plio_32_bits, "data/input1.txt");
+	// PL_intt_stage_9_in  =  adf::output_plio::create("Data_stage9_in0", adf::plio_32_bits,"data/output1.txt");
+ //    PL_intt_stage_10_out =  adf::input_plio::create("Data_stage10_out0",adf::plio_32_bits, "data/input1.txt");
+	// PL_intt_stage_10_in  =  adf::output_plio::create("Data_stage10_in0", adf::plio_32_bits,"data/output1.txt");
+ //    PL_intt_stage_11_out =  adf::input_plio::create("Data_stage11_out0",adf::plio_32_bits, "data/input1.txt");
+	// PL_intt_stage_11_in  =  adf::output_plio::create("Data_stage11_in0", adf::plio_32_bits,"data/output1.txt");
 
 
     AIE_intt_stage_0 = kernel::create(intt_stage0);
@@ -57,9 +58,9 @@ class clipped : public graph {
     AIE_intt_stage_6 = kernel::create(intt_stage6);
     AIE_intt_stage_7 = kernel::create(intt_stage7);
     AIE_intt_stage_8 = kernel::create(intt_stage8);
-    AIE_intt_stage_9 = kernel::create(intt_stage9);
-    AIE_intt_stage_10 = kernel::create(intt_stage10);
-    AIE_intt_stage_11 = kernel::create(intt_stage11);
+    // AIE_intt_stage_9 = kernel::create(intt_stage9);
+    // AIE_intt_stage_10 = kernel::create(intt_stage10);
+    // AIE_intt_stage_11 = kernel::create(intt_stage11);
 
     cache     = kernel::create(rearrange_out);
 
@@ -92,17 +93,7 @@ class clipped : public graph {
         connect< stream > net16 (PL_intt_stage_7_out.out[0], AIE_intt_stage_8.in[0]);
         connect< stream > net17(AIE_intt_stage_8.out[0], PL_intt_stage_8_in.in[0]);
 
-        connect< stream > net18 (PL_intt_stage_8_out.out[0], AIE_intt_stage_9.in[0]);
-        connect< stream > net19(AIE_intt_stage_9.out[0], PL_intt_stage_9_in.in[0]);
-
-        connect< stream > net20 (PL_intt_stage_9_out.out[0], AIE_intt_stage_10.in[0]);
-        connect< stream > net21(AIE_intt_stage_10.out[0], PL_intt_stage_10_in.in[0]);
-        
-        connect< stream > net22 (PL_intt_stage_10_out.out[0], AIE_intt_stage_11.in[0]);
-        connect< stream > net23(AIE_intt_stage_11.out[0], PL_intt_stage_11_in.in[0]);
-
-        
-        connect< stream > net100 (PL_intt_stage_11_out.out[0],cache.in[0]);
+        connect< stream > net18 (PL_intt_stage_8_out.out[0], cache.in[0]);
         connect< stream > net101 (cache.out[0], out0.in[0]);
        
         fifo_depth(net0)=512;
@@ -124,13 +115,13 @@ class clipped : public graph {
         fifo_depth(net16)=512;
         fifo_depth(net17)=512;
         fifo_depth(net18)=512;
-        fifo_depth(net19)=512;
-        fifo_depth(net20)=512;
-        fifo_depth(net21)=512;
-        fifo_depth(net22)=512;
-        fifo_depth(net23)=512;
+        // fifo_depth(net19)=512;
+        // fifo_depth(net20)=512;
+        // fifo_depth(net21)=512;
+        // fifo_depth(net22)=512;
+        // fifo_depth(net23)=512;
         
-        fifo_depth(net100)=512;
+        // fifo_depth(net100)=512;
         fifo_depth(net101)=512;
 
         source(AIE_intt_stage_0) = "intt_stage0.cc";
@@ -142,9 +133,9 @@ class clipped : public graph {
         source(AIE_intt_stage_6) = "intt_stage6.cc";
         source(AIE_intt_stage_7) = "intt_stage7.cc";
         source(AIE_intt_stage_8) = "intt_stage8.cc";
-        source(AIE_intt_stage_9) = "intt_stage9.cc";
-        source(AIE_intt_stage_10) = "intt_stage10.cc";
-        source(AIE_intt_stage_11) = "intt_stage11.cc";
+        // source(AIE_intt_stage_9) = "intt_stage9.cc";
+        // source(AIE_intt_stage_10) = "intt_stage10.cc";
+        // source(AIE_intt_stage_11) = "intt_stage11.cc";
 
         source(cache)    = "rearrange_out.cc";
        
@@ -157,9 +148,9 @@ class clipped : public graph {
         adf::location<kernel>(AIE_intt_stage_6)= tile(12,1);
         adf::location<kernel>(AIE_intt_stage_7)= tile(13,1);
         adf::location<kernel>(AIE_intt_stage_8)= tile(14,1);
-        adf::location<kernel>(AIE_intt_stage_9)= tile(15,1);
-        adf::location<kernel>(AIE_intt_stage_10)= tile(16,1);
-        adf::location<kernel>(AIE_intt_stage_11)= tile(17,1);
+        // adf::location<kernel>(AIE_intt_stage_9)= tile(15,1);
+        // adf::location<kernel>(AIE_intt_stage_10)= tile(16,1);
+        // adf::location<kernel>(AIE_intt_stage_11)= tile(17,1);
 
         adf::location<kernel>(cache)= tile(18,1); 
         
@@ -172,9 +163,9 @@ class clipped : public graph {
         runtime<ratio>(AIE_intt_stage_6) = 0.9;
         runtime<ratio>(AIE_intt_stage_7) = 0.9;
         runtime<ratio>(AIE_intt_stage_8) = 0.9;
-        runtime<ratio>(AIE_intt_stage_9) = 0.9;
-        runtime<ratio>(AIE_intt_stage_10) = 0.9;
-        runtime<ratio>(AIE_intt_stage_11) = 0.9;
+        // runtime<ratio>(AIE_intt_stage_9) = 0.9;
+        // runtime<ratio>(AIE_intt_stage_10) = 0.9;
+        // runtime<ratio>(AIE_intt_stage_11) = 0.9;
 
         runtime<ratio>(cache) = 0.9;
 
