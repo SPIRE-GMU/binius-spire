@@ -463,8 +463,8 @@ void intt_stage6_opt(       input_stream_int32 * cb_input,output_stream_int32 * 
             aie::vector<int16,32> b1_low =  aie::filter_even(b1);
 
 
-            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r1 = aie::interleave_zip(a1_high,b1_high,1);
-            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r2 = aie::interleave_zip(a1_low,b1_low,1);
+            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r1 = aie::interleave_zip(b1_high,a1_high,1);
+            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r2 = aie::interleave_zip(b1_low,a1_low,1);
 
             aie::vector<int32, 16> res1_first = as_v16int32(r1.first);
             aie::vector<int32, 16> res1_second = as_v16int32(r1.second);
