@@ -810,7 +810,7 @@ void intt_stage7_opt(       input_stream_int32 * cb_input,output_stream_int32 * 
 
 
         //======================================//
-        // SIMD technique, 8us
+        // SIMD technique, 5us
         //=====================================// 
 
             aie::vector<int32,32> temp_a1 = readincr_v<32>(cb_input);
@@ -835,11 +835,11 @@ void intt_stage7_opt(       input_stream_int32 * cb_input,output_stream_int32 * 
             aie::vector<int16,32> b2_high = aie::filter_odd (b2,1);
             aie::vector<int16,32> b2_low =  aie::filter_even(b2,1);
 
-            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r1 = aie::interleave_zip(a1_high,b1_high,1);
-            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r2 = aie::interleave_zip(a1_low,b1_low,1);
+            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r1 = aie::interleave_zip(b1_high,a1_high,1);
+            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r2 = aie::interleave_zip(b1_low,a1_low,1);
 
-            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r3 = aie::interleave_zip(a2_high,b2_high,1);
-            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r4 = aie::interleave_zip(a2_low,b2_low,1);
+            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r3 = aie::interleave_zip(b2_high,a2_high,1);
+            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r4 = aie::interleave_zip(b2_low,a2_low,1);
 
 
             aie::vector<int32, 16> res1_first = as_v16int32(r1.first);
