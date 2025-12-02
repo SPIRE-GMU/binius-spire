@@ -13,81 +13,6 @@
 // #include "adf/x86sim/streamApi.h"
 // #include "include.h"
 
-inline void exchange(uint32_t *a, uint32_t *b){
-        // uint16_t low_a,low_b,high_b;
-        
-        {
-        uint16_t    low_a = *a & 0xFFFF;
-        uint16_t    low_b = *b & 0xFFFF;
-        uint16_t    high_b = (*b>>16)&0xFFFF;
-
-            *a =   ((*a) & 0xFFFF0000 ) | high_b; 
-            *b = ((uint32_t)low_a<< 16 ) | low_b; 
-        }
-
-        {
-        uint16_t    low_a = *(a+1) & 0xFFFF;
-        uint16_t    low_b = *(b+1) & 0xFFFF;
-        uint16_t    high_b = (*(b+1)>>16)&0xFFFF;
-
-            *(a+1) =   (*(a+1) & 0xFFFF0000 ) | high_b; 
-            *(b+1) = ((uint32_t)low_a<< 16 ) | low_b; 
-        }
-
-        {
-        uint16_t   low_a = *(a+2) & 0xFFFF;
-        uint16_t   low_b = *(b+2) & 0xFFFF;
-        uint16_t   high_b = (*(b+2)>>16)&0xFFFF;
-
-            *(a+2) =   (*(a+2) & 0xFFFF0000 ) | high_b; 
-            *(b+2) = ((uint32_t)low_a<< 16 ) | low_b; 
-        }
-
-        {
-        uint16_t    low_a = *(a+3) & 0xFFFF;
-        uint16_t    low_b = *(b+3) & 0xFFFF;
-        uint16_t    high_b = (*(b+3)>>16)&0xFFFF;
-
-            *(a+3) =   (*(a+3) & 0xFFFF0000 ) | high_b; 
-            *(b+3) = ((uint32_t)low_a<< 16 ) | low_b; 
-        }
-
-        {
-        uint16_t    low_a = *(a+4) & 0xFFFF;
-        uint16_t    low_b = *(b+4) & 0xFFFF;
-        uint16_t    high_b = (*(b+4)>>16)&0xFFFF;
-
-            *(a+4) =   (*(a+4) & 0xFFFF0000 ) | high_b; 
-            *(b+4) = ((uint32_t)low_a<< 16 ) | low_b; 
-        }
-
-        {
-        uint16_t    low_a = *(a+5) & 0xFFFF;
-        uint16_t    low_b = *(b+5) & 0xFFFF;
-        uint16_t    high_b = (*(b+5)>>16)&0xFFFF;
-
-            *(a+5) =   (*(a+5) & 0xFFFF0000 ) | high_b; 
-            *(b+5) = ((uint32_t)low_a<< 16 ) | low_b; 
-        }
-
-        {
-        uint16_t   low_a = *(a+6) & 0xFFFF;
-        uint16_t   low_b = *(b+6) & 0xFFFF;
-        uint16_t   high_b = (*(b+6)>>16)&0xFFFF;
-
-            *(a+6) =   (*(a+6) & 0xFFFF0000 ) | high_b; 
-            *(b+6) = ((uint32_t)low_a<< 16 ) | low_b; 
-        }
-
-        {
-        uint16_t    low_a = *(a+7) & 0xFFFF;
-        uint16_t    low_b = *(b+7) & 0xFFFF;
-        uint16_t    high_b = (*(b+7)>>16)&0xFFFF;
-
-            *(a+7) =   (*(a+7) & 0xFFFF0000 ) | high_b; 
-            *(b+7) = ((uint32_t)low_a<< 16 ) | low_b; 
-        }
-};
 
 
 
@@ -148,17 +73,17 @@ void intt_stage8_opt(       input_stream_int32 * cb_input,output_stream_int32 * 
             aie::vector<int16,32> b4_low =  aie::filter_even(b4,1);
 
 
-            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r1 = aie::interleave_zip(a1_high,b1_high,1);
-            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r2 = aie::interleave_zip(a1_low,b1_low,1);
+            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r1 = aie::interleave_zip(b1_high,a1_high,1);
+            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r2 = aie::interleave_zip(b1_low,a1_low,1);
 
-            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r3 = aie::interleave_zip(a2_high,b2_high,1);
-            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r4 = aie::interleave_zip(a2_low,b2_low,1);
+            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r3 = aie::interleave_zip(b2_high,a2_high,1);
+            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r4 = aie::interleave_zip(b2_low,a2_low,1);
 
-            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r5 = aie::interleave_zip(a3_high,b3_high,1);
-            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r6 = aie::interleave_zip(a3_low,b3_low,1);
+            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r5 = aie::interleave_zip(b3_high,a3_high,1);
+            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r6 = aie::interleave_zip(b3_low,a3_low,1);
 
-            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r7 = aie::interleave_zip(a4_high,b4_high,1);
-            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r8 = aie::interleave_zip(a4_low,b4_low,1);
+            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r7 = aie::interleave_zip(b4_high,a4_high,1);
+            std::pair<aie::vector<int16,32>,aie::vector<int16,32>> r8 = aie::interleave_zip(b4_low,a4_low,1);
 
             aie::vector<int32, 16> res1_first = as_v16int32(r1.first);
             aie::vector<int32, 16> res1_second = as_v16int32(r1.second);
