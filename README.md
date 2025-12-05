@@ -24,7 +24,7 @@ OS: Ubuntu 2024.2
 
 Vitis 2025.1 (other version is ok but may differ in details.)
 
-important: if you encounter an issue when compiling host application, go to  app_component -> CMakeLists,txt -> line 39,    change cxx version from 14 to 17 !!  Otherwise it fails when building the system.
+Important: if you encounter an error when compiling host application, go to  app_component -> CMakeLists,txt -> line 39,    change cxx version from 14 to 17 !!  Otherwise it fails when building the system.
 
 ### Configuration of arbitrary-additive-NTT on VCK:
 
