@@ -1,4 +1,21 @@
-# results of proposed ANTT architecture in different lengthes.
+# Configuration 
+
+Ubuntu 24.04
+
+Vitis 2025.2
+
+Power Design Management 2025.2 (PDM)
+
+# Performance of proposed ANTT architecture in different lengths.
+
+The following table lists the resource consumption, latency, and power consumption of the proposed ANTT architecture in different lengths. 
+
+Some detailed numbers differ due to the Vitis' built-in flow of compilation and implementation, such as resource consumption and frequency. More agressive configuration can be found in "Vitivs -> setting", which may help to further improve the numbers, but that unnecessary, as the resource utilization are within 2% compared to the on-chip resource available. Same to the timing setting.
+
+The key advantage of the proposed design is that, it has the capability to maintain the throughput around 10 Gb/s in arbitrary length of the ANTT. Moreover, it is a general-purpose architecture, meaning it is appliable to other applications with different length, by adding or removing permutation unit (PU) and butterfly unit (BU) kernels.
+
+
+
 
 | length | LUT(80K)       | FF(1.8M)       | BRAM | Freq(MHz) | Throughput(Gb/s) | Latency(us) | static(W) | dynamic | power(W) |
 | :----- | :------------- | :------------- | :--- | :-------- | :--------------- | :---------- | :-------- | :------ | :------- |
