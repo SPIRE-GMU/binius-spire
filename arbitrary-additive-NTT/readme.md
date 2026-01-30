@@ -10,10 +10,9 @@ Power Design Management 2025.2 (PDM)
 
 The following table lists the resource consumption, latency, and power consumption of the proposed ANTT architecture in different lengths. 
 
-Some detailed numbers differ due to the Vitis' built-in flow of compilation and implementation, such as resource consumption and frequency. More agressive configuration can be found in "Vitivs -> setting -> xxx.cfg", which may help to further improve the numbers, but that is unnecessary, as the resource utilization are within 2% compared to the on-chip resource available. Same to the timing setting.
+Some detailed numbers differ due to the Vitis' built-in flow of compilation and implementation, such as resource consumption and frequency. And more aggressive configuration can be found in "Vitivs -> setting -> xxx.cfg", which may help to further improve the numbers, but that is unnecessary, as the resource utilization are within 2% compared to the on-chip resource available. 
 
-The key advantage of the proposed design is that, it has the capability to maintain the throughput around 10 Gb/s in arbitrary length of the ANTT. Moreover, it is a general-purpose architecture, meaning it is appliable to other applications with different length, by adding or removing permutation unit (PU) and butterfly unit (BU) kernels.
-
+The key advantage of the proposed design is that, it has the capability to maintain the throughput around 10 Gb/s in arbitrary length of the ANTT. Moreover, it is a general-purpose architecture, meaning it is appliable to other applications involving different length, by adding or removing permutation unit (PU) and butterfly unit (BU) kernels.
 
 
 
@@ -29,4 +28,4 @@ The key advantage of the proposed design is that, it has the capability to maint
 
 # Screen shot
 
-Here are some screen shots captured during the work, which may help to understand the work. 
+Here are some screen shots captured during the work, such as "4096_timing","4096_power" and "overall_layout", which may help to understand the framework. 
