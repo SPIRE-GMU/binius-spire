@@ -10,9 +10,7 @@ Power Design Management 2025.2 (PDM)
 
 The following table lists the resource consumption, latency, and power consumption of the proposed ANTT architecture in different lengths. 
 
-The key advantage of the proposed design is that, it has the capability to maintain the throughput around 10 Gb/s in arbitrary length of the ANTT. Moreover, it is a general-purpose architecture, meaning it is appliable to other applications involving different length, by adding or removing permutation unit (PU) and butterfly unit (BU) kernels. Meanwhile, the resource and power consumption changes accordingly.
-
-Noting, we provide the table as a reference but it may not obtain the exactly same numbers when reproducing the framework due to the Vitis' built-in compilation flow.  
+We provide the ANTT  with common lengths of 512, 1024 and 2048 as an reference. Generally, the accelerator for a longer ANTT task requires more hardware resource and AI engine (AIE), which also comes out to a higher dynamic power consumption. The key advantage of the proposed architecture is that, the it maintains the throughput at around 10 Gb/s in arbitrary length of ANTT. Moreover, it is a general-purpose architecture, meaning it is applicable to other situations involving different length, by adding or removing permutation unit (PU) and butterfly unit (BU) kernels.  
 
 
 
