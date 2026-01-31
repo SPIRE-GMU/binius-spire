@@ -10,22 +10,18 @@ Power Design Management 2025.2 (PDM)
 
 The following table lists the resource consumption, latency, and power consumption of the proposed ANTT architecture in different lengths. 
 
-Some detailed numbers differ due to the Vitis' built-in flow of compilation and implementation, such as resource consumption and frequency. And more aggressive configuration can be found in "Vitivs -> setting -> xxx.cfg", which may help to further improve the numbers, but that is unnecessary, as the resource utilization are within 2% compared to the on-chip resource available. 
+The key advantage of the proposed design is that, it has the capability to maintain the throughput around 10 Gb/s in arbitrary length of the ANTT. Moreover, it is a general-purpose architecture, meaning it is appliable to other applications involving different length, by adding or removing permutation unit (PU) and butterfly unit (BU) kernels. Meanwhile, the resource and power consumption changes accordingly.
 
-The key advantage of the proposed design is that, it has the capability to maintain the throughput around 10 Gb/s in arbitrary length of the ANTT. Moreover, it is a general-purpose architecture, meaning it is appliable to other applications involving different length, by adding or removing permutation unit (PU) and butterfly unit (BU) kernels.
-
-
-
-| length | LUT(80K)       | FF(1.8M)       | BRAM | Freq(MHz) | Throughput(Gb/s) | Latency(us) | static(W) | dynamic | power(W) |
-| :----- | :------------- | :------------- | :--- | :-------- | :--------------- | :---------- | :-------- | :------ | :------- |
-| 4096   | 10290(1.14%)   | 11642 (0.65%)  | 3    | 320       | 10.08            | 6.5         | 4.406     | 3.948   | 8.354    |
-| 2048   | 12446(1.38%)   | 15482 (0.86%)  | 3    | 314       | 10.458           | 3.133       | 4.406     | 3.609   | 8.015    |
-| 1024   | 12027(1.34%)   | 14953 (0.83%)  | 3    | 302       | 10.297           | 1.591       | 4.406     | 3.439   | 7.845    |
-| 512    | 11540(1.28%)   | 14489 (0.81%)  | 3    | 317       | 10.002           | 0.819       | 4.406     | 3.269   | 7.675    |
+Noting, we provide the table as a reference but it may not obtain the exactly same numbers when reproducing the framework due to the Vitis' built-in compilation flow.  
 
 
 
+| Length       | LUT(80K)      | FF(1.8M)      | BRAM | Freq(MHz) | Throughput(Gb/s) | Latency(us) | static(W) | dynamic(W) | power(W) |
+|--------------|---------------|---------------|------|-----------|------------------|-------------|-----------|------------|----------|
+| 4096         | 14271(1.59%)  | 18132(1.01%)  | 3    | 314       | 10.039           | 6.549       | 4.406     | 3.779      | 8.185    |
+| 2048         | 12446(1.38%)  | 15482(0.86%)  | 3    | 294       | 9.346            | 3.506       | 4.406     | 3.609      | 8.015    |
+| 1024         | 12027(1.34%)  | 14953(0.83%)  | 3    | 302       | 9.664            | 1.718       | 4.406     | 3.439      | 7.845    |
+| 512          | 11540(1.28%)  | 14489(0.81%)  | 3    | 317       | 10.076           | 0.813       | 4.406     | 3.269      | 7.675    |
 
-# Screen shot
 
-Here are some screen shots captured during the work, such as "4096_timing","4096_power" and "overall_layout", which may help to understand the framework. 
+
