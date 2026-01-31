@@ -14,7 +14,7 @@ We provide the ANTT  with common lengths of 512, 1024 and 2048 as an reference. 
 
 
 
-| Length       | LUT(80K)      | FF(1.8M)      | BRAM | AIE | Freq(MHz) | Throughput(Gb/s) | Latency(us) | static(W) | dynamic(W) | power(W) |
+| Length       | LUT(900K)     | FF(1.8M)      | BRAM | AIE | Freq(MHz) | Throughput(Gb/s) | Latency(us) | static(W) | dynamic(W) | power(W) |
 |--------------|---------------|---------------|------|-----|-----------|------------------|-------------|-----------|------------|----------|
 | 4096         | 14271(1.59%)  | 18132(1.01%)  | 3    | 12  |314        | 10.039           | 6.549       | 4.406     | 3.779      | 8.185    |
 | 2048         | 12446(1.38%)  | 15482(0.86%)  | 3    | 11  |294        | 9.346            | 3.506       | 4.406     | 3.609      | 8.015    |
