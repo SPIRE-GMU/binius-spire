@@ -2,7 +2,7 @@
 
 Ubuntu 24.04
 
-Vitis 2025.2
+Vitis 2025.1
 
 Power Design Management 2025.2 (PDM)
 
