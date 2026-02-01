@@ -22,21 +22,19 @@ We provide the ANTT  with common lengths of 512, 1024 and 2048 as an reference. 
 | 512          | 11540(1.28%)  | 14489(0.81%)  | 3    | 9   |317        | 10.076           | 0.813       | 4.406     | 3.269      | 7.675    |
 
 
-# How to adjust the accelerator
-
-It is straightforward to adjust the architecture for different length ANTT, i.e., adding and removing kernels stage by stage. But it requires adjustment to each component:
+# How to rescale the accelerator
 
 ## AIE component 
 
   First, the AIE graph, you should remove the AIE kernel, as well as in/out ports. Then, reconnect the stream to correct kernel. After that, place the FIFO and kernel to a propriate location.
 
-## Host
+## Hostcomponent
 
-  On the host side, remember to initialize the PL kernels according to the task. Open and close these kernels in prpriate time.
+  On the host side, initialize the PL kernels according to the targeted length. Open and close these kernels in propriate time.
 
 ## System component
 
-  Add AIE graph and PL kernels to the binary-container file, also set the inter connection accordingly.
+  Add AIE graph and PL kernels to the binary-container file, also set the interconnection accordingly in the hardware-link.cfg file.
 
 # Lazy solution
 
