@@ -26,11 +26,11 @@ We provide the ANTT  with common lengths of 512, 1024 and 2048 as an reference. 
 
 ## AIE component 
 
-  First, for the AIE graph, remove/add extra AIE kernel, as well as in/out ports. Then, reconnect the streams to correct kernel. After that, place the FIFO and kernel to a propriate location.
+  First, for the AIE graph, remove/add extra AIE kernel, as well as in/out ports. Then, reconnect the streams to correct kernel. After that, place the FIFO and kernel to a proper location.
 
 ## Hostcomponent
 
-  On the host side, initialize the PL kernels according to the targeted length. Open and close these kernels in propriate time.
+  On the host side, initialize the PL kernels according to the targeted length. Open and close these kernels in proper time.
 
 ## System component
 
