@@ -48,4 +48,4 @@ I update a new folder "lazy reproduce", which provide a way more easier approach
 
     Synthesize & Run & Implementation 
 
-The updated file reproduce the proposed IANTT with the same throughput, and you can find report of timing, resource utilization as well. If any one have interest, I will update the left ANTT part as well as its system configuration during the conference. 
+The updated file reproduce the proposed IANTT with the same throughput, and you can find detailed report of timing, resource utilization as well. If any one have interest, I will update the left ANTT part as well as its system configuration during the conference. 
