@@ -22,4 +22,32 @@ We provide the ANTT  with common lengths of 512, 1024 and 2048 as an reference. 
 | 512          | 11540(1.28%)  | 14489(0.81%)  | 3    | 9   |317        | 10.076           | 0.813       | 4.406     | 3.269      | 7.675    |
 
 
+# How to adjust the accelerator
 
+It is straightforward to adjust the architecture for different length ANTT, i.e., adding and removing kernels stage by stage. But it requires adjustment to each component:
+
+## AIE component 
+
+  First, the AIE graph, you should remove the AIE kernel, as well as in/out ports. Then, reconnect the stream to correct kernel. After that, place the FIFO and kernel to a propriate location.
+
+## Host
+
+  On the host side, remember to initialize the PL kernels according to the task. Open and close these kernels in prpriate time.
+
+## System component
+
+  Add AIE graph and PL kernels to the binary-container file, also set the inter connection accordingly.
+
+# Lazy solution
+
+I update a new folder "lazy reproduce", which provide a way more easier approach to reproduce the architecture. Here is the instructions:
+
+    Open vitis 2025.1 IDE
+    
+    Flow -> new component -> HLS conponent -> import source file and testbench 
+
+    Change the parameter in testcase for customized test.   
+
+    Synthesize & Run & Implementation 
+
+The updated file reproduce the proposed IANTT with the same throughput, and you can find report of timing, resource utilization as well. If any one have interest, I will update the left ANTT part as well as its system configuration during the conference. 
