@@ -38,7 +38,7 @@ We provide the ANTT  with common lengths of 512, 1024 and 2048 as an reference. 
 
 # Lazy solution
 
-I update a new folder "lazy reproduce", which provide a way more easier approach to reproduce the architecture. Here is the instructions:
+I update a new folder "lazy reproduce", which provide a way more easier approach to reproduce the architecture. Here are the instructions:
 
     Open vitis 2025.1 IDE
     
