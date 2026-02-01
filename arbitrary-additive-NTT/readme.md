@@ -22,7 +22,7 @@ We provide the ANTT  with common lengths of 512, 1024 and 2048 as an reference. 
 | 512          | 11540(1.28%)  | 14489(0.81%)  | 3    | 9   |317        | 10.076           | 0.813       | 4.406     | 3.269      | 7.675    |
 
 
-# How to rescale the accelerator
+# How to rescale the architecture
 
 ## AIE component 
 
