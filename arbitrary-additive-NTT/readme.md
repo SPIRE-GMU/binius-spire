@@ -36,9 +36,9 @@ We provide the ANTT  with common lengths of 512, 1024 and 2048 as an reference. 
 
   Add AIE graph and PL kernels to the binary-container file, also set the interconnection accordingly in the hardware-link.cfg file.
 
-# Lazy solution
+# Easier reproduction
 
-I update a new folder "lazy reproduce", which provide a way more easier approach to reproduce the architecture. Here are the instructions:
+I update a new folder "result-production", which provide a way more easier approach to reproduce the architecture. Here are the instructions:
 
     Open vitis 2025.1 IDE
     
