@@ -5016,8 +5016,8 @@ static void shuffle_stream78(
 
 static void stage8_stream(
     hls::stream<ap_uint<32>> &inFifo,
-    hls::stream<ap_uint<32>> &outFifo,
-	    // hls::stream<axis32_t> &output,
+    // hls::stream<ap_uint<32>> &outFifo,
+	    hls::stream<axis32_t> &output,
 
     int size
 ){
@@ -5034,11 +5034,11 @@ static void stage8_stream(
         uint16_t tR = b_mul_u16(R, w);
         uint16_t tL = b_mul_u16(L, (uint16_t)(w ^ 1));
 
-        // axis32_t out;
-        // out.data = ((uint32_t)(tR ^ tL) << 16) | (L ^ R);
-        // output.write(out);
-		ap_uint<32> out = ((uint32_t)(tR ^ tL) << 16) | (L ^ R);
-        outFifo.write(out);
+        axis32_t out;
+        out.data = ((uint32_t)(tR ^ tL) << 16) | (L ^ R);
+        output.write(out);
+		// ap_uint<32> out = ((uint32_t)(tR ^ tL) << 16) | (L ^ R);
+        // outFifo.write(out);
     }
 }
 
@@ -5117,8 +5117,8 @@ static void shuffle_stream89(
 
 static void stage9_stream(
     hls::stream<ap_uint<32>> &inFifo,
-    hls::stream<ap_uint<32>> &outFifo,
-	    // hls::stream<axis32_t> &output,
+    // hls::stream<ap_uint<32>> &outFifo,
+	    hls::stream<axis32_t> &output,
     int size
 ){
 	#pragma HLS INLINE off
@@ -5134,11 +5134,11 @@ static void stage9_stream(
         uint16_t tR = b_mul_u16(R, w);
         uint16_t tL = b_mul_u16(L, (uint16_t)(w ^ 1));
 
-        // axis32_t out;
-        // out.data = ((uint32_t)(tR ^ tL) << 16) | (L ^ R);
-        // output.write(out);
-		ap_uint<32> out = ((uint32_t)(tR ^ tL) << 16) | (L ^ R);
-        outFifo.write(out);
+        axis32_t out;
+        out.data = ((uint32_t)(tR ^ tL) << 16) | (L ^ R);
+        output.write(out);
+		// ap_uint<32> out = ((uint32_t)(tR ^ tL) << 16) | (L ^ R);
+        // outFifo.write(out);
     }
 }
 
@@ -5216,8 +5216,8 @@ static void shuffle_stream910(
 
 static void stage10_stream(
     hls::stream<ap_uint<32>> &inFifo,
-    hls::stream<ap_uint<32>> &outFifo,
-	    // hls::stream<axis32_t> &output,
+    // hls::stream<ap_uint<32>> &outFifo,
+	    hls::stream<axis32_t> &output,
     int size
 ){
 	#pragma HLS INLINE off
@@ -5233,11 +5233,11 @@ static void stage10_stream(
         uint16_t tR = b_mul_u16(R, w);
         uint16_t tL = b_mul_u16(L, (uint16_t)(w ^ 1));
 
-        // axis32_t out;
-        // out.data = ((uint32_t)(tR ^ tL) << 16) | (L ^ R);
-        // output.write(out);
-		ap_uint<32> out = ((uint32_t)(tR ^ tL) << 16) | (L ^ R);
-        outFifo.write(out);
+        axis32_t out;
+        out.data = ((uint32_t)(tR ^ tL) << 16) | (L ^ R);
+        output.write(out);
+		// ap_uint<32> out = ((uint32_t)(tR ^ tL) << 16) | (L ^ R);
+        // outFifo.write(out);
     }
 }
 
@@ -5521,17 +5521,16 @@ void iantt_4096(
 	shuffle_stream67(fifo6toShuf, fifoShufTo7, size);
     stage7_stream(fifoShufTo7, fifo7toShuf, size);
 	shuffle_stream78(fifo7toShuf, fifoShufTo8, size);
-    stage8_stream(fifoShufTo8, fifo8toShuf, size);
-	shuffle_stream89(fifo8toShuf, fifoShufTo9, size);
-    stage9_stream(fifoShufTo9, fifo9toShuf, size);
-	shuffle_stream910(fifo9toShuf, fifoShufTo10, size);
-    stage10_stream(fifoShufTo10, fifo10toShuf, size);
-	shuffle_stream1011(fifo10toShuf, fifoShufTo11, size);
-    stage11_stream(fifoShufTo11, output, size);  // 输出数据格式为[0,2048],[1,2049],...,[2047,4095]    ([left,right])
+    stage8_stream(fifoShufTo8, output, size);
+	// shuffle_stream89(fifo8toShuf, fifoShufTo9, size);
+    // stage9_stream(fifoShufTo9, output, size);
+	// shuffle_stream910(fifo9toShuf, fifoShufTo10, size);
+    // stage10_stream(fifoShufTo10, output, size);
+	// shuffle_stream1011(fifo10toShuf, fifoShufTo11, size);
+    // stage11_stream(fifoShufTo11, output, size);  // 输出数据格式为[0,2048],[1,2049],...,[2047,4095]    ([left,right])
 
 
     }
 }
-
 
 
