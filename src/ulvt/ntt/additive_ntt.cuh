@@ -418,7 +418,7 @@ template <typename T, typename P>
 static __global__ void antt_dsmem(AdditiveNTTKernelParams<T> kernel_params, __const__ T *pre_computed)
 {
 	extern __shared__ T shared_data[];
-#if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 900
+	// #if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 900
 	cg::cluster_group cluster = cg::this_cluster();
 	const int cluster_size = cluster.dim_blocks().x;
 	const int local_rank = blockIdx.x % cluster_size;
@@ -514,7 +514,141 @@ static __global__ void antt_dsmem(AdditiveNTTKernelParams<T> kernel_params, __co
 			flat_array_2d<T>(kernel_params.data_io, kernel_params.data_pitch, coset, col) = curr_u[threadIdx.x];
 		}
 	}
-#endif
+	// #endif
+}
+
+#define ELEMS_PER_BLOCK 8192
+
+// playground kernel for ANTT
+template <typename T, typename P>
+__global__ void tma_dsmem_kernel(AdditiveNTTKernelParams<int> kernel_params, __const__ int *pre_computed)
+{
+	// dynamic shared memory
+	extern __shared__ int smem[]; // ELEMS_PER_BLOCK per block expected
+
+	cg::cluster_group cluster = cg::this_cluster();
+	// block-local barrier for TMA
+	__shared__ barrier read_global_bar, write_global_bar, read_neighbor_bar;
+	if (threadIdx.x == 0)
+	{
+		init(&read_global_bar, blockDim.x);
+		init(&write_global_bar, blockDim.x);
+		init(&read_neighbor_bar, blockDim.x);
+	}
+	__syncthreads();
+
+	__shared__ T *neighbor_smem[CLUSTER_SIZE_CONST];
+
+	if (is_elected())
+	{
+		for (int neighbor_id = 0; neighbor_id < cluster.dim_blocks().x; neighbor_id++)
+		{
+			neighbor_smem[neighbor_id] = cluster.map_shared_rank(smem, neighbor_id);
+		}
+	}
+	__syncthreads();
+	// compute pointers
+	size_t block_elems = ELEMS_PER_BLOCK;
+	size_t bytes = block_elems * sizeof(T);
+	size_t input_size = 1 << kernel_params.log_h;
+	size_t total_elements = (size_t)input_size * ((size_t)1 << kernel_params.log_rate);
+	size_t cluster_elems = block_elems * cluster.dim_blocks().x;
+
+	int offset = blockIdx.x * block_elems;
+	int per_thread = block_elems / blockDim.x;
+	int inter_block_stride = blockDim.x * per_thread;
+	size_t idx = blockIdx.x * blockDim.x * per_thread + threadIdx.x;
+
+	int *global_src = _flat_array_2d<T>(kernel_params.data_io, kernel_params.data_pitch, offset / input_size, offset % input_size);
+	// 1) Elected thread issues async memcpy to copy global -> shared//kernel_params.data_io + offset;
+	if (is_elected())
+	{
+		// use the high-level API which accepts the block barrier directly
+		cuda::memcpy_async(
+			smem, global_src,
+			cuda::aligned_size_t<16>(bytes),
+			read_global_bar);
+	}
+
+	int start_stage = kernel_params.start_stage;
+	int end_stage = kernel_params.end_stage;
+
+	size_t block_level_stride = gridDim.x * blockDim.x * per_thread;
+
+	for (int outer_idx = idx; outer_idx < total_elements; outer_idx += block_level_stride)
+	{
+		read_global_bar.wait(std::move(read_global_bar.arrive()));
+
+		int local_idx = threadIdx.x;
+		for (int stage = start_stage; stage >= end_stage; stage--)
+		{
+
+			for (int id = local_idx; id < block_elems && id < total_elements; id += blockDim.x)
+			{
+				size_t partner_idx = id ^ (1u << start_stage);
+				if (partner_idx > id && partner_idx < offset + block_elems && partner_idx < total_elements)
+				{
+					size_t partner_block = partner_idx / block_elems;
+					size_t partner_cluster = partner_block / (cluster.dim_blocks().x * block_elems);
+					size_t id_in_cluster = partner_block % (cluster.dim_blocks().x * block_elems);
+					int butterfly_block_global = (id % input_size) / (1 << (stage + 1));
+					T twiddle = calculate_twiddle<T, P>(pre_computed, kernel_params.constants_pitch, kernel_params.log_h, kernel_params.log_rate, id / input_size, stage, butterfly_block_global);
+					T u = neighbor_smem[cluster.cluster_rank()][id];
+					T v = neighbor_smem[partner_cluster][id_in_cluster];
+					antt_butterfly<T, P>(u, v, twiddle);
+					neighbor_smem[cluster.cluster_rank()][id] = u;
+					neighbor_smem[partner_cluster][id_in_cluster] = v;
+				}
+			}
+			ptx::fence_proxy_async(ptx::space_shared);
+			__syncthreads();
+		}
+	}
+
+	// 2) All threads arrive and wait for the transfer
+	barrier::arrival_token token = bar.arrive();
+	bar.wait(std::move(token));
+
+	// 3) Do some per-thread work on local shared memory
+	for (int i = threadIdx.x; i < (int)block_elems; i += blockDim.x)
+	{
+		smem[i] += 1; // simple increment
+	}
+
+	// 4) Make sure writes are visible to TMA engine
+	ptx::fence_proxy_async(ptx::space_shared);
+	__syncthreads();
+
+	// 5) OPTIONAL: map neighbor block's shared memory (dsmem) and read a few values
+	// This demonstrates using cluster.map_shared_rank to access another block's shared memory.
+	cg::cluster_group cluster = cg::this_cluster();
+	// local rank in cluster
+	int local_rank = blockIdx.x % cluster.dim_blocks().x;
+	int cluster_blocks = cluster.dim_blocks().x;
+	int neighbor_local = (local_rank + 1) % cluster_blocks;
+
+	// Obtain a pointer that maps to the neighbor's shared memory
+	int *neighbor_smem = cluster.map_shared_rank(smem, neighbor_local);
+
+	// Each thread reads one value from neighbor and accumulates into its local smem
+	int idx = threadIdx.x % block_elems;
+	int neighbor_val = neighbor_smem[idx];
+	// mix neighbor value into local shared mem
+	smem[idx] += neighbor_val & 0xFF;
+
+	__syncthreads();
+
+	// 6) Elected thread issues cp_async_bulk to copy shared -> global
+	if (is_elected())
+	{
+		ptx::cp_async_bulk(
+			ptx::space_global, ptx::space_shared,
+			global_src, smem,
+			bytes);
+		// commit and wait for read of shared by TMA engine
+		ptx::cp_async_bulk_commit_group();
+		ptx::cp_async_bulk_wait_group_read(ptx::n32_t<0>());
+	}
 }
 
 template <typename T, typename P>
@@ -691,6 +825,8 @@ public:
 		int sm_core_count = prop.multiProcessorCount;
 
 		const int top_stage = log_h - 1;
+
+		int dsmem_start_stage = std::min(top_stage, 16);
 
 		int inwarp_start_stage = std::min(top_stage, 4);
 
