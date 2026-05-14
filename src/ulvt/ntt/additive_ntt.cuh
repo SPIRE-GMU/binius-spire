@@ -418,7 +418,7 @@ template <typename T, typename P>
 static __global__ void antt_dsmem(AdditiveNTTKernelParams<T> kernel_params, __const__ T *pre_computed)
 {
 	extern __shared__ T shared_data[];
-	// #if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 900
+	#if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 900
 	cg::cluster_group cluster = cg::this_cluster();
 	const int cluster_size = cluster.dim_blocks().x;
 	const int local_rank = blockIdx.x % cluster_size;
@@ -514,7 +514,7 @@ static __global__ void antt_dsmem(AdditiveNTTKernelParams<T> kernel_params, __co
 			flat_array_2d<T>(kernel_params.data_io, kernel_params.data_pitch, coset, col) = curr_u[threadIdx.x];
 		}
 	}
-	// #endif
+	#endif
 }
 
 #define ELEMS_PER_BLOCK 8192
@@ -523,6 +523,8 @@ static __global__ void antt_dsmem(AdditiveNTTKernelParams<T> kernel_params, __co
 template <typename T, typename P>
 __global__ void tma_dsmem_kernel(AdditiveNTTKernelParams<int> kernel_params, __const__ int *pre_computed)
 {
+
+#if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 900
 	// dynamic shared memory
 	extern __shared__ int smem[]; // ELEMS_PER_BLOCK per block expected
 
@@ -602,53 +604,20 @@ __global__ void tma_dsmem_kernel(AdditiveNTTKernelParams<int> kernel_params, __c
 			}
 			ptx::fence_proxy_async(ptx::space_shared);
 			__syncthreads();
+
+		}
+		if (is_elected())
+		{
+			ptx::cp_async_bulk(
+				ptx::space_global, ptx::space_shared,
+				global_src, smem,
+				bytes);
+			// commit and wait for read of shared by TMA engine
+			ptx::cp_async_bulk_commit_group();
+			ptx::cp_async_bulk_wait_group_read(ptx::n32_t<0>());
 		}
 	}
-
-	// 2) All threads arrive and wait for the transfer
-	barrier::arrival_token token = bar.arrive();
-	bar.wait(std::move(token));
-
-	// 3) Do some per-thread work on local shared memory
-	for (int i = threadIdx.x; i < (int)block_elems; i += blockDim.x)
-	{
-		smem[i] += 1; // simple increment
-	}
-
-	// 4) Make sure writes are visible to TMA engine
-	ptx::fence_proxy_async(ptx::space_shared);
-	__syncthreads();
-
-	// 5) OPTIONAL: map neighbor block's shared memory (dsmem) and read a few values
-	// This demonstrates using cluster.map_shared_rank to access another block's shared memory.
-	cg::cluster_group cluster = cg::this_cluster();
-	// local rank in cluster
-	int local_rank = blockIdx.x % cluster.dim_blocks().x;
-	int cluster_blocks = cluster.dim_blocks().x;
-	int neighbor_local = (local_rank + 1) % cluster_blocks;
-
-	// Obtain a pointer that maps to the neighbor's shared memory
-	int *neighbor_smem = cluster.map_shared_rank(smem, neighbor_local);
-
-	// Each thread reads one value from neighbor and accumulates into its local smem
-	int idx = threadIdx.x % block_elems;
-	int neighbor_val = neighbor_smem[idx];
-	// mix neighbor value into local shared mem
-	smem[idx] += neighbor_val & 0xFF;
-
-	__syncthreads();
-
-	// 6) Elected thread issues cp_async_bulk to copy shared -> global
-	if (is_elected())
-	{
-		ptx::cp_async_bulk(
-			ptx::space_global, ptx::space_shared,
-			global_src, smem,
-			bytes);
-		// commit and wait for read of shared by TMA engine
-		ptx::cp_async_bulk_commit_group();
-		ptx::cp_async_bulk_wait_group_read(ptx::n32_t<0>());
-	}
+#endif
 }
 
 template <typename T, typename P>
@@ -826,7 +795,7 @@ public:
 
 		const int top_stage = log_h - 1;
 
-		int dsmem_start_stage = std::min(top_stage, 16);
+		int dsmem_start_stage = std::min(top_stage, 17);
 
 		int inwarp_start_stage = std::min(top_stage, 4);
 
@@ -855,7 +824,47 @@ public:
 												   dim3(BLOCK_SIZE_NEW, 1, 1),
 												   args));
 		}
+		if(top_stage > dsmem_start_stage)
+		{
+			int blocks = sm_core_count * 4;
+			if (blocks == 0)
+				blocks = 1;
 
+			int max_active_blocks_per_sm = 0;
+			CUDA_CHECK(cudaOccupancyMaxActiveBlocksPerMultiprocessor(
+				&max_active_blocks_per_sm, antt_dsmem<T, P>, BLOCK_SIZE_NEW, 0));
+			
+			if (max_active_blocks_per_sm > 0)
+			{
+				const int max_blocks = max_active_blocks_per_sm * sm_core_count;
+				if (blocks > max_blocks)
+					blocks = max_blocks;
+			}
+
+			kernel_params.start_stage = dsmem_start_stage;
+			kernel_params.end_stage = inwarp_start_stage + 1; // Hand-off point
+
+			blocks = (blocks + CLUSTER_SIZE_CONST - 1) / CLUSTER_SIZE_CONST * CLUSTER_SIZE_CONST; 
+			cudaLaunchConfig_t config = {};
+			config.gridDim = dim3(blocks, 1, 1);
+			config.blockDim = dim3(BLOCK_SIZE_NEW, 1, 1);
+			config.dynamicSmemBytes = ELEMS_PER_BLOCK * sizeof(T) * 2;
+
+			cudaLaunchAttribute attrs[2];
+			attrs[0].id = cudaLaunchAttributeClusterDimension;
+			attrs[0].val.clusterDim.x = CLUSTER_SIZE_CONST;
+			attrs[0].val.clusterDim.y = 1;
+			attrs[0].val.clusterDim.z = 1;
+
+			attrs[1].id = cudaLaunchAttributeCooperative;
+			attrs[1].val.cooperative = true;
+
+			config.attrs = attrs;
+			config.numAttrs = 2;
+
+			void *args[] = {&kernel_params, &pre_computed};
+			CUDA_CHECK(cudaLaunchKernelEx(&config, tma_dsmem_kernel<T, P>, args));
+		}
 		if (inwarp_start_stage >= 0)
 		{
 			kernel_params.start_stage = inwarp_start_stage;
