@@ -114,6 +114,8 @@ target_compile_options(ntt_tests PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
                        >)
 
 set_target_properties(ntt_tests PROPERTIES
+        CUDA_ARCHITECTURES "86;100;120")
+set_target_properties(ntt_tests PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)
 
 add_executable(finite_field_tests ${finite_field_test_srcs} )
