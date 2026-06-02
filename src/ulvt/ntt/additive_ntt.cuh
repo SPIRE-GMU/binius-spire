@@ -889,9 +889,9 @@ public:
 
 		int dsmem_start_stage = std::min(top_stage, 15);
 
-		int inwarp_start_stage = std::min(top_stage, 4);
+		int inwarp_start_stage = std::min(top_stage, 8);
 
-		if (top_stage > dsmem_start_stage)
+		if (top_stage > inwarp_start_stage)
 		{
 			int blocks = sm_core_count * 3;
 			if (blocks == 0)
@@ -908,7 +908,8 @@ public:
 			}
 
 			kernel_params.start_stage = top_stage;
-			kernel_params.end_stage = dsmem_start_stage + 1;
+			// kernel_params.end_stage = dsmem_start_stage + 1;
+			kernel_params.end_stage = inwarp_start_stage + 1;
 
 			void *args[] = {&kernel_params, &pre_computed};
 			CUDA_CHECK(cudaLaunchCooperativeKernel((void *)coop_antt<T, P>,
@@ -916,47 +917,47 @@ public:
 												   dim3(BLOCK_SIZE_NEW, 1, 1),
 												   args));
 		}
-		if (top_stage > dsmem_start_stage)
-		{
-			int blocks = (output_size >> 13);
-			if (blocks == 0)
-				blocks = 1;
+		// if (top_stage > dsmem_start_stage)
+		// {
+		// 	int blocks = (output_size >> 12);
+		// 	if (blocks == 0)
+		// 		blocks = 1;
 
-			int max_active_blocks_per_sm = 0;
-			CUDA_CHECK(cudaOccupancyMaxActiveBlocksPerMultiprocessor(
-				&max_active_blocks_per_sm, dsmem_antt<T, P>, BLOCK_SIZE_NEW, ELEMS_PER_BLOCK * sizeof(T)));
+		// 	int max_active_blocks_per_sm = 0;
+		// 	CUDA_CHECK(cudaOccupancyMaxActiveBlocksPerMultiprocessor(
+		// 		&max_active_blocks_per_sm, dsmem_antt<T, P>, BLOCK_SIZE_NEW, ELEMS_PER_BLOCK * sizeof(T)));
 
-			if (max_active_blocks_per_sm > 0)
-			{
-				const int max_blocks = max_active_blocks_per_sm * sm_core_count;
-				if (blocks > max_blocks)
-					blocks = max_blocks;
-			}
+		// 	if (max_active_blocks_per_sm > 0)
+		// 	{
+		// 		const int max_blocks = max_active_blocks_per_sm * sm_core_count;
+		// 		if (blocks > max_blocks)
+		// 			blocks = max_blocks;
+		// 	}
 
-			kernel_params.start_stage = dsmem_start_stage;
-			kernel_params.end_stage = inwarp_start_stage + 1; // Hand-off point
+		// 	kernel_params.start_stage = dsmem_start_stage;
+		// 	kernel_params.end_stage = inwarp_start_stage + 1; // Hand-off point
 
-			blocks = (blocks + CLUSTER_SIZE_CONST - 1) / CLUSTER_SIZE_CONST * CLUSTER_SIZE_CONST;
-			if (blocks == 0)
-				blocks = 1;
-			cudaLaunchConfig_t config = {};
-			config.gridDim = dim3(blocks, 1, 1);
-			config.blockDim = dim3(BLOCK_SIZE_NEW, 1, 1);
-			config.dynamicSmemBytes = ELEMS_PER_BLOCK * sizeof(T);
+		// 	blocks = (blocks + CLUSTER_SIZE_CONST - 1) / CLUSTER_SIZE_CONST * CLUSTER_SIZE_CONST;
+		// 	if (blocks == 0)
+		// 		blocks = 1;
+		// 	cudaLaunchConfig_t config = {};
+		// 	config.gridDim = dim3(blocks, 1, 1);
+		// 	config.blockDim = dim3(BLOCK_SIZE_NEW, 1, 1);
+		// 	config.dynamicSmemBytes = ELEMS_PER_BLOCK * sizeof(T);
 
-			cudaLaunchAttribute attrs[1];
-			attrs[0].id = cudaLaunchAttributeClusterDimension;
-			attrs[0].val.clusterDim.x = CLUSTER_SIZE_CONST;
-			attrs[0].val.clusterDim.y = 1;
-			attrs[0].val.clusterDim.z = 1;
+		// 	cudaLaunchAttribute attrs[1];
+		// 	attrs[0].id = cudaLaunchAttributeClusterDimension;
+		// 	attrs[0].val.clusterDim.x = CLUSTER_SIZE_CONST;
+		// 	attrs[0].val.clusterDim.y = 1;
+		// 	attrs[0].val.clusterDim.z = 1;
 
-			// attrs[1].id = cudaLaunchAttributeCooperative;
-			// attrs[1].val.cooperative = true;
+		// 	// attrs[1].id = cudaLaunchAttributeCooperative;
+		// 	// attrs[1].val.cooperative = true;
 
-			config.attrs = attrs;
-			config.numAttrs = 1;
-			CUDA_CHECK(cudaLaunchKernelEx(&config, dsmem_antt<T, P>, kernel_params, pre_computed));
-		}
+		// 	config.attrs = attrs;
+		// 	config.numAttrs = 1;
+		// 	CUDA_CHECK(cudaLaunchKernelEx(&config, dsmem_antt<T, P>, kernel_params, pre_computed));
+		// }
 		if (inwarp_start_stage >= 0)
 		{
 			kernel_params.start_stage = inwarp_start_stage;

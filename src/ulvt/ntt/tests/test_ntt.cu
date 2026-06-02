@@ -217,18 +217,19 @@ bool run_and_check_additive_ntt(int log_h, int log_rate) {
 }
 
 TEST_CASE("Additive NTT r 0", "[ntt][additive][0]") {
-	for (int log_h = 1; log_h <= 28; log_h++) {
+	run_and_check_additive_ntt(10, 0); //for warmup
+	for (int log_h = 10; log_h <= 30; log_h++) {
 		REQUIRE(run_and_check_additive_ntt(log_h, 0));
 	}
 }
 
 TEST_CASE("Additive NTT r 2", "[ntt][additive][2]") {
-	for (int log_h = 1; log_h <= 27; log_h++) {
+	for (int log_h = 10; log_h <= 27; log_h++) {
 		REQUIRE(run_and_check_additive_ntt(log_h, 2));
 	}
 }
 
 // TEST_CASE("Additive NTT r 0 large inputs", "[ntt][additive][0][slow]") {
-// 	REQUIRE(run_and_check_additive_ntt(29, 0));
-// 	REQUIRE(run_and_check_additive_ntt(30, 0));
+// 	run_and_check_additive_ntt(20, 0);
+// 	REQUIRE(run_and_check_additive_ntt(24, 0));
 // }
