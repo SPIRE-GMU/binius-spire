@@ -418,7 +418,7 @@ template <typename T, typename P>
 static __global__ void antt_dsmem(AdditiveNTTKernelParams<T> kernel_params, __const__ T *pre_computed)
 {
 	extern __shared__ T shared_data[];
-	#if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 900
+#if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 900
 	cg::cluster_group cluster = cg::this_cluster();
 	const int cluster_size = cluster.dim_blocks().x;
 	const int local_rank = blockIdx.x % cluster_size;
@@ -514,10 +514,95 @@ static __global__ void antt_dsmem(AdditiveNTTKernelParams<T> kernel_params, __co
 			flat_array_2d<T>(kernel_params.data_io, kernel_params.data_pitch, coset, col) = curr_u[threadIdx.x];
 		}
 	}
-	#endif
+#endif
 }
 
 #define ELEMS_PER_BLOCK 4096
+
+template <typename T, typename P>
+__global__ void dsmem_antt(AdditiveNTTKernelParams<T> kernel_params, __const__ T *pre_computed)
+{
+	#if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 900
+	extern __shared__ T shared_data[];
+	namespace cg = cooperative_groups;
+	int tid = cg::this_grid().thread_rank();
+
+	cg::cluster_group cluster = cg::this_cluster();
+	unsigned int local_rank = cluster.block_rank();
+	int clusterSize = cluster.dim_blocks().x;
+
+
+	__shared__ T *neighbor_smem[CLUSTER_SIZE_CONST];
+
+	for(int i=0; i<CLUSTER_SIZE_CONST; i++)
+	{
+		neighbor_smem[i] = cluster.map_shared_rank(shared_data, i);
+	}
+
+	int blockOffset = blockIdx.x * ELEMS_PER_BLOCK;
+	size_t total_elements = (1u << kernel_params.log_h) * (1u << kernel_params.log_rate);
+
+	for (int offset = blockOffset; offset < total_elements; offset += gridDim.x * ELEMS_PER_BLOCK)
+	{
+		for (int i = threadIdx.x; i < ELEMS_PER_BLOCK; i += blockDim.x)
+		{
+			shared_data[i] = kernel_params.data_io[offset + i];
+		}
+		cluster.sync();
+
+		int start_stage = kernel_params.start_stage;
+		int end_stage = kernel_params.end_stage;
+
+		for (int stage = start_stage; stage >= end_stage; stage--)
+		{
+			for (int i = threadIdx.x; i < ELEMS_PER_BLOCK; i += blockDim.x)
+			{
+				size_t curr_idx = offset + i;
+				size_t partner_idx = curr_idx ^ (1u << stage);
+
+				if (partner_idx > curr_idx && partner_idx < (1u << kernel_params.log_h) * (1u << kernel_params.log_rate))
+				{
+					int block = (partner_idx / ELEMS_PER_BLOCK) % clusterSize;
+					int partner_thread = partner_idx % ELEMS_PER_BLOCK;
+					int coset = curr_idx / (1u << kernel_params.log_h);
+
+					T u = shared_data[i];
+					T v = neighbor_smem[block][partner_thread];
+
+					int butterfly_block_global = curr_idx / (1 << (stage + 1));
+					T twiddle = calculate_twiddle<T, P>(pre_computed, kernel_params.constants_pitch, kernel_params.log_h, kernel_params.log_rate, coset, stage, butterfly_block_global);
+
+					antt_butterfly<T, P>(u, v, twiddle);
+					shared_data[i] = u;
+					neighbor_smem[block][partner_thread] = v;
+				}
+			}
+			cluster.sync();
+		}
+		// for (int i = threadIdx.x; i < ELEMS_PER_BLOCK; i += blockDim.x)
+		// {
+		// 	kernel_params.data_io[offset + i] = shared_data[i];
+		// }
+		if (is_elected())
+		{
+			// ensure shared-memory updates are visible to the TMA engine
+			ptx::fence_proxy_async(ptx::space_shared);
+
+			// issue TMA copy shared -> global for this chunk
+			ptx::cp_async_bulk(ptx::space_global, ptx::space_shared, global_src, smem, bytes);
+			ptx::cp_async_bulk_commit_group();
+
+			// wait for the bulk write to global memory to complete
+			// Use the read-wait variant if write-wait is not available on this toolchain
+			ptx::cp_async_bulk_wait_group_read(ptx::n32_t<0>());
+
+			// ensure global visibility of the completed write before proceeding
+			ptx::fence_proxy_async(ptx::space_global);
+		}
+		cluster.sync();
+	}
+	#endif
+}
 
 // playground kernel for ANTT
 template <typename T, typename P>
@@ -596,9 +681,9 @@ __global__ void tma_dsmem_kernel(AdditiveNTTKernelParams<T> kernel_params, __con
 				if (partner_idx > curr_idx && partner_idx < total_elements)
 				{
 					// printf("Block %d, Thread %d, Stage %d, Id %d, Curr idx: %lu, Partner idx: %lu\n", blockIdx.x, threadIdx.x, stage, id, curr_idx, partner_idx);
-					size_t partner_block_global = partner_idx / block_elems; // global block id
+					size_t partner_block_global = partner_idx / block_elems;						 // global block id
 					size_t partner_block_in_cluster = partner_block_global % cluster.dim_blocks().x; // block rank within cluster
-					size_t partner_elem_in_block = partner_idx % block_elems; // index inside that block
+					size_t partner_elem_in_block = partner_idx % block_elems;						 // index inside that block
 
 					int butterfly_block_global = (int)((curr_idx % input_size) / (1 << (stage + 1)));
 					T twiddle = calculate_twiddle<T, P>(pre_computed, kernel_params.constants_pitch, kernel_params.log_h, kernel_params.log_rate, (int)(curr_idx / input_size), stage, butterfly_block_global);
@@ -634,7 +719,8 @@ __global__ void tma_dsmem_kernel(AdditiveNTTKernelParams<T> kernel_params, __con
 		}
 	}
 #else
-	if(threadIdx.x == 0 && blockIdx.x == 0) printf("DSM kernel launched on unsupported architecture\n");
+	if (threadIdx.x == 0 && blockIdx.x == 0)
+		printf("DSM kernel launched on unsupported architecture\n");
 #endif
 }
 
@@ -813,7 +899,7 @@ public:
 
 		const int top_stage = log_h - 1;
 
-		int dsmem_start_stage = std::min(top_stage, 13);
+		int dsmem_start_stage = std::min(top_stage, 14);
 
 		int inwarp_start_stage = std::min(top_stage, 4);
 
@@ -834,7 +920,7 @@ public:
 			}
 
 			kernel_params.start_stage = top_stage;
-			kernel_params.end_stage = dsmem_start_stage + 1; 
+			kernel_params.end_stage = dsmem_start_stage + 1;
 
 			void *args[] = {&kernel_params, &pre_computed};
 			CUDA_CHECK(cudaLaunchCooperativeKernel((void *)coop_antt<T, P>,
@@ -842,32 +928,33 @@ public:
 												   dim3(BLOCK_SIZE_NEW, 1, 1),
 												   args));
 		}
-		if(top_stage > dsmem_start_stage)
+		if (top_stage > dsmem_start_stage)
 		{
-			int blocks = sm_core_count * 4;
+			int blocks = sm_core_count * 3;
 			if (blocks == 0)
 				blocks = 1;
 
-			int max_active_blocks_per_sm = 0;
-			CUDA_CHECK(cudaOccupancyMaxActiveBlocksPerMultiprocessor(
-				&max_active_blocks_per_sm, tma_dsmem_kernel<T, P>, BLOCK_SIZE_NEW, 0));
-			
-			if (max_active_blocks_per_sm > 0)
-			{
-				const int max_blocks = max_active_blocks_per_sm * sm_core_count;
-				if (blocks > max_blocks)
-					blocks = max_blocks;
-			}
+			// int max_active_blocks_per_sm = 0;
+			// CUDA_CHECK(cudaOccupancyMaxActiveBlocksPerMultiprocessor(
+			// 	&max_active_blocks_per_sm, dsmem_antt<T, P>, BLOCK_SIZE_NEW, ELEMS_PER_BLOCK * sizeof(T)));
+
+			// if (max_active_blocks_per_sm > 0)
+			// {
+			// 	const int max_blocks = max_active_blocks_per_sm * sm_core_count;
+			// 	if (blocks > max_blocks)
+			// 		blocks = max_blocks;
+			// }
 
 			kernel_params.start_stage = dsmem_start_stage;
 			kernel_params.end_stage = inwarp_start_stage + 1; // Hand-off point
 
-			blocks = (blocks + CLUSTER_SIZE_CONST - 1) / CLUSTER_SIZE_CONST * CLUSTER_SIZE_CONST; 
-			if(blocks == 0) blocks = 1;
+			blocks = (blocks + CLUSTER_SIZE_CONST - 1) / CLUSTER_SIZE_CONST * CLUSTER_SIZE_CONST;
+			if (blocks == 0)
+				blocks = 1;
 			cudaLaunchConfig_t config = {};
 			config.gridDim = dim3(blocks, 1, 1);
 			config.blockDim = dim3(BLOCK_SIZE_NEW, 1, 1);
-			config.dynamicSmemBytes = ELEMS_PER_BLOCK * sizeof(T) ;
+			config.dynamicSmemBytes = ELEMS_PER_BLOCK * sizeof(T);
 
 			cudaLaunchAttribute attrs[1];
 			attrs[0].id = cudaLaunchAttributeClusterDimension;
@@ -880,7 +967,7 @@ public:
 
 			config.attrs = attrs;
 			config.numAttrs = 1;
-			CUDA_CHECK(cudaLaunchKernelEx(&config, tma_dsmem_kernel<T, P>, kernel_params, pre_computed));
+			CUDA_CHECK(cudaLaunchKernelEx(&config, dsmem_antt<T, P>, kernel_params, pre_computed));
 		}
 		if (inwarp_start_stage >= 0)
 		{
